@@ -16,10 +16,18 @@
 	"organizeImports": {
 		"enabled": true
 	},
+	"css": {
+		"parser": {
+			"cssModules": true
+		}
+	},
 	"linter": {
 		"enabled": true,
 		"rules": {
 			"recommended": true,
+			"a11y": {
+				"useButtonType": "info"
+			},
 			"nursery": {
 				"useSortedClasses": {
 					"level": "error",
