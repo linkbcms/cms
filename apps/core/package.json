@@ -15,17 +15,20 @@
 		"./app": "./src/linkb-app.tsx"
 	},
 	"dependencies": {
+		"@workspace/ui": "workspace:*",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
 		"react-router": "^7.2.0"
 	},
 	"devDependencies": {
+		"@inlang/cli": "^3.0.0",
+		"@inlang/paraglide-js": "2.0.0-beta.26",
 		"@rsbuild/core": "^1.2.14",
 		"@rsbuild/plugin-react": "^1.1.1",
+		"@tailwindcss/postcss": "^4.0.9",
 		"@types/react": "^19.0.10",
 		"@types/react-dom": "^19.0.4",
-		"typescript": "^5.8.2",
-		"@inlang/paraglide-js": "2.0.0-beta.26",
-		"@inlang/cli": "^3.0.0"
+		"tailwindcss": "^4",
+		"typescript": "^5.8.2"
 	}
 }

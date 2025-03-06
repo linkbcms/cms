@@ -28,5 +28,5 @@ const ClientOnly = ({ children }: { children: React.ReactNode }) => {
     setHasMounted(true);
   }, []);
 
-  return hasMounted ? <>{children}</> : null;
+  return hasMounted ? children : null;
 };

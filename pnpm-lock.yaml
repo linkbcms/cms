@@ -23,6 +23,9 @@ importers:
 
   apps/core:
     dependencies:
+      '@workspace/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       react:
         specifier: ^19.0.0
         version: 19.0.0
@@ -45,12 +48,18 @@ importers:
       '@rsbuild/plugin-react':
         specifier: ^1.1.1
         version: 1.1.1(@rsbuild/core@1.2.15)
+      '@tailwindcss/postcss':
+        specifier: ^4.0.9
+        version: 4.0.9
       '@types/react':
         specifier: ^19.0.10
         version: 19.0.10
       '@types/react-dom':
         specifier: ^19.0.4
         version: 19.0.4(@types/react@19.0.10)
+      tailwindcss:
+        specifier: ^4
+        version: 4.0.9
       typescript:
         specifier: ^5.8.2
         version: 5.8.2
