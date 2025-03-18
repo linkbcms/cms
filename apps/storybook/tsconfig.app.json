@@ -25,7 +25,7 @@
 		"baseUrl": ".",
 		"paths": {
 			"@/*": ["./*"],
-			"@workspace/ui/*": ["../../packages/ui/src/*"]
+			"@linkbcms/ui/*": ["../../packages/ui/src/*"]
 		}
 	},
 	"include": ["src"]

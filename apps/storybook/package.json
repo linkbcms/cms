@@ -9,7 +9,7 @@
     "build": "storybook build"
   },
   "dependencies": {
-    "@workspace/ui": "workspace:*",
+    "@linkbcms/ui": "workspace:*",
     "lucide-react": "0.476.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
@@ -43,8 +43,6 @@
     "vitest": "^3.0.7"
   },
   "eslintConfig": {
-    "extends": [
-      "plugin:storybook/recommended"
-    ]
+    "extends": ["plugin:storybook/recommended"]
   }
 }

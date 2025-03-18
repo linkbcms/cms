@@ -1,8 +1,22 @@
-import { defineConfig, fields } from 'cms';
+// import { defineConfig, fields } from 'cms';
 
 const localConfig = {};
 
 const prodConfig = {};
+
+const defineConfig = (config: any) => config;
+
+const fields = {
+  customCollection: (config: any) => config,
+  collection: (config: any) => config,
+  singleton: (config: any) => config,
+  text: (config: any) => config,
+  image: (config: any) => config,
+  group: (config: any, layout: any) => config,
+  reference: (config: any) => config,
+  array: (config: any) => config,
+  custom: (config: any) => config,
+};
 
 export default defineConfig({
   ui: {

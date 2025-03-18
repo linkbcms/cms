@@ -1,6 +1,6 @@
+import { paraglideRspackPlugin } from '@inlang/paraglide-js';
 import { defineConfig } from '@rsbuild/core';
 import { pluginReact } from '@rsbuild/plugin-react';
-import { paraglideRspackPlugin } from '@inlang/paraglide-js';
 
 export default defineConfig({
   plugins: [pluginReact()],
@@ -29,6 +29,26 @@ export default defineConfig({
           ],
         }),
       ],
+    },
+  },
+
+  source: {
+    define: {
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.SUPABASE_URL': JSON.stringify(process.env.SUPABASE_URL),
+      'process.env.SUPABASE_KEY': JSON.stringify(process.env.SUPABASE_KEY),
+      'process.env.GOOGLE_CLIENT_ID': JSON.stringify(
+        process.env.GOOGLE_CLIENT_ID,
+      ),
+      'process.env.GOOGLE_CLIENT_SECRET': JSON.stringify(
+        process.env.GOOGLE_CLIENT_SECRET,
+      ),
+      'process.env.GITHUB_CLIENT_ID': JSON.stringify(
+        process.env.GITHUB_CLIENT_ID,
+      ),
+      'process.env.GITHUB_CLIENT_SECRET': JSON.stringify(
+        process.env.GITHUB_CLIENT_SECRET,
+      ),
     },
   },
 });
