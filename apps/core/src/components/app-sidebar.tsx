@@ -28,6 +28,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@linkbcms/ui/components/sidebar';
+import { useConfig } from '@/components/config-provider';
+import { Memo, Show } from '@legendapp/state/react';
 
 const data = {
   user: {
@@ -154,26 +156,54 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const config$ = useConfig();
+
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
         <SidebarMenu>
-          <div className="flex items-center justify-between gap-2">
-            <SidebarMenuItem className="w-full">
-              <SidebarMenuButton size="lg" asChild>
-                <a href="/cms">
-                  <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                    <Command className="size-4" />
+          <SidebarMenuItem className="w-full">
+            <SidebarMenuButton size="lg" asChild>
+              <a href="/cms">
+                <Show
+                  if={config$?.ui?.logo}
+                  else={() => (
+                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                      <Command className="size-4" />
+                    </div>
+                  )}
+                >
+                  <div className="flex aspect-square size-8 items-center justify-center">
+                    {config$?.ui?.logo?.get()}
                   </div>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">Acme Inc</span>
-                    <span className="truncate text-xs">Enterprise</span>
-                  </div>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <ModeToggle />
-          </div>
+                </Show>
+
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-semibold">
+                    <Memo>{config$.ui.name}</Memo>
+                  </span>
+                  <span className="truncate text-xs">Enterprise</span>
+                </div>
+              </a>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+
+          <SidebarMenuItem className="w-full">
+            <SidebarMenuButton
+              size="lg"
+              onClick={() => {
+                console.log(config$.ui.name.get());
+
+                if (config$.ui.name.get()) {
+                  config$.ui.name.set(undefined);
+                } else {
+                  config$.ui.name.set('CMS');
+                }
+              }}
+            >
+              Test
+            </SidebarMenuButton>
+          </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>

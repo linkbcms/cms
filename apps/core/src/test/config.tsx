@@ -24,6 +24,11 @@ export default defineConfig({
       blogs: ['blogs'],
     },
     logo: () => <img src="/logo.png" alt="logo" width={32} height={32} />,
+    name: 'CMS2',
+    theme: {
+      defaultTheme: 'system',
+      storageKey: 'vite-ui-theme',
+    },
   },
 
   collections: {

@@ -1,15 +1,11 @@
-import { ThemeProvider } from '@/components/theme-provider';
+import { type Config, ConfigProvider } from '@/components/config-provider';
 import { StrictMode, useEffect, useState } from 'react';
 import { Routes } from 'react-router';
 import { BrowserRouter } from 'react-router';
 import { Route } from 'react-router';
 import { App } from './App';
 
-export const LinkbApp = ({ config }: { config: any }) => {
-  useEffect(() => {
-    console.log(config);
-  }, [config]);
-
+export const LinkbApp = ({ config }: { config: Config }) => {
   if (typeof window === 'undefined') {
     return null;
   }
@@ -17,13 +13,13 @@ export const LinkbApp = ({ config }: { config: any }) => {
   return (
     <StrictMode>
       <ClientOnly>
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <ConfigProvider config={config}>
           <BrowserRouter basename="/cms">
             <Routes>
               <Route path=":lang?/" element={<App />} />
             </Routes>
           </BrowserRouter>
-        </ThemeProvider>
+        </ConfigProvider>
       </ClientOnly>
     </StrictMode>
   );

@@ -13,16 +13,20 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@linkbcms/ui/components/sidebar';
+import { useObserveTheme } from '@/components/use-observe-theme';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  useObserveTheme();
+
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebar collapsible="icon" />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2">
-          <div className="flex items-center gap-2 px-4">
+        <header className="sticky top-0 flex h-16 shrink-0 items-center gap-2 border-b bg-sidebar md:top-2">
+          <div className="-top-2 absolute hidden size-full h-2 bg-sidebar md:block" />
+          <div className="flex h-full w-full items-center gap-2 bg-background px-4 md:rounded-t-xl">
             <SidebarTrigger className="-ml-1" />
-            <Separator orientation="vertical" className="mr-2 h-4" />
+            <Separator orientation="vertical" className="mr-2 h-4 max-h-4" />
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
