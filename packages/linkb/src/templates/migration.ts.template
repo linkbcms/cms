@@ -1,0 +1,31 @@
+/**
+ * Migration: {{name}}
+ * Created at: {{timestamp}}
+ */
+
+/**
+ * Run the migration
+ */
+export async function up(): Promise<void> {
+  // Add your migration code here
+  // Examples:
+  // For SQL databases:
+  // await query(`
+  //   CREATE TABLE users (
+  //     id SERIAL PRIMARY KEY,
+  //     name VARCHAR(255) NOT NULL,
+  //     email VARCHAR(255) UNIQUE NOT NULL,
+  //     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  //   )
+  // `);
+}
+
+/**
+ * Rollback the migration
+ */
+export async function down(): Promise<void> {
+  // Add your rollback code here
+  // Examples:
+  // For SQL databases:
+  // await query(`DROP TABLE users`);
+} 
