@@ -87,9 +87,8 @@ export default defineConfig({
 
   db: {
     provider: "supabase",
-    timezone: "Asia/Jakarta",
   },
-
+  timezone: "Asia/Jakarta",
   i18n: {
     defaultLocale: "en",
     locales: ["en", "id"],

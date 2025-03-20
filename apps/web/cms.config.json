@@ -1,0 +1,38 @@
+{
+  "db":{
+    "provider": "supabase"
+  },
+  "collections": {
+    "blogs": {
+      "label": "Blogs",
+      "fieldSlug": "title",
+      "i18n": {
+        "locales": ["en", "id"],
+        "defaultLocale": "en"
+      },
+      "schema":{
+        "title": {
+          "type": "text",
+          "required": true,
+          "unique": true
+        },
+        "description": {
+          "type": "textarea",
+          "required": false,
+          "unique": false
+        },
+        "date": {
+          "type": "date",
+          "required": false,
+          "unique": false
+        },
+        "isActive": {
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "i18n": false
+        }
+      }
+    }
+  }
+}
