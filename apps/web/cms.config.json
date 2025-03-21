@@ -35,8 +35,8 @@
         "belongsTo": [
           {
             "foreignCollection": "authors",
-            "foreignKey": "authorId",
-            "key": "id"
+            "foreignKey": "id",
+            "key": "authorId"
           }
         ]
       }
