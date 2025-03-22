@@ -60,9 +60,9 @@ export abstract class BaseAdapter implements DatabaseAdapter {
         console.log(chalk.yellow(`Created migrations directory: ${this.migrationDir}`));
         return [];
       }
-      
+
       const files = fs.readdirSync(this.migrationDir);
-      
+
       for (const file of files) {
         // Handle TypeScript/JavaScript files
         if (file.endsWith('.js') || file.endsWith('.ts')) {

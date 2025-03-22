@@ -1,29 +1,27 @@
-// import { defineConfig, fields } from 'cms';
-
 const localConfig = {};
 
 const prodConfig = {};
 
-const defineConfig = (config: any) => config;
+const defineConfig = (config) => config;
 
 const fields = {
-  customCollection: (config: any) => config,
-  collection: (config: any) => config,
-  singleton: (config: any) => config,
-  text: (config: any) => config,
-  image: (config: any) => config,
-  group: (config: any, layout: any) => config,
-  reference: (config: any) => config,
-  array: (config: any) => config,
-  custom: (config: any) => config,
+  customCollection: (config) => config,
+  collection: (config) => config,
+  singleton: (config) => config,
+  text: (config) => config,
+  image: (config) => config,
+  group: (config, layout) => config,
+  reference: (config) => config,
+  array: (config) => config,
+  custom: (config) => config,
 };
 
-export default defineConfig({
+module.exports = defineConfig({
   ui: {
     navigation: {
       blogs: ["blogs"],
     },
-    logo: () => <img src="/logo.png" alt="logo" width={32} height={32} />,
+    logo: () => "Logo",
     name: "CMS2",
     theme: {
       defaultTheme: "system",
@@ -33,7 +31,7 @@ export default defineConfig({
 
   collections: {
     custom: fields.customCollection({
-      Component: () => <div>Custom</div>,
+      Component: () => "Custom",
     }),
 
     blogs: fields.collection({
@@ -65,7 +63,7 @@ export default defineConfig({
         image: fields.image({ name: "image", label: "Image" }),
         date: fields.text({ name: "date", label: "Date", hidden: true }),
         custom: fields.custom({
-          Component: () => <div>Custom</div>,
+          Component: () => "Custom",
         }),
         author: fields.array(
           fields.reference({
@@ -161,4 +159,4 @@ export default defineConfig({
       }
     },
   ],
-});
+}); 

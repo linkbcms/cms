@@ -33,19 +33,33 @@ export default defineConfig({
         title: fields.text({
           name: "title", // If name not specified, it will be the same as key
           label: "Title", // Required
-          required: true, //default: false
+          validation: {
+            minLength: 10,
+            maxLength: 100,
+            pattern: /^[a-zA-Z0-9]+$/,
+            required: true, // Use in DB
+          },
           i18n: {
             id: "Judul",
           },
           fieldType: "text", //default: "text", selection: "url,number,email,tel,color"
           hidden: true, //default: false
           readonly: false, //default: false
-          db: true, //default: true
+          db: {
+            index: true, // default: false
+            unique: true, // default: false
+            required: true, // default: false
+          },
         }),
         slug: fields.text({
           name: "slug", // If name not specified, it will be the same as key
           label: "Slug",
-          required: false, //default: false
+          validation: {
+            minLength: 10,
+            maxLength: 100,
+            pattern: /^[a-zA-Z0-9]+$/,
+            required: true,
+          },
           unique: true, //default: false
           slug: {
             source: "title",
@@ -59,7 +73,12 @@ export default defineConfig({
           name: "content", // If name not specified, it will be the same as key
           label: "Content",
           richText: true, //default: false
-          required: true, //default: false
+          validation: {
+            minLength: 10,
+            maxLength: 100,
+            pattern: /^[a-zA-Z0-9]+$/,
+            required: true,
+          },
           rows: 10,
           resizable: true, //default: false
           hidden: false, //default: false
@@ -69,7 +88,12 @@ export default defineConfig({
         isActive: fields.radio({
           name: "is_active", // If name not specified, it will be the same as key
           label: "Is Active?",
-          required: true, //default: false
+          validation: {
+            minLength: 10,
+            maxLength: 100,
+            pattern: /^[a-zA-Z0-9]+$/,
+            required: true,
+          },
           options: [
             {
               label: "Yes",
@@ -90,7 +114,7 @@ export default defineConfig({
           readonly: false, //default: false
           db: true, //default: true
         }),
-        Genre: fields.checkbox({
+        genre: fields.checkbox({
           name: "genre", // If name not specified, it will be the same as key
           label: "Genre",
           options: [
@@ -112,6 +136,12 @@ export default defineConfig({
             foreignKey: "<table primary key>",
             key: "<current table foreign key>",
           },
+          validation: {
+            minLength: 10,
+            maxLength: 100,
+            pattern: /^[a-zA-Z0-9]+$/,
+            required: true,
+          },
           minSelected: 1,
           maxSelected: 2,
           defaultValue: [], //default: []
@@ -125,13 +155,24 @@ export default defineConfig({
           hidden: false, //default: false
           readonly: false, //default: false
           db: true, //default: true
+          validation: {
+            minLength: 10,
+            maxLength: 100,
+            pattern: /^[a-zA-Z0-9]+$/,
+            required: true,
+          },
         }),
         date: fields.date({
           label: "Date",
           min: new Date(),
           max: new Date(new Date().setFullYear(new Date().getFullYear() + 1)),
           defaultValue: new Date(),
-          required: true, //default: false
+          validation: {
+            minLength: 10,
+            maxLength: 100,
+            pattern: /^[a-zA-Z0-9]+$/,
+            required: true,
+          },
           hidden: true, //default: false
           readonly: true, //default: false
           db: true, //default: true
@@ -139,7 +180,12 @@ export default defineConfig({
         author: fields.select({
           name: "author",
           label: "Author",
-          required: true, //default: false
+          validation: {
+            minLength: 10,
+            maxLength: 100,
+            pattern: /^[a-zA-Z0-9]+$/,
+            required: true,
+          },
           hidden: true, //default: false
           readonly: true, //default: false
           db: true, //default: true
@@ -194,9 +240,6 @@ export default defineConfig({
     }),
   },
 
-  db: {
-    provider: "supabase",
-  },
   timezone: "Asia/Jakarta",
   i18n: {
     defaultLocale: "en",
