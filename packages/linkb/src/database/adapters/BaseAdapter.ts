@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import chalk from 'chalk';
 import { DatabaseAdapter, MigrationOptions } from './types';
+import { defineConfig } from "../type";
 
 /**
  * Base adapter implementation with common functionality
@@ -21,6 +22,11 @@ export abstract class BaseAdapter implements DatabaseAdapter {
    * Initialize the adapter
    */
   public abstract initialize(): Promise<void>;
+
+  /**
+   * Generate schema
+   */
+  public abstract generateSchema(config: ReturnType<typeof defineConfig>): Promise<void>;
 
   /**
    * Run migrations

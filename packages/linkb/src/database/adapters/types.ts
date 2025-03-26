@@ -1,3 +1,5 @@
+import { defineConfig } from "../type";
+
 /**
  * Database migration options
  */
@@ -33,6 +35,11 @@ export interface DatabaseAdapter {
    * Initialize the adapter
    */
   initialize(): Promise<void>;
+
+  /**
+   * Generate schema
+   */
+  generateSchema(config: ReturnType<typeof defineConfig>): Promise<void>;
   
   /**
    * Run migrations

@@ -91,20 +91,18 @@ export default async function GenerateSchema(
 
   try {
     await client.connect();
-
+    console.log(321)
     const schema = process.env.DATABASE_SCHEMA || 'public';
     // Get current database schema
     const currentSchema = await getCurrentDatabaseSchema(client, schema);
     
     // Save current schema to a file
     const timestamp = new Date().toISOString().replace(/[-:T.Z]/g, '').substring(0, 14);
-    // const snapshotPath = join(schemaDir, "schema", `schema_snapshot_${timestamp}.json`);
+    const snapshotPath = join(schemaDir, "schema", `schema_snapshot_${timestamp}.json`);
     
-    // fs.writeFileSync(snapshotPath, JSON.stringify(currentSchema, null, 2));
-    // console.log(`Schema snapshot saved to: ${snapshotPath}`);
+    fs.writeFileSync(snapshotPath, JSON.stringify(currentSchema, null, 2));
+    console.log(`Schema snapshot saved to: ${snapshotPath}`);
 
-    // console.log(client)
-    
     // Compare with new schema if collections are defined
     if (config.collections) {
       let newSchema: SchemaDefinition = {};

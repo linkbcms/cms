@@ -5,6 +5,8 @@ import { drizzle } from 'drizzle-orm/node-postgres';
 import { Client } from 'pg';
 import fs from 'fs';
 import path from 'path';
+import { defineConfig } from "../type";
+import { generateSchema } from '../schema';
 
 // Define schema for migrations table
 const MIGRATIONS_TABLE = {
@@ -49,6 +51,11 @@ export class PostgresAdapter extends BaseAdapter {
       connectionString: config.connectionString,
       ssl: sslConfig
     });
+    
+    // Log connection details (hiding sensitive info)
+    console.log(chalk.blue(`PostgreSQL adapter created with schema: ${this.schema}`));
+    console.log(chalk.blue(`Connection string: ${config.connectionString ? '[HIDDEN]' : 'not provided'}`));
+    console.log(chalk.blue(`SSL enabled: ${!!sslConfig}`));
   }
 
   /**
@@ -109,6 +116,29 @@ export class PostgresAdapter extends BaseAdapter {
         console.error(chalk.yellow('3. Network allows connection to the database'));
         console.error(chalk.yellow(`Connection error: ${error.message}`));
       }
+      throw error;
+    }
+  }
+
+  /**
+   * Generate schema and create migrations if needed
+   */
+  public async generateSchema(config: ReturnType<typeof defineConfig>): Promise<void> {
+    try {
+      if (!config?.collections) {
+        console.log(chalk.yellow('No collections found in config'));
+        return;
+      }
+
+      // Use the new schema generator module
+      await generateSchema(config, {
+        type: 'postgres',
+        connectionString: process.env.DATABASE_URL,
+        schema: this.schema,
+        migrationDir: this.migrationDir
+      });
+    } catch (error) {
+      console.error(chalk.red('Error generating schema:'), error);
       throw error;
     }
   }

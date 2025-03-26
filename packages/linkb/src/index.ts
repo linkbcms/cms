@@ -48,6 +48,7 @@ dbCommand
   .action(async () => {
     try {
       await execute("gen-schema");
+      process.exit(1);
     } catch (error) {
       console.error(chalk.red("Migration failed:"), error);
       process.exit(1);

@@ -11,15 +11,6 @@ export const execute = async (
   args?: string[]
 ): Promise<void> => {
   const workspaceRoot = findWorkspaceRoot();
-  
-  // Log the config object - adding the .default to access the default export
-  console.log("Config:", config.collections);
-  return;
-
-  if (action === "gen-schema") {
-    GenerateSchema(`${workspaceRoot}/apps/web/database`);
-    return;
-  }
 
   if (!loadEnv(workspaceRoot)) {
     console.log(chalk.red(".env file not found"));
@@ -118,21 +109,22 @@ export const execute = async (
     // Create and initialize adapter
     const dbType = databaseType.toLowerCase() as SupportedDatabase;
     const adapter = AdapterFactory.createAdapter(dbType, dbConfig);
-
     // Execute requested action
+    await adapter.initialize();
     switch (action) {
+      case "gen-schema":
+        // await GenerateSchema(`${workspaceRoot}/apps/web/database`, config);
+        await adapter.generateSchema(config)
+        break;
       case "migrate":
-        await adapter.initialize();
         await adapter.migrate();
         await adapter.close();
         break;
       case "rollback":
-        await adapter.initialize();
         await adapter.rollback();
         await adapter.close();
         break;
       case "status":
-        await adapter.initialize();
         const status = await adapter.status();
         console.log(chalk.blue("Migration Status:"));
         status.forEach((migration) => {
