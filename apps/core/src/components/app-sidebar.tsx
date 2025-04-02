@@ -180,7 +180,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const customCollections = fullCollections.filter(([key, value]) => {
     if ('Component' in value.get()) {
-      console.log(value.get())
       return true
     }
     return false

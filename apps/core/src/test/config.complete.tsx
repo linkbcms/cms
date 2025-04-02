@@ -87,6 +87,26 @@ const config = defineConfig({
         description: fields.text({ name: 'description', label: 'Description' }),
       },
     }),
+
+    settings2: fields.singleton({
+      label: 'Settings2',
+      schema: {
+        title2: fields.text({ name: 'title', label: 'Title322' }),
+        title: fields.text({ name: 'title', label: 'Title' }),
+        // navigation: fields.group(
+        //   {
+        //     schema: {
+        //       title: fields.text({ name: 'title', label: 'Title' }),
+        //       slug: fields.text({ name: 'slug', label: 'Slug' }),
+        //     },
+        //   },
+        //   {
+        //     layout: [6, 6],
+        //   }
+        // ),
+        description: fields.text({ name: 'description', label: 'Description' }),
+      },
+    }),
   },
 
   db: {

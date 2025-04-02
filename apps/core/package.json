@@ -18,6 +18,7 @@
     "@linkbcms/ui": "workspace:*",
     "@tabler/icons-react": "^3.31.0",
     "@tanstack/react-form": "^1.2.3",
+    "date-fns": "^4.1.0",
     "lucide-react": "0.476.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
