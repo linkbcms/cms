@@ -15,6 +15,7 @@ const config = defineConfig({
 
   collections: {
     custom: fields.customCollection({
+      label: 'Custom',
       Component: () => <div>Custom</div>,
     }),
 
@@ -70,6 +71,7 @@ const config = defineConfig({
     settings: fields.singleton({
       label: 'Settings',
       schema: {
+        title2: fields.text({ name: 'title', label: 'Title322' }),
         title: fields.text({ name: 'title', label: 'Title' }),
         // navigation: fields.group(
         //   {

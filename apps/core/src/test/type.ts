@@ -1,6 +1,6 @@
 // import { defineConfig, fields } from 'cms';
 
-import type { ReactElement } from 'react'
+import type { ReactElement } from 'react';
 
 /**
  * Collection configuration type that defines the schema and structure of a collection
@@ -27,15 +27,15 @@ import type { ReactElement } from 'react'
  */
 export type Collection<
   Schema extends Record<string, CollectionType>,
-  SlugField extends string
+  SlugField extends string,
 > = {
   /** Display label for the collection */
-  label?: string
+  label?: string;
   /** Field to use as the slug/identifier */
-  fieldSlug?: SlugField
+  fieldSlug?: SlugField;
   /** Schema definition for the collection's fields */
-  schema?: Schema
-}
+  schema?: Schema;
+};
 
 /**
  * Configuration type for singleton collections that have only one entry
@@ -58,10 +58,10 @@ export type Collection<
  */
 export type Singleton<Schema extends Record<string, CollectionType>> = {
   /** Display label for the singleton */
-  label?: string
+  label?: string;
   /** Schema definition for the singleton's fields */
-  schema?: Schema
-}
+  schema?: Schema;
+};
 
 /**
  * Map of collections with their configuration
@@ -72,8 +72,8 @@ export type CollectionsMap = {
   [key: string]:
     | Collection<Record<string, CollectionConfig>, string>
     | Singleton<Record<string, SingletonConfig>>
-    | CustomCollectionConfig
-}
+    | CustomCollectionConfig;
+};
 
 /**
  * Main configuration type for the CMS
@@ -103,29 +103,29 @@ export type CollectionsMap = {
  */
 export type Config<Collections extends CollectionsMap> = {
   /** Collection configurations */
-  collections?: Collections
+  collections?: Collections;
   collectionsArray?: (
     | Collection<Record<string, CollectionConfig>, string>
     | Singleton<Record<string, SingletonConfig>>
     | CustomCollectionConfig
-  )[]
+  )[];
   /** UI configuration options */
-  ui?: Record<string, any>
+  ui?: Record<string, any>;
   /** Database configuration */
-  db?: Record<string, any>
+  db?: Record<string, any>;
   /** Internationalization configuration */
-  i18n?: Record<string, any>
+  i18n?: Record<string, any>;
   /** Hook configuration for lifecycle events */
-  hook?: Record<string, any>
+  hook?: Record<string, any>;
   /** Authentication configuration */
-  auth?: Record<string, any>
+  auth?: Record<string, any>;
   /** Base URL for the CMS */
-  baseUrl?: string
+  baseUrl?: string;
   /** CORS configuration */
-  cors?: string
+  cors?: string;
   /** Plugin configuration array */
-  plugins?: Array<(config: any) => void>
-}
+  plugins?: Array<(config: any) => void>;
+};
 
 /**
  * Helper function to define the CMS configuration with proper typing
@@ -152,8 +152,8 @@ export type Config<Collections extends CollectionsMap> = {
  * ```
  */
 export const defineConfig = <Collections extends CollectionsMap>(
-  config: Config<Collections>
-) => config
+  config: Config<Collections>,
+) => config;
 
 /**
  * Interface for text field configuration
@@ -172,19 +172,19 @@ export const defineConfig = <Collections extends CollectionsMap>(
  */
 interface TextField {
   /** Display label for the field */
-  label: string
+  label: string;
   /** Field name */
-  name?: string
+  name?: string;
   /** Whether the field is required */
-  required?: boolean
+  required?: boolean;
   /** Whether the field supports multiple lines */
-  multiline?: boolean
+  multiline?: boolean;
   /** Whether the field is hidden in the UI */
-  hidden?: boolean
+  hidden?: boolean;
   /** Internationalization options for the field */
-  i18n?: Record<string, string>
+  i18n?: Record<string, string>;
   /** Whether the field is stored in the database */
-  db?: boolean
+  db?: boolean;
 }
 
 /**
@@ -199,9 +199,9 @@ interface TextField {
  */
 interface ImageField {
   /** Display label for the field */
-  label: string
+  label: string;
   /** Field name */
-  name?: string
+  name?: string;
 }
 
 /**
@@ -217,11 +217,11 @@ interface ImageField {
  */
 interface ReferenceField {
   /** Display label for the field */
-  label: string
+  label: string;
   /** Field name */
-  name?: string
+  name?: string;
   /** Referenced collection name */
-  collection: string
+  collection: string;
 }
 
 /**
@@ -237,7 +237,7 @@ interface ReferenceField {
  */
 interface CustomField {
   /** React component to render the custom field */
-  Component: () => ReactElement
+  Component: () => ReactElement;
 }
 
 /**
@@ -262,26 +262,26 @@ interface CustomField {
  */
 interface CollectionConfig {
   /** Display label for the collection */
-  label: string
+  label: string;
   /** Field to use as the slug/identifier */
-  fieldSlug: string
+  fieldSlug: string;
   /** Internationalization settings */
   i18n?: {
     /** Available locales */
-    locales: string[]
+    locales: string[];
     /** Default locale */
-    defaultLocale: string
-  }
+    defaultLocale: string;
+  };
   /** Whether items can be created */
-  canCreate?: boolean
+  canCreate?: boolean;
   /** Whether items can be deleted */
-  canDelete?: boolean
+  canDelete?: boolean;
   /** Whether items can be updated */
-  canUpdate?: boolean
+  canUpdate?: boolean;
   /** Whether items can be read */
-  canRead?: boolean
+  canRead?: boolean;
   /** Schema definition for the collection */
-  schema: Record<string, any>
+  schema: Record<string, any>;
 }
 
 /**
@@ -297,11 +297,11 @@ interface CollectionConfig {
  * }
  * ```
  */
-interface SingletonConfig {
+export interface SingletonConfig {
   /** Display label for the singleton */
-  label: string
+  label: string;
   /** Schema definition for the singleton */
-  schema: Record<string, any>
+  schema: Record<string, any>;
 }
 
 /**
@@ -317,7 +317,9 @@ interface SingletonConfig {
  */
 interface CustomCollectionConfig {
   /** React component to render the custom collection */
-  Component: () => ReactElement
+  Component: () => ReactElement;
+  /** Display label for the custom collection */
+  label: string;
 }
 
 /**
@@ -351,7 +353,8 @@ export const fields = {
    * @param config - Custom collection configuration
    */
   customCollection: (config: {
-    Component: () => ReactElement
+    label: string;
+    Component: () => ReactElement;
   }): CustomCollectionConfig => ({ ...config }),
 
   /**
@@ -401,7 +404,7 @@ export const fields = {
    * @param config - Custom field configuration
    */
   custom: (config: CustomField): CustomField => ({ ...config }),
-}
+};
 
 /**
  * Union type for all possible collection types
@@ -409,4 +412,4 @@ export const fields = {
 type CollectionType =
   | CollectionConfig
   | SingletonConfig
-  | CustomCollectionConfig
+  | CustomCollectionConfig;

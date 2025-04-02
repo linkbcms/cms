@@ -1,30 +1,32 @@
-import type { Observable } from '@legendapp/state';
-import { ObservablePersistLocalStorage } from '@legendapp/state/persist-plugins/local-storage';
-import { useObservable } from '@legendapp/state/react';
-import { synced } from '@legendapp/state/sync';
-import { createContext, useContext } from 'react';
+import type { CollectionsMap } from '@/test/type'
+import type { Observable } from '@legendapp/state'
+import { ObservablePersistLocalStorage } from '@legendapp/state/persist-plugins/local-storage'
+import { useObservable } from '@legendapp/state/react'
+import { synced } from '@legendapp/state/sync'
+import { createContext, useContext } from 'react'
 
-export type Theme = 'light' | 'dark' | 'system';
+export type Theme = 'light' | 'dark' | 'system'
 
 export type Config = {
   ui?: {
-    name?: string;
-    logo?: () => React.ReactNode;
+    name?: string
+    logo?: () => React.ReactNode
     theme?: {
-      defaultTheme?: Theme;
-      storageKey?: string;
-    };
-  };
-};
+      defaultTheme?: Theme
+      storageKey?: string
+    }
+  }
+  collections: CollectionsMap
+}
 
-const StateContext = createContext<Observable<Config> | undefined>(undefined);
+const StateContext = createContext<Observable<Config> | undefined>(undefined)
 
 export const ConfigProvider = ({
   children,
   config,
 }: {
-  children: React.ReactNode;
-  config: Config;
+  children: React.ReactNode
+  config: Config
 }) => {
   const $state = useObservable<Config>({
     ...config,
@@ -41,16 +43,16 @@ export const ConfigProvider = ({
         storageKey: config.ui?.theme?.storageKey,
       },
     },
-  });
+  })
   return (
     <StateContext.Provider value={$state}>{children}</StateContext.Provider>
-  );
-};
+  )
+}
 
 export const useConfig = () => {
-  const $state = useContext(StateContext);
+  const $state = useContext(StateContext)
   if (!$state) {
-    throw new Error('useConfig must be used within a ConfigProvider');
+    throw new Error('useConfig must be used within a ConfigProvider')
   }
-  return $state;
-};
+  return $state
+}

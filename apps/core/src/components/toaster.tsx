@@ -1,14 +1,23 @@
 'use client'
 
-import { useTheme } from 'next-themes'
-import { Toaster as Sonner, type ToasterProps, toast } from 'sonner'
+import { useConfig } from '@/components/config-provider'
+import { reactive, Reactive } from '@legendapp/state/react'
+import {
+  Sonner,
+  type ToasterProps,
+  toast,
+} from '@linkbcms/ui/components/sonner'
+
+const ReactiveSonner = reactive(Sonner)
 
 const Toaster = ({ ...props }: ToasterProps) => {
-  const { theme = 'system' } = useTheme()
+  const config$ = useConfig()
 
   return (
-    <Sonner
-      theme={theme as ToasterProps['theme']}
+    <ReactiveSonner
+      $theme={() =>
+        config$.ui.theme.defaultTheme.get() as ToasterProps['theme']
+      }
       className='toaster group'
       toastOptions={{
         classNames: {
@@ -26,4 +35,4 @@ const Toaster = ({ ...props }: ToasterProps) => {
   )
 }
 
-export { Toaster, toast, Sonner, type ToasterProps }
+export { Toaster, toast }

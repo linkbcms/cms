@@ -3,6 +3,7 @@ import { useConfig } from '@/components/config-provider';
 
 export function useObserveTheme() {
   const config$ = useConfig();
+
   useObserve(() => {
     const theme = config$.ui.theme.defaultTheme.get();
     const root = window.document.documentElement;
