@@ -4,7 +4,7 @@ import { defineConfig } from "../type";
  * Database migration options
  */
 export interface MigrationOptions {
-  migrationDir?: string;
+  schemaDir?: string;
   tableName?: string;
   schema?: string;
   allowMultiple?: boolean; // Allow running multiple pending migrations at once
@@ -52,11 +52,6 @@ export interface DatabaseAdapter {
    * Run migrations
    */
   migrate(options?: MigrationOptions): Promise<void>;
-  
-  /**
-   * Rollback migrations
-   */
-  rollback(options?: MigrationOptions): Promise<void>;
   
   /**
    * Get migration status

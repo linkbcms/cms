@@ -6,8 +6,7 @@ import { SUPPORTED_DATABASES, SupportedDatabase } from "./adapters/types";
 import config from "./config";
 
 export const execute = async (
-  action: string,
-  args?: string[]
+  action: string
 ): Promise<void> => {
   const workspaceRoot = findWorkspaceRoot();
 
@@ -54,9 +53,12 @@ export const execute = async (
     const dbConfig = {
       connectionString: process.env.DATABASE_URL,
       schema: process.env.DATABASE_SCHEMA,
+      schemaDir:
+        process.env.SCHEMA_DIR ||
+        `${workspaceRoot}/apps/web/database/schema`,
       migrationDir:
         process.env.MIGRATION_DIR ||
-        `${workspaceRoot}/apps/web/database/migrations`,
+        `apps/web/database/migration`,
       tableName: process.env.MIGRATION_TABLE || "migrations",
       ssl: process.env.DATABASE_SSL === "true",
     };
@@ -98,7 +100,7 @@ export const execute = async (
     // Log configuration (without sensitive data)
     console.log(chalk.blue("Database configuration:"));
     console.log(
-      chalk.blue(`  - Migration directory: ${dbConfig.migrationDir}`)
+      chalk.blue(`  - Migration directory: ${dbConfig.schemaDir}`)
     );
     console.log(chalk.blue(`  - Table: ${dbConfig.tableName}`));
     if (dbConfig.schema)
@@ -120,10 +122,6 @@ export const execute = async (
         await adapter.migrate();
         await adapter.close();
         break;
-      case "rollback":
-        await adapter.rollback();
-        await adapter.close();
-        break;
       case "status":
         const status = await adapter.status();
         console.log(chalk.blue("Migration Status:"));
@@ -141,7 +139,6 @@ export const execute = async (
       case "test-connection":
         try {
           console.log(chalk.blue("Testing database connection..."));
-          await adapter.initialize();
           console.log(chalk.green("✓ Successfully connected to the database"));
           await adapter.close();
         } catch (error) {
@@ -160,7 +157,6 @@ export const execute = async (
         console.log(
           chalk.blue("  - test-connection: Test database connectivity")
         );
-        console.log(chalk.blue("  - make: Create a new migration file"));
     }
   } catch (error) {
     console.error(chalk.red(`Error: ${error}`));

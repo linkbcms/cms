@@ -67,19 +67,19 @@ export default defineConfig({
       fieldSlug: "",
     }),
 
-    settings: fields.singleton({
-      label: "Settings",
-      schema: {
-        title: fields.text({ name: "title", label: "Title" }),
-        navigation: fields.group({
-          schema: {
-            title: fields.text({ name: "title", label: "Title" }),
-            slug: fields.text({ name: "slug", label: "Slug" }),
-          },
-        }),
-        description: fields.text({ name: "description", label: "Description" }),
-      },
-    }),
+    // settings: fields.singleton({
+    //   label: "Settings",
+    //   schema: {
+    //     title: fields.text({ name: "title", label: "Title" }),
+    //     navigation: fields.group({
+    //       schema: {
+    //         title: fields.text({ name: "title", label: "Title" }),
+    //         slug: fields.text({ name: "slug", label: "Slug" }),
+    //       },
+    //     }),
+    //     description: fields.text({ name: "description", label: "Description" }),
+    //   },
+    // }),
   },
 
   db: {

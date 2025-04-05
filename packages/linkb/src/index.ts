@@ -2,8 +2,6 @@
 
 import { Command } from "commander";
 import chalk from "chalk";
-import fs from "fs";
-import path from "path";
 import packageJson from "../package.json";
 import { execute } from "./database";
 import { findWorkspaceRoot } from "./utilities/findWorkSpaceRoot";
@@ -48,7 +46,7 @@ dbCommand
   .action(async () => {
     try {
       await execute("gen-schema");
-      process.exit(1);
+      process.exit(0);
     } catch (error) {
       console.error(chalk.red("Migration failed:"), error);
       process.exit(1);
@@ -92,11 +90,11 @@ dbCommand
   });
 
 dbCommand
-  .command("make <name>")
-  .description("Create a new migration file")
+  .command("test-connection")
+  .description("Test database connection")
   .action(async (name) => {
     try {
-      await execute("make", [name]);
+      await execute("test-connection");
     } catch (error) {
       console.error(chalk.red("Migration creation failed:"), error);
       process.exit(1);
