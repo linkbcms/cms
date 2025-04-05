@@ -11,47 +11,39 @@ import { useParams } from 'react-router'
 import { type V2, formData } from '@/hooks/form-data'
 import { formatDistanceToNowStrict } from 'date-fns'
 
-export const SingletonsScreen = () => {
-  const { singleton: singletonId } = useParams()
-  const form = useAppForm({
-    onSubmit({ value, formApi }) {
-      toast.success('Data saved.', {
-        description: `value: ${JSON.stringify(value, null, 2)}`,
-        action: {
-          label: 'Test',
-          onClick: () => console.log('action: props.action.onClick'),
-        },
-      })
+export const CollectionsScreen = () => {
+  const { collection: collectionId } = useParams()
 
-      // Reset the form to start-over with a clean state
-      formApi.reset()
+  const config = useConfig()
 
-      formData.data[`/singletons/${singletonId}`].set({})
-    },
-  })
+  const collection = collectionId && config.collections?.[collectionId]
 
   return (
     <Layout>
       {/* <Suspense fallback={<div>Loading...</div>}> */}
-      <SingletonForm form={form} />
+      {/* <CollectionForm form={form} /> */}
       {/* </Suspense> */}
+
+      <div className='p-5'>
+        <h1 className='font-semibold text-2xl'>{collection?.label.get()}</h1>
+      </div>
     </Layout>
   )
 }
 
-const SingletonForm = withForm({
+const CollectionForm = withForm({
   render: ({ form }) => {
-    const { singleton: singletonId } = useParams()
+    const { collection: collectionId } = useParams()
     const config = useConfig()
 
-    const singleton = singletonId && config.collections?.[singletonId]
+    const collection = collectionId && config.collections?.[collectionId]
 
     const store = use$<V2>(formData)
 
     useEffectOnce(() => {
-      if (store.data[`/singletons/${singletonId}`]?.__updatedAt) {
+      if (store.data[`/collections/${collectionId}`]?.__updatedAt) {
         const lastUpdated = formatDistanceToNowStrict(
-          new Date(store.data[`/singletons/${singletonId}`].__updatedAt),
+          new Date(store.data[`/collections/${collectionId}`].__updatedAt),
           {
             addSuffix: true,
           }
@@ -63,11 +55,11 @@ const SingletonForm = withForm({
       }
     }, [])
 
-    if (!singleton) {
-      return <div>Singleton not found</div>
+    if (!collection) {
+      return <div>Collection not found</div>
     }
 
-    const singletonSchema = singleton.schema.get()
+    const collectionSchema = collection.schema.get()
 
     return (
       <div className='p-5'>
@@ -78,30 +70,30 @@ const SingletonForm = withForm({
             form.handleSubmit()
           }}>
           <h1 className='font-semibold text-2xl'>
-            <Memo>{singleton.label}</Memo>
+            <Memo>{collection.label}</Memo>
           </h1>
 
           <div className='flex w-full flex-col gap-4'>
-            {Object.entries(singletonSchema).map(([key, _field]) => (
+            {Object.entries(collectionSchema).map(([key, _field]) => (
               <form.AppField
                 key={key}
                 name={key}
                 defaultValue={
-                  store.data[`/singletons/${singletonId}`]?.[key]?.value
+                  store.data[`/collections/${collectionId}`]?.[key]?.value
                 }
                 validators={{
                   onChangeAsyncDebounceMs: 500,
                   onChangeAsync: async ({ value, signal, fieldApi }) => {
                     formData.data.set({
                       ...store?.data,
-                      [`/singletons/${singletonId}`]: {
-                        ...store?.data?.[`/singletons/${singletonId}`],
+                      [`/collections/${collectionId}`]: {
+                        ...store?.data?.[`/collections/${collectionId}`],
                         __updatedAt: Date.now(),
                         [key]: {
                           value,
                           updatedAt: Date.now(),
                           previousValue:
-                            store?.data?.[`/singletons/${singletonId}`]?.[key]
+                            store?.data?.[`/collections/${collectionId}`]?.[key]
                               ?.value || '',
                         },
                       },
@@ -112,7 +104,7 @@ const SingletonForm = withForm({
                   <field.TextField
                     label={_field.label}
                     previousValue={''}
-                    draft={store.data[`/singletons/${singletonId}`]?.[key]}
+                    draft={store.data[`/collections/${collectionId}`]?.[key]}
                   />
                 )}
               </form.AppField>

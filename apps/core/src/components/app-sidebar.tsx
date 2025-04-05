@@ -208,13 +208,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <span className='truncate font-semibold'>
                     <Memo>{config$.ui.name}</Memo>
                   </span>
-                  <span className='truncate text-xs'>Enterprise</span>
+                  {/* <span className='truncate text-xs'>Enterprise</span> */}
                 </div>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
 
-          <SidebarMenuItem className='w-full'>
+          {/* <SidebarMenuItem className='w-full'>
             <SidebarMenuButton
               size='lg'
               onClick={() => {
@@ -228,7 +228,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               }}>
               Test
             </SidebarMenuButton>
-          </SidebarMenuItem>
+          </SidebarMenuItem> */}
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
@@ -256,7 +256,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             icon: Bot,
           }))}
         />
-        <NavProjects projects={data.projects} />
+        {/* <NavProjects projects={data.projects} /> */}
         <NavSecondary items={data.navSecondary} className='mt-auto' />
       </SidebarContent>
       <SidebarFooter>

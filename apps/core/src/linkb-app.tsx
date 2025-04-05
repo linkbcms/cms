@@ -7,6 +7,7 @@ import { App } from './App'
 import { CustomComponents } from '@/pages/custom-components'
 import { SingletonsScreen } from '@/pages/singletons'
 import { Toaster } from '@/components/toaster'
+import { CollectionsScreen } from '@/pages/collections'
 
 export const LinkbApp = ({ config }: { config: Config }) => {
   if (typeof window === 'undefined') {
@@ -20,7 +21,10 @@ export const LinkbApp = ({ config }: { config: Config }) => {
           <BrowserRouter basename='/cms'>
             <Routes>
               <Route path=':lang?/' element={<App />} />
-              <Route path=':lang?/collections/:collection' element={<App />} />
+              <Route
+                path=':lang?/collections/:collection'
+                element={<CollectionsScreen />}
+              />
               <Route
                 path=':lang?/singletons/:singleton'
                 element={<SingletonsScreen />}
