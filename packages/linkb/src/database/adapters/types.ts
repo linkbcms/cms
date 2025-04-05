@@ -7,6 +7,7 @@ export interface MigrationOptions {
   migrationDir?: string;
   tableName?: string;
   schema?: string;
+  allowMultiple?: boolean; // Allow running multiple pending migrations at once
 }
 
 /**
@@ -37,6 +38,12 @@ export interface DatabaseAdapter {
   initialize(): Promise<void>;
 
   /**
+   * Test database connection
+   * @returns Promise that resolves to true if connection is successful, false otherwise
+   */
+  testConnection(): Promise<boolean>;
+
+  /**
    * Generate schema
    */
   generateSchema(config: ReturnType<typeof defineConfig>): Promise<void>;
@@ -54,12 +61,12 @@ export interface DatabaseAdapter {
   /**
    * Get migration status
    */
-  status(options?: MigrationOptions): Promise<{ name: string; status: 'pending' | 'applied'; batch?: number }[]>;
-
-  /**
-   * Create a new migration file
-   */
-  createMigration(name: string, options?: { dir?: string }): Promise<string>;
+  status(options?: MigrationOptions): Promise<{ 
+    name: string; 
+    status: 'pending' | 'applied' | 'rolled-back'; 
+    batch?: number;
+    executedAt?: Date;
+  }[]>;
 
   /**
    * Close the database connection

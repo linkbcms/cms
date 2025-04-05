@@ -5,6 +5,15 @@ import { DatabaseAdapter, MigrationOptions } from './types';
 import { defineConfig } from "../type";
 
 /**
+ * Migration file information
+ */
+export interface MigrationFile {
+  name: string;        // Migration name (with timestamp prefix)
+  path: string;        // Full path to the migration file
+  folder?: string;     // Folder containing the migration (if using folder structure)
+}
+
+/**
  * Base adapter implementation with common functionality
  */
 export abstract class BaseAdapter implements DatabaseAdapter {
@@ -24,6 +33,12 @@ export abstract class BaseAdapter implements DatabaseAdapter {
   public abstract initialize(): Promise<void>;
 
   /**
+   * Test database connection
+   * @returns Promise that resolves to true if connection is successful, false otherwise
+   */
+  public abstract testConnection(): Promise<boolean>;
+
+  /**
    * Generate schema
    */
   public abstract generateSchema(config: ReturnType<typeof defineConfig>): Promise<void>;
@@ -41,12 +56,12 @@ export abstract class BaseAdapter implements DatabaseAdapter {
   /**
    * Get migration status
    */
-  public abstract status(options?: MigrationOptions): Promise<{ name: string; status: 'pending' | 'applied'; batch?: number }[]>;
-
-  /**
-   * Create a new migration file
-   */
-  public abstract createMigration(name: string, options?: { dir?: string }): Promise<string>;
+  public abstract status(options?: MigrationOptions): Promise<{ 
+    name: string; 
+    status: 'pending' | 'applied' | 'rolled-back'; 
+    batch?: number;
+    executedAt?: Date;
+  }[]>;
 
   /**
    * Close database connection
@@ -54,11 +69,31 @@ export abstract class BaseAdapter implements DatabaseAdapter {
   public abstract close(): Promise<void>;
 
   /**
-   * Load migration files from the migration directory
-   * Supports both .ts/.js files and .json files
+   * Create a new migration folder with the given name
+   * @returns The path to the new migration folder and the timestamp
    */
-  protected async loadMigrationFiles(): Promise<{ name: string; path: string; type: 'code' | 'json' }[]> {
-    const migrationFiles: { name: string; path: string; type: 'code' | 'json' }[] = [];
+  protected createMigrationFolder(name: string): { folderPath: string; timestamp: string } {
+    // Generate a timestamp in YYYYMMDDHHmmss format
+    const timestamp = new Date().toISOString().replace(/[-:T.Z]/g, '').substring(0, 14);
+    
+    // Use timestamp as the folder name
+    const folderName = `${timestamp}`;
+    const folderPath = path.join(this.migrationDir, folderName);
+    
+    // Create the folder
+    if (!fs.existsSync(folderPath)) {
+      fs.mkdirSync(folderPath, { recursive: true });
+    }
+    
+    return { folderPath, timestamp };
+  }
+
+  /**
+   * Load migration files from the migration directory
+   * Supports both flat structure and folder-based structure
+   */
+  protected async loadMigrationFiles(): Promise<MigrationFile[]> {
+    const migrationFiles: MigrationFile[] = [];
     try {
       // Create migration directory if it doesn't exist
       if (!fs.existsSync(this.migrationDir)) {
@@ -67,37 +102,47 @@ export abstract class BaseAdapter implements DatabaseAdapter {
         return [];
       }
 
-      const files = fs.readdirSync(this.migrationDir);
-
-      for (const file of files) {
+      const entries = fs.readdirSync(this.migrationDir, { withFileTypes: true });
+      
+      // First, handle top-level files (legacy flat structure)
+      const topLevelFiles = entries.filter(entry => entry.isFile());
+      for (const entry of topLevelFiles) {
+        const file = entry.name;
+        
         // Handle TypeScript/JavaScript files
         if (file.endsWith('.js') || file.endsWith('.ts')) {
-          // Extract the name without extension and timestamp
+          // Extract the name without extension
           const fullName = file.replace(/\.(js|ts)$/, '');
           
-          // If the filename starts with a timestamp (YYYYMMDDHHMMSS_), extract just the name part
-          const nameMatch = fullName.match(/^\d{14}_(.+)$/);
-          const name = nameMatch ? nameMatch[1] : fullName;
-          
           migrationFiles.push({
-            name: fullName, // Use full name with timestamp for uniqueness
-            path: path.join(this.migrationDir, file),
-            type: 'code'
+            name: fullName,
+            path: path.join(this.migrationDir, file)
           });
         }
-        // Handle JSON files
-        else if (file.endsWith('.json')) {
-          const fullName = file.replace(/\.json$/, '');
-          
-          // If the filename doesn't start with a timestamp, add one
-          const timestamp = new Date().toISOString().replace(/[-:T.Z]/g, '').substring(0, 14);
-          const hasTimestamp = /^\d{14}_/.test(fullName);
-          const name = hasTimestamp ? fullName : `${timestamp}_${fullName}`;
-          
+      }
+      
+      // Then, handle folders (new structure)
+      const folders = entries.filter(entry => entry.isDirectory());
+      for (const folder of folders) {
+        const folderName = folder.name;
+        const folderPath = path.join(this.migrationDir, folderName);
+        
+        // Check if the folder name matches the timestamp pattern (14 digits)
+        if (!/^\d{14}$/.test(folderName)) continue;
+        
+        // Look for migration files within the folder
+        const folderFiles = fs.readdirSync(folderPath);
+        
+        // Try to find index.ts or index.js first
+        const migrationFile = folderFiles.find(f => f === 'index.ts' || f === 'index.js') || 
+          folderFiles.find(f => f === 'migration.sql' || f === 'sql.ts' || f === 'sql.js') ||
+          folderFiles.find(f => f.endsWith('.ts') || f.endsWith('.js'));
+        
+        if (migrationFile) {
           migrationFiles.push({
-            name: name,
-            path: path.join(this.migrationDir, file),
-            type: 'json'
+            name: folderName,
+            path: path.join(folderPath, migrationFile),
+            folder: folderPath
           });
         }
       }
@@ -112,6 +157,7 @@ export abstract class BaseAdapter implements DatabaseAdapter {
 
   /**
    * Convert JSON migration file to a TypeScript migration file
+   * @deprecated This method is only kept for backward compatibility
    */
   protected async convertJsonToMigration(jsonPath: string): Promise<string> {
     try {
@@ -124,11 +170,12 @@ export abstract class BaseAdapter implements DatabaseAdapter {
       const timestamp = new Date().toISOString().replace(/[-:T.Z]/g, '').substring(0, 14);
       
       // Create a new filename with timestamp if it doesn't have one
-      const hasTimestamp = /^\d{14}_/.test(fileName);
-      const migrationName = hasTimestamp ? fileName : `${timestamp}_${fileName}`;
+      const hasTimestamp = /^\d{14}$/.test(fileName);
+      const migrationName = hasTimestamp ? fileName : timestamp;
       
-      // Create the migration file path
-      const migrationFilePath = path.join(this.migrationDir, `${migrationName}.ts`);
+      // Create a folder for this migration
+      const { folderPath } = this.createMigrationFolder(fileName);
+      const migrationFilePath = path.join(folderPath, 'index.ts');
       
       // Create the migration file content from the JSON
       const migrationContent = this.generateMigrationFromJson(migration, migrationName);

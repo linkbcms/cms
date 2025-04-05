@@ -3,7 +3,6 @@ import { findWorkspaceRoot } from "../utilities/findWorkSpaceRoot";
 import { loadEnv } from "../utilities/loadEnv";
 import { AdapterFactory } from "./adapters";
 import { SUPPORTED_DATABASES, SupportedDatabase } from "./adapters/types";
-import GenerateSchema from "./schema/generateSchema";
 import config from "./config";
 
 export const execute = async (
@@ -109,12 +108,13 @@ export const execute = async (
     // Create and initialize adapter
     const dbType = databaseType.toLowerCase() as SupportedDatabase;
     const adapter = AdapterFactory.createAdapter(dbType, dbConfig);
+    
     // Execute requested action
     await adapter.initialize();
     switch (action) {
       case "gen-schema":
-        // await GenerateSchema(`${workspaceRoot}/apps/web/database`, config);
         await adapter.generateSchema(config)
+        await adapter.close();
         break;
       case "migrate":
         await adapter.migrate();
@@ -148,17 +148,6 @@ export const execute = async (
           console.error(chalk.red("✗ Failed to connect to the database"));
           throw error;
         }
-        break;
-      case "make":
-        if (!args || args.length === 0) {
-          console.log(chalk.red("Migration name is required"));
-          return;
-        }
-        const migrationName = args[0];
-        const migrationPath = await adapter.createMigration(migrationName, {
-          dir: dbConfig.migrationDir,
-        });
-        console.log(chalk.green(`Migration file created: ${migrationPath}`));
         break;
       default:
         console.log(chalk.red(`Unknown action: ${action}`));

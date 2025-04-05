@@ -1,6 +1,8 @@
+import * as fs from 'fs';
+import * as path from 'path';
+import chalk from 'chalk';
+import { DatabaseAdapter } from "./adapters";
 import { defineConfig } from "../type";
-import path from 'path';
-import fs from 'fs';
 
 export interface ColumnDefinition {
   type: string;
@@ -35,8 +37,10 @@ export interface SchemaDifferences {
 }
 
 export interface SchemaGeneratorOptions {
-  schemaDir: string;
+  type?: "postgres" | "mysql" | "sqlite";
   migrationDir: string;
+  config: ReturnType<typeof defineConfig>;
+  schema?: string;
 }
 
 /**
@@ -44,12 +48,14 @@ export interface SchemaGeneratorOptions {
  * This provides the common interface and shared functionality for all schema generators
  */
 export abstract class BaseSchemaGenerator {
-  protected schemaDir: string;
   protected migrationDir: string;
+  protected config: ReturnType<typeof defineConfig>;
+  protected adapter: DatabaseAdapter;
   
-  constructor(options: SchemaGeneratorOptions) {
-    this.schemaDir = options.schemaDir;
+  constructor(adapter: DatabaseAdapter, options: SchemaGeneratorOptions) {
+    this.adapter = adapter;
     this.migrationDir = options.migrationDir;
+    this.config = options.config;
     
     // Ensure migration directory exists
     if (!fs.existsSync(this.migrationDir)) {
@@ -58,30 +64,36 @@ export abstract class BaseSchemaGenerator {
   }
   
   /**
-   * Initialize the generator
-   * This should establish any necessary database connections
+   * Main entry point for schema generation
+   * This method coordinates the entire schema generation process
    */
-  public abstract initialize(): Promise<void>;
-  
-  /**
-   * Generate schema based on configuration and create migrations if needed
-   */
-  public async generateSchema(config: ReturnType<typeof defineConfig>): Promise<void> {
-    if (!config?.collections) {
+  public async generateSchema(): Promise<void> {
+    if (!this.config?.collections) {
       console.log('No collections found in config');
       return;
     }
     
     try {
-      // Get current database schema
+      // Check for pending migrations first
+      console.log('Checking for pending migrations before generating schema...');
+      const hasPendingMigrations = await this.hasPendingMigrations();
+      
+      if (hasPendingMigrations) {
+        console.log(chalk.yellow("⚠️  Cannot generate schema while pending migrations exist"));
+        console.log(chalk.yellow("You need to apply your pending migrations before generating new schema changes."));
+        console.log(chalk.green("Run this command to apply pending migrations:"));
+        console.log(chalk.green("   npx linkb migrate"));
+        console.log(chalk.yellow("This ensures your database schema stays in sync with your changes."));
+        return; // Exit without proceeding
+      }
+      
       const currentSchema = await this.getCurrentDatabaseSchema();
       
       // Generate new schema based on config
-      const newSchema = await this.generateNewSchema(config);
+      const newSchema = await this.generateNewSchema(this.config);
       
       // Compare schemas and generate migration if needed
       const differences = this.compareSchemas(currentSchema, newSchema);
-      
       if (Object.keys(differences).length > 0) {
         console.log('Schema differences found, generating migration...');
         await this.createMigrationFromDifferences(differences);
@@ -260,6 +272,87 @@ export abstract class BaseSchemaGenerator {
       console.error('Error checking migration:', error);
       // On error, default to creating a new migration
       return true;
+    }
+  }
+
+  /**
+   * Check if there are pending migrations
+   * This checks the database for applied migrations and compares with migration folders
+   */
+  protected async hasPendingMigrations(): Promise<boolean> {
+    try {
+      console.log(chalk.blue('Checking database for pending migrations...'));
+      
+      // Ensure migration directory exists
+      if (!fs.existsSync(this.migrationDir)) {
+        console.log(chalk.yellow('Migrations directory does not exist.'));
+        return false;
+      }
+      
+      // Get all migration folders from the filesystem
+      const entries = fs.readdirSync(this.migrationDir, { withFileTypes: true });
+      
+      // Only look for timestamp-based migration folders (YYYYMMDDHHMMSS format)
+      const migrationFolders = entries
+        .filter(entry => entry.isDirectory() && 
+          (/^\d{14}/.test(entry.name) || /^\d{8}_\d{6}/.test(entry.name)))
+        .map(entry => entry.name)
+        .sort((a, b) => b.localeCompare(a)); // Sort descending to get latest first
+      
+      if (migrationFolders.length === 0) {
+        console.log(chalk.yellow('No migration folders found.'));
+        return false;
+      }
+      
+      // Check if migrations table exists by querying the database
+      let migrationsTableExists = false;
+      try {
+        const checkTableResult = await this.adapter.query(`
+          SELECT EXISTS (
+            SELECT FROM information_schema.tables 
+            WHERE table_schema = 'public' 
+            AND table_name = 'migrations'
+          );
+        `);
+        
+        migrationsTableExists = checkTableResult.rows?.[0]?.exists || false;
+      } catch (error) {
+        console.error(chalk.red(`Error checking migrations table: ${error}`));
+        migrationsTableExists = false;
+      }
+      
+      if (!migrationsTableExists) {
+        console.log(chalk.yellow('Migrations table does not exist yet.'));
+        // If migrations table doesn't exist but we have migration folders, 
+        // we should consider those as pending
+        return migrationFolders.length > 0;
+      }
+      
+      // Query the database for applied migrations
+      const appliedMigrationsResult = await this.adapter.query(`
+        SELECT name FROM migrations ORDER BY id DESC
+      `);
+      
+      const appliedMigrations = appliedMigrationsResult.rows?.map((row: { name: string }) => row.name) || [];
+      console.log(chalk.blue(`Found ${appliedMigrations.length} applied migrations in database.`));
+      
+      // Find pending migrations (those in migrationFolders but not in appliedMigrations)
+      const pendingMigrations = migrationFolders.filter(name => !appliedMigrations.includes(name));
+      
+      const hasPending = pendingMigrations.length > 0;
+      console.log(chalk.blue(`Found ${pendingMigrations.length} pending migrations.`));
+      
+      if (hasPending) {
+        console.log(chalk.yellow('Pending migrations:'));
+        pendingMigrations.forEach(name => {
+          console.log(chalk.yellow(`  - ${name}`));
+        });
+      }
+      
+      return hasPending;
+    } catch (error) {
+      console.error(chalk.red(`Error checking for pending migrations: ${error}`));
+      return false; // Assume no pending migrations in case of error
     }
   }
 } 
