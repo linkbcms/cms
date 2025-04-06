@@ -24,10 +24,3 @@ CREATE TABLE "blogs_id" (
 	"custom" varchar,
 	"author" varchar
 );
---> statement-breakpoint
-CREATE TABLE "settings" (
-	"id" bigserial PRIMARY KEY NOT NULL,
-	"title" varchar,
-	"navigation" varchar,
-	"description" varchar
-);

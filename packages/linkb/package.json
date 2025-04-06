@@ -1,10 +1,10 @@
 {
   "name": "@linkbcms/cli",
-  "version": "0.1.0",
+  "version": "0.1.10",
   "description": "A command line tool",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "bin": {
-    "linkb": "./dist/index.js"
+    "linkb": "./dist/src/index.js"
   },
   "files": [
     "dist"
@@ -16,6 +16,9 @@
     "format": "biome format --write .",
     "prepublishOnly": "npm run build"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "cli",
     "command-line"
@@ -26,7 +29,9 @@
     "chalk": "^4.1.2",
     "commander": "^11.1.0",
     "dotenv": "^16.4.7",
+    "drizzle-kit": "^0.30.6",
     "drizzle-orm": "^0.41.0",
+    "esbuild-register": "^3.6.0",
     "pg": "^8.14.1",
     "react": "^19.0.0",
     "tsx": "^4.19.3"
@@ -36,7 +41,6 @@
     "@types/node": "^20.10.5",
     "@types/pg": "^8.11.11",
     "@types/react": "^19.0.12",
-    "drizzle-kit": "^0.30.6",
     "typescript": "^5.3.3"
   }
 }

@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import chalk from "chalk";
 import { DatabaseAdapter, MigrationOptions } from "./types";
-import { defineConfig } from "../type";
+import { defineConfig } from "../../../type";
 
 /**
  * Migration file information

@@ -1,6 +1,6 @@
 {
-  "id": "168140af-3799-4d66-a62b-fdaac7686730",
-  "prevId": "0c956b22-4e40-4446-9729-6423fa963e32",
+  "id": "30ece83c-8b9f-4bd6-ae59-ca0b650c1221",
+  "prevId": "2b888266-11d3-4f8a-8401-cb697a2ca52d",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -138,6 +138,43 @@
         },
         "author": {
           "name": "author",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.settings": {
+      "name": "settings",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigserial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "navigation": {
+          "name": "navigation",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false

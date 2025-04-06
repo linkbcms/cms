@@ -38,3 +38,13 @@ export const authors = table(
   }
 );
 
+export const settings = table(
+  "settings",
+  {
+    id: t.bigserial({ mode: 'number' }).primaryKey(),
+    title: t.varchar(),
+    navigation: t.varchar(),
+    description: t.varchar(),
+  }
+);
+

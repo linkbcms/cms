@@ -1,38 +1,29 @@
 import chalk from "chalk";
 import { findWorkspaceRoot } from "../utilities/findWorkSpaceRoot";
-import { loadEnv } from "../utilities/loadEnv";
 import { AdapterFactory } from "./adapters";
 import { SUPPORTED_DATABASES, SupportedDatabase } from "./adapters/types";
-import config from "./config";
+require('esbuild-register');
 
-export const execute = async (
-  action: string
-): Promise<void> => {
+// Define valid actions for better validation
+const VALID_ACTIONS = ["gen-schema", "migrate", "status", "test-connection"];
+
+export const execute = async (action: string): Promise<void> => {
+  // Validate action
+  if (!action || !VALID_ACTIONS.includes(action)) {
+    console.log(chalk.red(`Invalid or missing action: ${action || "none"}`));
+    console.log(chalk.yellow("Supported actions:"));
+    console.log(chalk.blue("  - gen-schema: Generate database schema"));
+    console.log(chalk.blue("  - migrate: Run pending migrations"));
+    console.log(chalk.blue("  - status: Show migration status"));
+    console.log(chalk.blue("  - test-connection: Test database connectivity"));
+    return;
+  }
+
   const workspaceRoot = findWorkspaceRoot();
+  const databaseType = process.env.DATABASE_TYPE!;
+  const connectionString = process.env.DATABASE_URL!;
 
-  if (!loadEnv(workspaceRoot)) {
-    console.log(chalk.red(".env file not found"));
-    console.log(
-      chalk.yellow(
-        "Create a .env file with DATABASE_TYPE and connection details"
-      )
-    );
-    return;
-  }
-
-  const databaseType = process.env.DATABASE_TYPE;
-
-  if (!databaseType) {
-    console.log(chalk.red("DATABASE_TYPE not defined in .env file"));
-    console.log(
-      chalk.yellow("Add DATABASE_TYPE to your .env file. Supported values:")
-    );
-    SUPPORTED_DATABASES.forEach((db) => {
-      console.log(chalk.blue(`  - ${db}`));
-    });
-    return;
-  }
-
+  // Validate database type
   if (
     !SUPPORTED_DATABASES.includes(
       databaseType.toLowerCase() as SupportedDatabase
@@ -51,33 +42,14 @@ export const execute = async (
 
     // Get database configuration from environment variables
     const dbConfig = {
-      connectionString: process.env.DATABASE_URL,
+      connectionString,
       schema: process.env.DATABASE_SCHEMA,
       schemaDir:
-        process.env.SCHEMA_DIR ||
-        `${workspaceRoot}/apps/web/database/schema`,
-      migrationDir:
-        process.env.MIGRATION_DIR ||
-        `apps/web/database/migration`,
+        process.env.SCHEMA_DIR || `${workspaceRoot}/apps/web/database/schema`,
+      migrationDir: process.env.MIGRATION_DIR || `apps/web/database/migration`,
       tableName: process.env.MIGRATION_TABLE || "migrations",
       ssl: process.env.DATABASE_SSL === "true",
     };
-
-    // Validate connection string
-    if (!dbConfig.connectionString) {
-      console.log(chalk.red("DATABASE_URL not defined in .env file"));
-      console.log(
-        chalk.yellow(
-          "Please add DATABASE_URL to your .env file with a valid connection string"
-        )
-      );
-      console.log(
-        chalk.yellow(
-          "Example: postgresql://username:password@localhost:5432/database"
-        )
-      );
-      return;
-    }
 
     // Check for common connection string format issues without exposing credentials
     const connectionStringLower = dbConfig.connectionString.toLowerCase();
@@ -99,9 +71,7 @@ export const execute = async (
 
     // Log configuration (without sensitive data)
     console.log(chalk.blue("Database configuration:"));
-    console.log(
-      chalk.blue(`  - Migration directory: ${dbConfig.schemaDir}`)
-    );
+    console.log(chalk.blue(`  - Migration directory: ${dbConfig.schemaDir}`));
     console.log(chalk.blue(`  - Table: ${dbConfig.tableName}`));
     if (dbConfig.schema)
       console.log(chalk.blue(`  - Schema: ${dbConfig.schema}`));
@@ -110,12 +80,19 @@ export const execute = async (
     // Create and initialize adapter
     const dbType = databaseType.toLowerCase() as SupportedDatabase;
     const adapter = AdapterFactory.createAdapter(dbType, dbConfig);
-    
-    // Execute requested action
+
+    const path = require('path');
+
+    const componentName = 'cms.config'; // can be dynamic
+    const filePath = path.resolve(`${componentName}.tsx`);
+
+    // Dynamic require
+    const cmsConfig = require(filePath).default;
+
     await adapter.initialize();
     switch (action) {
       case "gen-schema":
-        await adapter.generateSchema(config)
+        await adapter.generateSchema(cmsConfig);
         await adapter.close();
         break;
       case "migrate":
@@ -147,12 +124,11 @@ export const execute = async (
         }
         break;
       default:
+        // This should never be reached due to our validation above
         console.log(chalk.red(`Unknown action: ${action}`));
         console.log(chalk.yellow("Supported actions:"));
+        console.log(chalk.blue("  - gen-schema: Generate database schema"));
         console.log(chalk.blue("  - migrate: Run pending migrations"));
-        console.log(
-          chalk.blue("  - rollback: Rollback the last batch of migrations")
-        );
         console.log(chalk.blue("  - status: Show migration status"));
         console.log(
           chalk.blue("  - test-connection: Test database connectivity")
@@ -163,5 +139,6 @@ export const execute = async (
     if (error instanceof Error && error.stack) {
       console.error(chalk.red(error.stack));
     }
+    throw error; // Rethrow to let the middleware handle it
   }
 };

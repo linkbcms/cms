@@ -5,7 +5,7 @@
     "moduleResolution": "NodeNext",
     "esModuleInterop": true,
     "outDir": "./dist",
-    "rootDir": "./src",
+    // "rootDir": "./src",
     "strict": true,
     "declaration": true,
     "skipLibCheck": true,
@@ -13,6 +13,7 @@
     "resolveJsonModule": true,
     "jsx": "react-jsx",
   },
-  "include": ["src/**/*"],
+  
+  "include": ["src/**/*", "src/sample/cms.config.tsx", "type.ts"],
   "exclude": ["node_modules", "dist"]
 } 

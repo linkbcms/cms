@@ -190,6 +190,9 @@ importers:
       '@next/bundle-analyzer':
         specifier: ^15.2.4
         version: 15.2.4
+      drizzle-kit:
+        specifier: ^0.30.6
+        version: 0.30.6
       drizzle-orm:
         specifier: ^0.41.0
         version: 0.41.0(@types/pg@8.11.11)(gel@2.0.2)(kysely@0.27.6)(pg@8.14.1)
@@ -242,9 +245,15 @@ importers:
       dotenv:
         specifier: ^16.4.7
         version: 16.4.7
+      drizzle-kit:
+        specifier: ^0.30.6
+        version: 0.30.6
       drizzle-orm:
         specifier: ^0.41.0
         version: 0.41.0(@types/pg@8.11.11)(gel@2.0.2)(kysely@0.27.6)(pg@8.14.1)
+      esbuild-register:
+        specifier: ^3.6.0
+        version: 3.6.0(esbuild@0.25.0)
       pg:
         specifier: ^8.14.1
         version: 8.14.1
@@ -267,9 +276,6 @@ importers:
       '@types/react':
         specifier: ^19.0.12
         version: 19.0.12
-      drizzle-kit:
-        specifier: ^0.30.6
-        version: 0.30.6
       typescript:
         specifier: ^5.3.3
         version: 5.7.3

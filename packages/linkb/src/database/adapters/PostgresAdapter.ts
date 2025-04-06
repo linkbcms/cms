@@ -5,9 +5,8 @@ import { drizzle, NodePgDatabase } from "drizzle-orm/node-postgres";
 import { Client } from "pg";
 import fs from "fs";
 import path from "path";
-import { defineConfig } from "../type";
+import { defineConfig } from "../../../type";
 import { DatabaseSchema } from "../schema";
-import * as pgCore from "drizzle-orm/pg-core";
 import { spawn } from "child_process";
 
 // Define schema for migrations table

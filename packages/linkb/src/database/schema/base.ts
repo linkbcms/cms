@@ -2,7 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import chalk from 'chalk';
 import { DatabaseAdapter } from "./adapters";
-import { defineConfig } from "../type";
+import { defineConfig } from "../../../type";
 
 // Basic schema definition types
 export interface ColumnDefinition {

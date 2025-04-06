@@ -5,22 +5,15 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1743861142843,
-      "tag": "0000_giant_cammi",
+      "when": 1743864017875,
+      "tag": "0000_silent_power_man",
       "breakpoints": true
     },
     {
       "idx": 1,
       "version": "7",
-      "when": 1743861174744,
-      "tag": "0001_clammy_mandroid",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1743861378063,
-      "tag": "0002_bored_toxin",
+      "when": 1743925534711,
+      "tag": "0001_fresh_mordo",
       "breakpoints": true
     }
   ]

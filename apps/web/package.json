@@ -13,6 +13,7 @@
     "@linkbcms/core": "workspace:*",
     "@linkbcms/ui": "workspace:*",
     "@next/bundle-analyzer": "^15.2.4",
+    "drizzle-kit": "^0.30.6",
     "drizzle-orm": "^0.41.0",
     "lucide-react": "0.476.0",
     "next": "^15.2.0",

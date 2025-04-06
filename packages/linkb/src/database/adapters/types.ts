@@ -1,4 +1,4 @@
-import { defineConfig } from "../type";
+import { defineConfig } from "../../../type";
 
 /**
  * Database migration options

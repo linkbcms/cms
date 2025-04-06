@@ -1,6 +1,6 @@
 import { Client } from "pg";
 import chalk from 'chalk';
-import { defineConfig } from "../../type";
+import { defineConfig } from "../../../../type";
 import { BaseSchemaGenerator, SchemaDefinition, TableDefinition, SchemaGeneratorOptions } from "../base";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { SqlDatabaseAdapter } from "./base";
