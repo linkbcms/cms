@@ -7,6 +7,7 @@ import { execute } from "./database";
 import { loadEnv } from "./utilities/loadEnv";
 import path from "path";
 import fs from "fs";
+import { Api } from "./api";
 
 // Create a new Commander program
 const program = new Command();
@@ -20,7 +21,7 @@ program
 // Middleware function for database commands
 const databaseMiddleware = async (actionName: string) => {
   console.log(chalk.blue(`Current working directory: ${process.cwd()}`));
-  
+
   // Check if .env exists
   if (!loadEnv("./")) {
     console.log(chalk.red(".env file not found"));
@@ -31,40 +32,37 @@ const databaseMiddleware = async (actionName: string) => {
     );
     process.exit(1);
   }
-
+  
   // Check if DATABASE_TYPE is set
   if (!process.env.DATABASE_TYPE) {
     console.log(chalk.red("DATABASE_TYPE not defined in .env file"));
-    console.log(
-      chalk.yellow("Please add DATABASE_TYPE to your .env file")
-    );
+    console.log(chalk.yellow("Please add DATABASE_TYPE to your .env file"));
     process.exit(1);
   }
 
   // Check if DATABASE_URL is set
   if (!process.env.DATABASE_URL) {
     console.log(chalk.red("DATABASE_URL not defined in .env file"));
-    console.log(
-      chalk.yellow("Please add DATABASE_URL to your .env file")
-    );
+    console.log(chalk.yellow("Please add DATABASE_URL to your .env file"));
     process.exit(1);
   }
 
   // Check if cms.config.tsx exists
-  if (!fs.existsSync(path.join(process.cwd(), 'cms.config.tsx'))) {
-    console.log(chalk.red('cms.config.tsx not found in current directory'));
+  if (!fs.existsSync(path.join(process.cwd(), "cms.config.tsx"))) {
+    console.log(chalk.red("cms.config.tsx not found in current directory"));
     console.log(
-      chalk.yellow('Please navigate to your linkb project folder (not the root folder)')
+      chalk.yellow(
+        "Please navigate to your linkb project folder (not the root folder)"
+      )
     );
     process.exit(1);
   }
 
   console.log(chalk.blue(`Executing database action: ${actionName}`));
-  
+
   try {
     await execute(actionName);
     console.log(chalk.green(`Successfully completed: ${actionName}`));
-    process.exit(0);
   } catch (error) {
     console.error(chalk.red(`${actionName} failed:`), error);
     process.exit(1);
@@ -78,7 +76,9 @@ const dbCommand = program
   .action(() => {
     // This action will execute when 'linkb db' is run without subcommands
     console.log(chalk.yellow("Please specify a database operation:"));
-    console.log(chalk.blue("  - gen-schema: Generate database migration from cms config"));
+    console.log(
+      chalk.blue("  - gen-schema: Generate database migration from cms config")
+    );
     console.log(chalk.blue("  - migrate: Run database migrations"));
     console.log(chalk.blue("  - status: Check migration status"));
     console.log(chalk.blue("  - test-connection: Test database connectivity"));
@@ -92,13 +92,17 @@ dbCommand
   .description("Generate database migration from cms config")
   .action(async () => {
     await databaseMiddleware("gen-schema");
+    process.exit(0);
   });
 
 dbCommand
   .command("migrate")
   .description("Run database migrations")
   .action(async () => {
-    await databaseMiddleware("migrate");
+    // await databaseMiddleware("migrate");
+    const api = new Api();
+    api.execute();
+    process.exit(0);
   });
 
 dbCommand
@@ -106,6 +110,7 @@ dbCommand
   .description("Check migration status")
   .action(async () => {
     await databaseMiddleware("status");
+    process.exit(0);
   });
 
 dbCommand
@@ -113,6 +118,7 @@ dbCommand
   .description("Test database connection")
   .action(async () => {
     await databaseMiddleware("test-connection");
+    process.exit(0);
   });
 
 // Parse command line arguments

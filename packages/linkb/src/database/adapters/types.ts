@@ -67,4 +67,10 @@ export interface DatabaseAdapter {
    * Close the database connection
    */
   close(): Promise<void>;
+  
+  /**
+   * Get database client for direct database operations
+   * Returns the underlying database client specific to each adapter
+   */
+  getDBClient?(): Promise<any>;
 } 

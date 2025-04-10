@@ -3,10 +3,6 @@
  * This defines the common interface for all database connections
  */
 export interface DatabaseAdapter {
-  /**
-   * Execute a query on the database
-   */
-  query(query: string, params?: any[]): Promise<any>;
   
   /**
    * Get the database schema
@@ -31,12 +27,6 @@ export abstract class BaseDatabaseAdapter implements DatabaseAdapter {
     this.schema = schema;
     console.log(`Database adapter created for schema: ${this.schema}`);
   }
-  
-  /**
-   * Execute a query on the database
-   * Each specific adapter must implement this
-   */
-  public abstract query(sql: string, params?: any[]): Promise<any>;
   
   /**
    * Get the database schema name

@@ -4,7 +4,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@linkbcms/ui/*": ["../../packages/ui/src/*"]
+      "@linkbcms/ui/*": ["../../packages/ui/src/*"],
+      "@linkbcms/schema/*": ["./database/schema/*"]
     },
     "plugins": [
       {

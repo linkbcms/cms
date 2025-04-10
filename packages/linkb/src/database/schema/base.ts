@@ -63,7 +63,6 @@ export abstract class BaseSchemaGenerator {
       
       // Generate new schema based on config
       const newSchema = await this.generateNewSchema(this.config);
-      
       // Output schema information
       console.log(chalk.green('Schema generation completed'));
       console.log(chalk.blue('Generated schema structure:'));
@@ -411,14 +410,13 @@ import * as t from "drizzle-orm/pg-core";
     
     // Add nullable
     if (!columnDef.nullable) {
-      columnDeclaration += '.notNull()';
+      columnDeclaration += '.notNull().default("")';
     }
     
     // Add default value if exists
     if (columnDef.default) {
       columnDeclaration += `.default(${columnDef.default})`;
     }
-    
     return columnDeclaration;
   }
 } 

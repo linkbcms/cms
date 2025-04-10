@@ -2,6 +2,8 @@ import chalk from "chalk";
 import { findWorkspaceRoot } from "../utilities/findWorkSpaceRoot";
 import { AdapterFactory } from "./adapters";
 import { SUPPORTED_DATABASES, SupportedDatabase } from "./adapters/types";
+import path from 'path';
+import { defineConfig } from "../../type";
 require('esbuild-register');
 
 // Define valid actions for better validation
@@ -81,13 +83,8 @@ export const execute = async (action: string): Promise<void> => {
     const dbType = databaseType.toLowerCase() as SupportedDatabase;
     const adapter = AdapterFactory.createAdapter(dbType, dbConfig);
 
-    const path = require('path');
-
-    const componentName = 'cms.config'; // can be dynamic
-    const filePath = path.resolve(`${componentName}.tsx`);
-
-    // Dynamic require
-    const cmsConfig = require(filePath).default;
+    const filePath = path.resolve(`cms.config.tsx`);
+    const cmsConfig = require(filePath).default as ReturnType<typeof defineConfig>;
 
     await adapter.initialize();
     switch (action) {
@@ -99,20 +96,20 @@ export const execute = async (action: string): Promise<void> => {
         await adapter.migrate();
         await adapter.close();
         break;
-      case "status":
-        const status = await adapter.status();
-        console.log(chalk.blue("Migration Status:"));
-        status.forEach((migration) => {
-          const statusColor =
-            migration.status === "applied" ? chalk.green : chalk.yellow;
-          console.log(
-            `${statusColor(migration.status)} - ${migration.name}${
-              migration.batch ? ` (batch ${migration.batch})` : ""
-            }`
-          );
-        });
-        await adapter.close();
-        break;
+      // case "status":
+      //   const status = await adapter.status();
+      //   console.log(chalk.blue("Migration Status:"));
+      //   status.forEach((migration) => {
+      //     const statusColor =
+      //       migration.status === "applied" ? chalk.green : chalk.yellow;
+      //     console.log(
+      //       `${statusColor(migration.status)} - ${migration.name}${
+      //         migration.batch ? ` (batch ${migration.batch})` : ""
+      //       }`
+      //     );
+      //   });
+      //   await adapter.close();
+      //   break;
       case "test-connection":
         try {
           console.log(chalk.blue("Testing database connection..."));

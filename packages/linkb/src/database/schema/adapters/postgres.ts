@@ -13,17 +13,6 @@ export interface PostgresSchemaGeneratorOptions extends SchemaGeneratorOptions {
   schema?: string;
 }
 
-/**
- * Database column information from information_schema
- */
-interface ColumnInfo {
-  table_name: string;
-  column_name: string;
-  data_type: string;
-  is_nullable: string;
-  column_default: string | null;
-  character_maximum_length: number | null;
-}
 
 /**
  * PostgreSQL adapter for database operations
@@ -38,99 +27,6 @@ export class PostgresAdapter extends SqlDatabaseAdapter {
     console.log(chalk.blue(`PostgreSQL schema adapter created for schema: ${this.schema}`));
   }
   
-  /**
-   * Execute a query on the PostgreSQL database
-   */
-  public async query(sql: string, params: any[] = []): Promise<any> {
-    try {
-      const result = await this.client.query(sql, params);
-      return result;
-    } catch (error) {
-      console.error(chalk.red('Error executing query:'), error);
-      throw error;
-    }
-  }
-  
-  /**
-   * Get table and column information from the PostgreSQL database
-   */
-  public async getTableAndColumnInfo(): Promise<any> {
-    const result = await this.query(
-      `
-      SELECT table_name, column_name, data_type, is_nullable, column_default, character_maximum_length
-      FROM information_schema.columns
-      WHERE table_schema = $1
-      ORDER BY table_name, ordinal_position
-      `, [this.schema]
-    );
-    
-    return result.rows;
-  }
-  
-  /**
-   * Generate SQL for creating a table in PostgreSQL
-   */
-  public generateCreateTableSql(tableName: string, columns: Record<string, any>): string {
-    const columnDefinitions = Object.entries(columns)
-      .map(([colName, colDef]) => {
-        let def = `"${colName}" ${colDef.type}`;
-        if (colDef.maxLength) def += `(${colDef.maxLength})`;
-        if (!colDef.nullable) def += ' NOT NULL';
-        if (colDef.default) def += ` DEFAULT ${colDef.default}`;
-        return def;
-      })
-      .join(',\n  ');
-      
-    return `CREATE TABLE "${this.schema}"."${tableName}" (\n  ${columnDefinitions}\n);`;
-  }
-  
-  /**
-   * Generate SQL statements for altering a table in PostgreSQL
-   */
-  public generateAlterTableSql(tableName: string, changes: Record<string, any>): string[] {
-    const alterStatements: string[] = [];
-    
-    for (const [columnName, change] of Object.entries(changes)) {
-      if (change.type === 'added' && change.definition) {
-        alterStatements.push(
-          `ALTER TABLE "${this.schema}"."${tableName}" ADD COLUMN "${columnName}" ${change.definition.type}${change.definition.maxLength ? `(${change.definition.maxLength})` : ''}${!change.definition.nullable ? ' NOT NULL' : ''}${change.definition.default ? ` DEFAULT ${change.definition.default}` : ''};`
-        );
-      } else if (change.type === 'removed') {
-        alterStatements.push(
-          `ALTER TABLE "${this.schema}"."${tableName}" DROP COLUMN "${columnName}";`
-        );
-      } else if (change.type === 'modified' && change.old && change.new) {
-        // Handle type changes
-        if (change.old.type !== change.new.type) {
-          alterStatements.push(
-            `ALTER TABLE "${this.schema}"."${tableName}" ALTER COLUMN "${columnName}" TYPE ${change.new.type}${change.new.maxLength ? `(${change.new.maxLength})` : ''};`
-          );
-        }
-        
-        // Handle nullable changes
-        if (change.old.nullable !== change.new.nullable) {
-          alterStatements.push(
-            `ALTER TABLE "${this.schema}"."${tableName}" ALTER COLUMN "${columnName}" ${change.new.nullable ? 'DROP NOT NULL' : 'SET NOT NULL'};`
-          );
-        }
-        
-        // Handle default changes
-        if (change.old.default !== change.new.default) {
-          if (change.new.default) {
-            alterStatements.push(
-              `ALTER TABLE "${this.schema}"."${tableName}" ALTER COLUMN "${columnName}" SET DEFAULT ${change.new.default};`
-            );
-          } else {
-            alterStatements.push(
-              `ALTER TABLE "${this.schema}"."${tableName}" ALTER COLUMN "${columnName}" DROP DEFAULT;`
-            );
-          }
-        }
-      }
-    }
-    
-    return alterStatements;
-  }
 }
 
 /**

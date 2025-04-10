@@ -1,5 +1,5 @@
 import chalk from "chalk";
-import { BaseAdapter, MigrationFile } from "./BaseAdapter";
+import { BaseAdapter } from "./BaseAdapter";
 import { MigrationOptions } from "./types";
 import { drizzle, NodePgDatabase } from "drizzle-orm/node-postgres";
 import { Client } from "pg";
@@ -493,5 +493,14 @@ export default defineConfig({
       console.error(chalk.red(`Error running drizzle-kit migrate: ${error}`));
       throw error;
     }
+  }
+
+  /**
+   * Get DB Client
+   */
+  public async getDBClient(): Promise<NodePgDatabase<Record<string, never>> & {
+    $client: Client;
+  }> {
+    return this.db;
   }
 }

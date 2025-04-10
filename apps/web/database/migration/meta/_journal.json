@@ -15,6 +15,13 @@
       "when": 1743925534711,
       "tag": "0001_fresh_mordo",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1744293379423,
+      "tag": "0002_numerous_giant_man",
+      "breakpoints": true
     }
   ]
 }
