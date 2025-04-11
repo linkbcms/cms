@@ -11,7 +11,8 @@
     "machine-translate": "inlang machine translate --project project.inlang"
   },
   "exports": {
-    "./app": "./src/linkb-app.tsx"
+    "./app": "./src/linkb-app.tsx",
+    "./styles": "./src/App.css"
   },
   "dependencies": {
     "@legendapp/state": "3.0.0-beta.30",

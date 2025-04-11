@@ -182,9 +182,9 @@ export const defineConfig = <Collections extends CollectionsMap>(
   };
 
   // Create a sanitized copy of the config
-  const sanitizedConfig = sanitizeValue(config);
+  // const sanitizedConfig = sanitizeValue(config);
 
-  return sanitizedConfig;
+  return config;
 };
 
 /**

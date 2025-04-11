@@ -1,18 +1,18 @@
-import { defineConfig, fields } from "./type";
+import { defineConfig, fields } from './type';
 import {
   BrokenImage,
   BrokenBrowserAPI,
   BrokenInitialization,
   BrokenUndefined,
-} from "./app/broken-components";
-import type { ReactElement } from "react";
+} from './app/broken-components';
+import type { ReactElement } from 'react';
 
 // Helper function to create a safe component based on environment
 function createSafeComponent(
-  Component: () => ReactElement
+  Component: () => ReactElement,
 ): () => ReactElement {
   // Skip UI rendering on the serverx
-  if (typeof window === "undefined") {
+  if (typeof window === 'undefined') {
     return () => null as unknown as ReactElement;
   }
   // Return the actual component on the client
@@ -22,22 +22,24 @@ function createSafeComponent(
 export default defineConfig({
   ui: {
     navigation: {
-      blogs: ["blogs"],
+      blogs: ['blogs'],
     },
     logo: () => <img src="/logo.png" alt="logo" width={32} height={32} />,
   },
 
   collections: {
     custom: fields.customCollection({
-      Component: createSafeComponent(BrokenImage),
+      // Component: createSafeComponent(BrokenImage),
+      label: 'Custom',
+      Component: () => <div className="p-5">test</div>,
     }),
 
     blogs: fields.collection({
-      label: "Blogs",
-      fieldSlug: "title",
+      label: 'Blogs',
+      fieldSlug: 'title',
       i18n: {
-        locales: ["en", "id"],
-        defaultLocale: "en",
+        locales: ['en', 'id'],
+        defaultLocale: 'en',
       },
 
       canCreate: false,
@@ -47,62 +49,62 @@ export default defineConfig({
 
       schema: {
         title: fields.text({
-          label: "Title",
+          label: 'Title',
           required: true,
           multiline: true,
           i18n: {
-            id: "Judul",
+            id: 'Judul',
           },
           db: false,
         }),
-        slug: fields.text({ name: "slug", label: "Slug" }),
-        description: fields.text({ name: "description", label: "Description" }),
-        content: fields.text({ name: "content", label: "Content" }),
-        image: fields.image({ name: "image", label: "Image" }),
-        date: fields.text({ name: "date", label: "Date", hidden: true }),
+        slug: fields.text({ name: 'slug', label: 'Slug' }),
+        description: fields.text({ name: 'description', label: 'Description' }),
+        content: fields.text({ name: 'content', label: 'Content' }),
+        image: fields.image({ name: 'image', label: 'Image' }),
+        date: fields.text({ name: 'date', label: 'Date', hidden: true }),
         custom: fields.custom({
           Component: () => <div>Custom</div>,
         }),
         author: fields.array(
           fields.reference({
-            name: "author",
-            label: "Author",
-            collection: "authors",
-          })
+            name: 'author',
+            label: 'Author',
+            collection: 'authors',
+          }),
         ),
       },
     }),
 
     authors: fields.collection({
-      label: "Authors",
+      label: 'Authors',
       schema: {
-        name: fields.text({ name: "name", label: "Name" }),
+        name: fields.text({ name: 'name', label: 'Name' }),
       },
-      fieldSlug: "name",
+      fieldSlug: 'name',
     }),
 
     settings: fields.singleton({
-      label: "Settings",
+      label: 'Settings',
       schema: {
-        title: fields.text({ name: "title", label: "Title" }),
+        title: fields.text({ name: 'title', label: 'Title' }),
         navigation: fields.group({
           schema: {
-            title: fields.text({ name: "title", label: "Title" }),
-            slug: fields.text({ name: "slug", label: "Slug" }),
+            title: fields.text({ name: 'title', label: 'Title' }),
+            slug: fields.text({ name: 'slug', label: 'Slug' }),
           },
         }),
-        description: fields.text({ name: "description", label: "Description" }),
+        description: fields.text({ name: 'description', label: 'Description' }),
       },
     }),
   },
 
   db: {
-    provider: "supabase",
-    timezone: "Asia/Jakarta",
+    provider: 'supabase',
+    timezone: 'Asia/Jakarta',
   },
   i18n: {
-    defaultLocale: "en",
-    locales: ["en", "id"],
+    defaultLocale: 'en',
+    locales: ['en', 'id'],
   },
 
   // hook: {
@@ -122,30 +124,30 @@ export default defineConfig({
   auth: {
     providers: [
       {
-        provider: "local",
+        provider: 'local',
       },
       {
-        provider: "google",
+        provider: 'google',
         clientId: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       },
       {
-        provider: "github",
+        provider: 'github',
         clientId: process.env.GITHUB_CLIENT_ID,
         clientSecret: process.env.GITHUB_CLIENT_SECRET,
       },
     ],
   },
 
-  baseUrl: "/cms",
+  baseUrl: '/cms',
 
-  cors: "*",
+  cors: '*',
 
   plugins: [
     (config) => {
       if (config.auth.providers.length === 0) {
         config.auth.providers.push({
-          provider: "local",
+          provider: 'local',
         });
       }
     },

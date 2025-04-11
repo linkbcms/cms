@@ -1,3 +1,7 @@
+@import '@linkbcms/ui/globals.css';
+
+@source "./**/*.{js,ts,jsx,tsx}";
+
 body {
   background-color: var(--sidebar);
 }

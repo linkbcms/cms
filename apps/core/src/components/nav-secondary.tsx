@@ -11,6 +11,9 @@ import {
 import { IconBrightness } from '@tabler/icons-react';
 import { Switch } from '@linkbcms/ui/components/switch';
 import { useConfig } from '@/components/config-provider';
+import { reactive } from '@legendapp/state/react';
+
+const ReactiveSwitch = reactive(Switch);
 
 export function NavSecondary({
   items,
@@ -23,6 +26,7 @@ export function NavSecondary({
   }[];
 } & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
   const config$ = useConfig();
+  console.log(config$.ui.theme.defaultTheme.get());
   return (
     <SidebarGroup {...props}>
       <SidebarGroupContent>
@@ -45,10 +49,12 @@ export function NavSecondary({
                   Dark Mode
                 </span>
 
-                <Switch
+                <ReactiveSwitch
                   id="dark-mode-toggle"
                   className="ml-auto group-data-[collapsible=icon]:hidden"
-                  checked={config$.ui.theme.defaultTheme.get() !== 'light'}
+                  $checked={() =>
+                    config$.ui.theme.defaultTheme.get() !== 'light'
+                  }
                   onCheckedChange={() =>
                     config$.ui.theme.defaultTheme.set((v) =>
                       v === 'light' ? 'dark' : 'light',

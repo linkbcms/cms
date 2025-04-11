@@ -1,9 +1,11 @@
-"use client";
+'use client';
 
-// import { LinkbApp } from '@linkb/core/app';
-import cmsConfig from "@/cms.config";
-
+import { LinkbApp } from '@linkbcms/core/app';
+import cmsConfig from '@/cms.config';
+import '@linkbcms/core/styles';
 export default function CMSPage() {
-  return null;
-  // return <LinkbApp config={cmsConfig} />;
+  // return null;
+
+  console.log(cmsConfig);
+  return <LinkbApp config={cmsConfig} />;
 }
