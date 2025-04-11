@@ -31,7 +31,7 @@ export default defineConfig({
     custom: fields.customCollection({
       // Component: createSafeComponent(BrokenImage),
       label: 'Custom',
-      Component: () => <div className="p-5">test</div>,
+      Component: () => <div className="p-10">test</div>,
     }),
 
     blogs: fields.collection({

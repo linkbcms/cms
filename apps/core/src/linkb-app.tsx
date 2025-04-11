@@ -1,3 +1,5 @@
+'use client';
+
 import { type Config, ConfigProvider } from '@/components/config-provider';
 import { StrictMode, useEffect, useState } from 'react';
 import { Routes } from 'react-router';
