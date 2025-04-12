@@ -99,7 +99,7 @@ dbCommand
   .command('migrate')
   .description('Run database migrations')
   .action(async () => {
-    await databaseMiddleware('migrate');
+    // await databaseMiddleware('migrate');
     const api = new Api();
     api.execute();
     process.exit(0);

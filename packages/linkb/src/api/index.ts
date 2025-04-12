@@ -1,8 +1,4 @@
-import type {
-  Collection,
-  CollectionConfig,
-  defineConfig,
-} from '@linkbcms/core';
+import type { Collection, CollectionConfig, defineConfig } from '../../type';
 import fs from 'node:fs';
 import path from 'node:path';
 import { findWorkspaceRoot } from '../utilities/findWorkSpaceRoot';
@@ -18,7 +14,7 @@ export class Api {
       typeof defineConfig
     >;
     const workspaceRoot = findWorkspaceRoot();
-    this.apiPath = path.join(workspaceRoot, 'apps/web/app/api');
+    this.apiPath = path.join(workspaceRoot, 'apps/web/app/api/linkb');
     this.schemaPath = path.join(
       workspaceRoot,
       'apps/web/database/schema/schema.ts',
@@ -62,7 +58,7 @@ export class Api {
     collectionName: string,
     collectionConfig: Collection<Record<string, CollectionConfig>, string>,
   ) {
-    const collectionPath = this.createFolder(`[[...${collectionName}]]`);
+    const collectionPath = this.createFolder(`${collectionName}/[[...slug]]`);
     const listCode = this.generateList(collectionName, collectionConfig);
     const createCode = this.generateCreate(
       collectionName,
@@ -75,21 +71,28 @@ export class Api {
 import { ${collectionName} } from "@linkbcms/schema/schema"
 ${this.defaultHeader()}
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-  const id = params.id;
-  if (id) {
-    return ${getCode.functionName}(id);
+export async function GET(req: NextRequest, { params }: { params: Promise<{ slug: string[] }> }) {
+  const { slug } = await params;
+  if (!slug) return listsBlogs();
+
+  if (slug.length === 1 && slug[0]) {
+    return getBlogs(slug[0]);
   }
-  return ${listCode.functionName}();
+  return NextResponse.json({ message: 'Not Found' }, { status: 404 });
 }
 
 export async function POST(req: NextRequest) {
     return ${createCode.functionName}(req);
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
-  const id = params.id;
-  return ${deleteCode.functionName}(id);
+export async function DELETE(req: NextRequest,  { params }: { params: Promise<{ slug: string[] }> }) {
+  const { slug } = await params;
+  if (!slug) return NextResponse.json({ message: 'Not Found' }, { status: 404 });
+
+  if (slug.length === 1 && slug[0]) {
+    return ${deleteCode.functionName}(slug[0]);
+  }
+  return NextResponse.json({ status: 404 });
 }
 
 ${listCode.code}
@@ -165,8 +168,8 @@ export const ${functionName}Validation = ${validation});
     const code = `
 async function ${functionName}(id: string) {
     // Validate that ID is a number
-    const numId = parseInt(id);
-    if (isNaN(numId)) {
+    const numId = Number.parseInt(id);
+    if (Number.isNaN(numId)) {
       return NextResponse.json({ message: "Invalid ID format. ID must be a number." }, { status: 400 });
     }
 
@@ -192,8 +195,8 @@ async function ${functionName}(id: string) {
     // Create clean, properly formatted code without extra indentation
     const code = `async function ${functionName}(id: string) {
     // Validate that ID is a number
-    const numId = parseInt(id);
-    if (isNaN(numId)) {
+    const numId = Number.parseInt(id);
+    if (Number.isNaN(numId)) {
       return NextResponse.json({ message: "Invalid ID format. ID must be a number." }, { status: 400 });
     }
 
@@ -220,10 +223,21 @@ const db = drizzle(process.env.DATABASE_URL ?? '');
   generateValidation(schema: Record<string, Record<string, unknown>>): string {
     const validation: Record<string, string> = {};
     for (const key in schema) {
-      const schemaValue = schema[key];
+      const validationObject = schema[key]?.validation as Record<
+        string,
+        unknown
+      >;
+
+      // const schemaValue = schema?.validation[key] as Record<string, unknown>;
       validation[key] = 'z.string()';
-      if (schemaValue?.required !== true)
+      if (validationObject?.required !== true)
         validation[key] += '.optional().nullable()';
+      if (validationObject?.minLength)
+        validation[key] += `.min(${validationObject.minLength})`;
+      if (validationObject?.maxLength)
+        validation[key] += `.max(${validationObject.maxLength})`;
+      if (validationObject?.pattern)
+        validation[key] += `.regex(${validationObject.pattern})`;
     }
     if (Object.keys(validation).length === 0) return '';
     return `z.object({

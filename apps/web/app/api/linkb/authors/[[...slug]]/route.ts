@@ -7,21 +7,28 @@ import { eq } from "drizzle-orm";
 const db = drizzle(process.env.DATABASE_URL ?? '');
     
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-  const id = params.id;
-  if (id) {
-    return getAuthors(id);
+export async function GET(req: NextRequest, { params }: { params: Promise<{ slug: string[] }> }) {
+  const { slug } = await params;
+  if (!slug) return listsBlogs();
+
+  if (slug.length === 1 && slug[0]) {
+    return getBlogs(slug[0]);
   }
-  return listsAuthors();
+  return NextResponse.json({ message: 'Not Found' }, { status: 404 });
 }
 
 export async function POST(req: NextRequest) {
     return createAuthors(req);
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
-  const id = params.id;
-  return deleteAuthors(id);
+export async function DELETE(req: NextRequest,  { params }: { params: Promise<{ slug: string[] }> }) {
+  const { slug } = await params;
+  if (!slug) return NextResponse.json({ message: 'Not Found' }, { status: 404 });
+
+  if (slug.length === 1 && slug[0]) {
+    return deleteAuthors(slug[0]);
+  }
+  return NextResponse.json({ status: 404 });
 }
 
 
@@ -49,8 +56,8 @@ export const createAuthorsValidation = z.object({
 
 async function getAuthors(id: string) {
     // Validate that ID is a number
-    const numId = parseInt(id);
-    if (isNaN(numId)) {
+    const numId = Number.parseInt(id);
+    if (Number.isNaN(numId)) {
       return NextResponse.json({ message: "Invalid ID format. ID must be a number." }, { status: 400 });
     }
 
@@ -61,8 +68,8 @@ async function getAuthors(id: string) {
 
 async function deleteAuthors(id: string) {
     // Validate that ID is a number
-    const numId = parseInt(id);
-    if (isNaN(numId)) {
+    const numId = Number.parseInt(id);
+    if (Number.isNaN(numId)) {
       return NextResponse.json({ message: "Invalid ID format. ID must be a number." }, { status: 400 });
     }
 
