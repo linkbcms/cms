@@ -1,7 +1,11 @@
-import path from 'node:path';
-import type { defineConfig, Collection, CollectionConfig } from '../../type';
-import { findWorkspaceRoot } from '../utilities/findWorkSpaceRoot';
+import type {
+  Collection,
+  CollectionConfig,
+  defineConfig,
+} from '@linkbcms/core';
 import fs from 'node:fs';
+import path from 'node:path';
+import { findWorkspaceRoot } from '../utilities/findWorkSpaceRoot';
 require('esbuild-register');
 
 export class Api {
