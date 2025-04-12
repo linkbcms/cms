@@ -1,6 +1,6 @@
 {
   "name": "@linkbcms/ui",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "type": "module",
   "publishConfig": {
     "access": "public"
@@ -35,7 +35,6 @@
     "react-resizable-panels": "^2.1.7",
     "sonner": "^2.0.3",
     "tailwind-merge": "^3.2.0",
-    "tailwindcss-animate": "^1.0.7",
     "vaul": "^1.1.2",
     "zod": "^3.24.2"
   },
@@ -46,6 +45,7 @@
     "@types/react-dom": "19.1.2",
     "@workspace/typescript-config": "workspace:*",
     "tailwindcss": "^4",
+    "tw-animate-css": "^1.2.5",
     "typescript": "^5.8.3"
   },
   "exports": {

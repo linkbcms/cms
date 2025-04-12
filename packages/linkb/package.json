@@ -1,15 +1,13 @@
 {
   "name": "@linkbcms/cli",
-  "version": "0.1.11-beta.3",
+  "version": "0.1.14",
   "description": "A command line tool",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
     "linkb": "./dist/index.js"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build": "NODE_ENV=production rslib build",
     "dev": "NODE_ENV=development rslib build --watch",
@@ -20,10 +18,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "keywords": [
-    "cli",
-    "command-line"
-  ],
+  "keywords": ["cli", "command-line"],
   "author": "",
   "license": "MIT",
   "dependencies": {
@@ -33,7 +28,6 @@
     "dotenv": "^16.4.7",
     "drizzle-kit": "^0.30.6",
     "drizzle-orm": "^0.41.0",
-    "esbuild-register": "^3.6.0",
     "jiti": "^2.4.2",
     "pg": "^8.14.1",
     "react": "^19.0.0",
