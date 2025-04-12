@@ -1,9 +1,21 @@
 import { paraglideRspackPlugin } from '@inlang/paraglide-js';
-import { defineConfig } from '@rsbuild/core';
+import { defineConfig } from '@rslib/core';
 import { pluginReact } from '@rsbuild/plugin-react';
 
 export default defineConfig({
   plugins: [pluginReact()],
+
+  lib: [
+    {
+      bundle: false,
+      dts: true,
+      format: 'esm',
+    },
+  ],
+  output: {
+    target: 'web',
+  },
+
   tools: {
     rspack: {
       plugins: [
@@ -33,6 +45,9 @@ export default defineConfig({
   },
 
   source: {
+    entry: {
+      index: ['./src/**'],
+    },
     define: {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       'process.env.SUPABASE_URL': JSON.stringify(process.env.SUPABASE_URL),

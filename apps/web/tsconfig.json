@@ -4,7 +4,6 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@linkbcms/ui/*": ["../../packages/ui/src/*"],
       "@linkbcms/schema/*": ["./database/schema/*"]
     },
     "plugins": [
@@ -15,7 +14,7 @@
   },
   "include": [
     "next-env.d.ts",
-    "next.config.mjs",
+    "next.config.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"

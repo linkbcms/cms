@@ -1,5 +1,4 @@
 import { useConfig } from '@/components/config-provider';
-import Layout from '@/layout';
 import { Memo } from '@legendapp/state/react';
 import { useParams } from 'react-router';
 
@@ -22,9 +21,5 @@ export const CustomComponents = () => {
 
   const component = Component.get();
 
-  return (
-    <Layout>
-      <Memo>{component}</Memo>
-    </Layout>
-  );
+  return <Memo>{component}</Memo>;
 };

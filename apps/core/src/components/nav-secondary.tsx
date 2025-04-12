@@ -12,6 +12,7 @@ import { IconBrightness } from '@tabler/icons-react';
 import { Switch } from '@linkbcms/ui/components/switch';
 import { useConfig } from '@/components/config-provider';
 import { reactive } from '@legendapp/state/react';
+import { Link } from 'react-router';
 
 const ReactiveSwitch = reactive(Switch);
 
@@ -26,7 +27,6 @@ export function NavSecondary({
   }[];
 } & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
   const config$ = useConfig();
-  console.log(config$.ui.theme.defaultTheme.get());
   return (
     <SidebarGroup {...props}>
       <SidebarGroupContent>
@@ -34,10 +34,10 @@ export function NavSecondary({
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton asChild size="sm">
-                <a href={item.url}>
+                <Link to={item.url}>
                   <item.icon />
                   <span>{item.title}</span>
-                </a>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}

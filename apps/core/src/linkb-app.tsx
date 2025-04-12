@@ -10,8 +10,14 @@ import { CustomComponents } from '@/pages/custom-components';
 import { SingletonsScreen } from '@/pages/singletons';
 import { Toaster } from '@/components/toaster';
 import { CollectionsScreen } from '@/pages/collections';
+import { CollectionScreen } from '@/pages/collection';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Layout from '@/layout';
 
 // import './App.css';
+
+// Create a client
+const queryClient = new QueryClient();
 
 export const LinkbApp = ({ config }: { config: Config }) => {
   if (typeof window === 'undefined') {
@@ -19,30 +25,40 @@ export const LinkbApp = ({ config }: { config: Config }) => {
   }
 
   return (
-    <StrictMode>
-      <ClientOnly>
-        <ConfigProvider config={config}>
+    <ClientOnly>
+      <ConfigProvider config={config}>
+        <QueryClientProvider client={queryClient}>
           <BrowserRouter basename="/cms">
             <Routes>
-              <Route path=":lang?/" element={<App />} />
-              <Route
-                path=":lang?/collections/:collection"
-                element={<CollectionsScreen />}
-              />
-              <Route
-                path=":lang?/singletons/:singleton"
-                element={<SingletonsScreen />}
-              />
-              <Route
-                path=":lang?/custom-collections/:customCollection"
-                element={<CustomComponents />}
-              />
+              <Route path=":lang?/" element={<Layout />}>
+                <Route index element={<App />} />
+                <Route
+                  path="collections/:collection"
+                  element={<CollectionsScreen />}
+                />
+                <Route
+                  path="collections/:collection/add/new"
+                  element={<CollectionScreen />}
+                />
+                <Route
+                  path="collections/:collection/:item"
+                  element={<CollectionScreen />}
+                />
+                <Route
+                  path="singletons/:singleton"
+                  element={<SingletonsScreen />}
+                />
+                <Route
+                  path="custom-collections/:customCollection"
+                  element={<CustomComponents />}
+                />
+              </Route>
             </Routes>
           </BrowserRouter>
           <Toaster />
-        </ConfigProvider>
-      </ClientOnly>
-    </StrictMode>
+        </QueryClientProvider>
+      </ConfigProvider>
+    </ClientOnly>
   );
 };
 

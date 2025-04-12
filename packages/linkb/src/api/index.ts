@@ -1,15 +1,15 @@
-import path from "path";
-import {
+import path from 'node:path';
+import type {
   defineConfig,
   Collection,
   Singleton,
   CustomCollectionConfig,
   CollectionConfig,
   SingletonConfig,
-} from "../../type";
-import { findWorkspaceRoot } from "../utilities/findWorkSpaceRoot";
-import fs from "fs";
-require("esbuild-register");
+} from '../../type';
+import { findWorkspaceRoot } from '../utilities/findWorkSpaceRoot';
+import fs from 'node:fs';
+require('esbuild-register');
 
 export class Api {
   private cmsConfig: ReturnType<typeof defineConfig>;
@@ -21,20 +21,20 @@ export class Api {
       typeof defineConfig
     >;
     const workspaceRoot = findWorkspaceRoot();
-    this.apiPath = path.join(workspaceRoot, "apps/web/app/api");
+    this.apiPath = path.join(workspaceRoot, 'apps/web/app/api');
     this.schemaPath = path.join(
       workspaceRoot,
-      "apps/web/database/schema/schema.ts"
+      'apps/web/database/schema/schema.ts',
     );
   }
   execute() {
     if (this.cmsConfig.collections) {
-      Object.entries(this.cmsConfig.collections).forEach(
-        ([collectionName, collectionConfig]) => {
-          if ("Component" in collectionConfig) return;
-          this.generateDefaultCrud(collectionName, collectionConfig);
-        }
-      );
+      for (const [collectionName, collectionConfig] of Object.entries(
+        this.cmsConfig.collections,
+      )) {
+        if ('Component' in collectionConfig) continue;
+        this.generateDefaultCrud(collectionName, collectionConfig);
+      }
     }
   }
 
@@ -60,12 +60,15 @@ export class Api {
     collectionConfig:
       | Collection<Record<string, CollectionConfig>, string>
       | Singleton<Record<string, SingletonConfig>>
-      | CustomCollectionConfig
+      | CustomCollectionConfig,
   ) {
     const collectionPath = this.createFolder(collectionName);
     const collectionSubPath = this.createFolder(`${collectionName}/[id]`);
     const listCode = this.generateList(collectionName, collectionConfig);
-    const createCode = this.generateCreate(collectionName, collectionConfig);
+    const createCode = this.generateCreate(
+      collectionName,
+      collectionConfig as Collection<Record<string, CollectionConfig>, string>,
+    );
 
     const combineRootCode = `
 import { NextResponse, NextRequest } from "next/server";
@@ -117,7 +120,7 @@ ${deleteCode.code}
     collectionConfig:
       | Collection<Record<string, CollectionConfig>, string>
       | Singleton<Record<string, SingletonConfig>>
-      | CustomCollectionConfig
+      | CustomCollectionConfig,
   ): {
     code: string;
     functionName: string;
@@ -138,14 +141,14 @@ async function ${functionName}() {
 
   generateCreate(
     collectionName: string,
-    collectionConfig: Collection<Record<string, CollectionConfig>, string>
+    collectionConfig: Collection<Record<string, CollectionConfig>, string>,
   ): {
     code: string;
     functionName: string;
   } {
     const { schema } = collectionConfig as CollectionConfig;
     const validation = this.generateValidation(schema);
-    
+
     const functionName = `create${collectionName.charAt(0).toUpperCase() + collectionName.slice(1)}`;
     // Create clean, properly formatted code without extra indentation
     const code = `
@@ -173,7 +176,7 @@ export const ${functionName}Validation = ${validation});
     collectionConfig:
       | Collection<Record<string, CollectionConfig>, string>
       | Singleton<Record<string, SingletonConfig>>
-      | CustomCollectionConfig
+      | CustomCollectionConfig,
   ): {
     code: string;
     functionName: string;
@@ -187,7 +190,7 @@ async function ${functionName}(id: string) {
     if (isNaN(numId)) {
       return NextResponse.json({ message: "Invalid ID format. ID must be a number." }, { status: 400 });
     }
-   
+
     const result = await db.select().from(${collectionName}).where(eq(${collectionName}.id, numId));
     if(result.length === 0) return NextResponse.json({ message: "blog not found" }, { status: 404 });
     return NextResponse.json({ message:"success", result: result[0] });
@@ -204,7 +207,7 @@ async function ${functionName}(id: string) {
     collectionConfig:
       | Collection<Record<string, CollectionConfig>, string>
       | Singleton<Record<string, SingletonConfig>>
-      | CustomCollectionConfig
+      | CustomCollectionConfig,
   ): {
     code: string;
     functionName: string;
@@ -217,7 +220,7 @@ async function ${functionName}(id: string) {
     if (isNaN(numId)) {
       return NextResponse.json({ message: "Invalid ID format. ID must be a number." }, { status: 400 });
     }
-   
+
     const result = await db.delete(${collectionName}).where(eq(${collectionName}.id, numId)).returning();
     if(result.length === 0) return NextResponse.json({ message: "blog not found" }, { status: 404 });
     return NextResponse.json({ message:"success", result: result[0] });
@@ -248,7 +251,7 @@ const db = drizzle(process.env.DATABASE_URL!);
     return `z.object({
     ${Object.entries(validation)
       .map(([key, value]) => `${key}: ${value}`)
-      .join(", ")}
+      .join(', ')}
 }`;
   }
 }

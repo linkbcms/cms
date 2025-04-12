@@ -171,6 +171,8 @@ export const defineConfig = <Collections extends CollectionsMap>(
  * ```
  */
 interface TextField {
+  /** Type of the field */
+  type: 'text';
   /** Display label for the field */
   label: string;
   /** Field name */
@@ -185,6 +187,19 @@ interface TextField {
   i18n?: Record<string, string>;
   /** Whether the field is stored in the database */
   db?: boolean;
+  /** Validation rules for the field */
+  validation?: {
+    /** Whether the field is required */
+    required?: boolean;
+    /** Minimum length of the text */
+    minLength?: number;
+    /** Maximum length of the text */
+    maxLength?: number;
+    /** Regular expression pattern the text must match */
+    pattern?: RegExp;
+    /** Custom validation function */
+    validate?: (value: string) => boolean | string;
+  };
 }
 
 /**
@@ -261,6 +276,8 @@ interface CustomField {
  * ```
  */
 export interface CollectionConfig {
+  /** Type of the collection */
+  type: 'collection';
   /** Display label for the collection */
   label: string;
   /** Field to use as the slug/identifier */
@@ -298,6 +315,8 @@ export interface CollectionConfig {
  * ```
  */
 export interface SingletonConfig {
+  /** Type of the collection */
+  type: 'singleton';
   /** Display label for the singleton */
   label: string;
   /** Schema definition for the singleton */
@@ -315,11 +334,14 @@ export interface SingletonConfig {
  * }
  * ```
  */
-interface CustomCollectionConfig {
+export interface CustomCollectionConfig {
   /** React component to render the custom collection */
   Component: () => ReactElement;
   /** Display label for the custom collection */
   label: string;
+
+  /** Type of the collection */
+  type: 'customCollection';
 }
 
 /**
@@ -355,25 +377,31 @@ export const fields = {
   customCollection: (config: {
     label: string;
     Component: () => ReactElement;
-  }): CustomCollectionConfig => ({ ...config }),
+  }): CustomCollectionConfig => ({ ...config, type: 'customCollection' }),
 
   /**
    * Creates a collection configuration
    * @param config - Collection configuration
    */
-  collection: (config: CollectionConfig): CollectionConfig => ({ ...config }),
+  collection: (config: CollectionConfig): CollectionConfig => ({
+    ...config,
+    type: 'collection',
+  }),
 
   /**
    * Creates a singleton configuration
    * @param config - Singleton configuration
    */
-  singleton: (config: SingletonConfig): SingletonConfig => ({ ...config }),
+  singleton: (config: SingletonConfig): SingletonConfig => ({
+    ...config,
+    type: 'singleton',
+  }),
 
   /**
    * Creates a text field configuration
    * @param config - Text field configuration
    */
-  text: (config: TextField): TextField => ({ ...config }),
+  text: (config: TextField): TextField => ({ ...config, type: 'text' }),
 
   /**
    * Creates an image field configuration
@@ -412,7 +440,7 @@ export const fields = {
 /**
  * Union type for all possible collection types
  */
-type CollectionType =
+export type CollectionType =
   | CollectionConfig
   | SingletonConfig
   | CustomCollectionConfig;

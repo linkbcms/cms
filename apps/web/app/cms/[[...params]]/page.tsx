@@ -1,5 +1,5 @@
-import { CMSPage } from './linkbcms';
+import React from 'react';
 
 export default function Page() {
-  return <CMSPage />;
+  return null;
 }

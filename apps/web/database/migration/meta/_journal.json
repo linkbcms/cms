@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1743864017875,
-      "tag": "0000_silent_power_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1743925534711,
-      "tag": "0001_fresh_mordo",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1744293379423,
-      "tag": "0002_numerous_giant_man",
+      "when": 1744434756453,
+      "tag": "0000_motionless_reavers",
       "breakpoints": true
     }
   ]

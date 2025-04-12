@@ -1,23 +1,4 @@
-import { defineConfig, fields } from './type';
-import {
-  BrokenImage,
-  BrokenBrowserAPI,
-  BrokenInitialization,
-  BrokenUndefined,
-} from './app/broken-components';
-import type { ReactElement } from 'react';
-
-// Helper function to create a safe component based on environment
-function createSafeComponent(
-  Component: () => ReactElement,
-): () => ReactElement {
-  // Skip UI rendering on the serverx
-  if (typeof window === 'undefined') {
-    return () => null as unknown as ReactElement;
-  }
-  // Return the actual component on the client
-  return Component;
-}
+import { defineConfig, fields } from '@linkbcms/core';
 
 export default defineConfig({
   ui: {
@@ -58,7 +39,7 @@ export default defineConfig({
           db: false,
         }),
         slug: fields.text({ name: 'slug', label: 'Slug' }),
-        description: fields.text({ name: 'description', label: 'Description' }),
+        // description: fields.text({ name: 'description', label: 'Description' }),
         content: fields.text({ name: 'content', label: 'Content' }),
         image: fields.image({ name: 'image', label: 'Image' }),
         date: fields.text({ name: 'date', label: 'Date', hidden: true }),
@@ -85,6 +66,20 @@ export default defineConfig({
 
     settings: fields.singleton({
       label: 'Settings',
+      schema: {
+        title: fields.text({ name: 'title', label: 'Title' }),
+        navigation: fields.group({
+          schema: {
+            title: fields.text({ name: 'title', label: 'Title' }),
+            slug: fields.text({ name: 'slug', label: 'Slug' }),
+          },
+        }),
+        description: fields.text({ name: 'description', label: 'Description' }),
+      },
+    }),
+
+    settings2: fields.singleton({
+      label: 'Settings 2',
       schema: {
         title: fields.text({ name: 'title', label: 'Title' }),
         navigation: fields.group({

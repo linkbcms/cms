@@ -25,7 +25,7 @@ async function getAuthors(id: string) {
     if (isNaN(numId)) {
       return NextResponse.json({ message: "Invalid ID format. ID must be a number." }, { status: 400 });
     }
-   
+
     const result = await db.select().from(authors).where(eq(authors.id, numId));
     if(result.length === 0) return NextResponse.json({ message: "blog not found" }, { status: 404 });
     return NextResponse.json({ message:"success", result: result[0] });
@@ -37,7 +37,7 @@ async function deleteAuthors(id: string) {
     if (isNaN(numId)) {
       return NextResponse.json({ message: "Invalid ID format. ID must be a number." }, { status: 400 });
     }
-   
+
     const result = await db.delete(authors).where(eq(authors.id, numId)).returning();
     if(result.length === 0) return NextResponse.json({ message: "blog not found" }, { status: 404 });
     return NextResponse.json({ message:"success", result: result[0] });

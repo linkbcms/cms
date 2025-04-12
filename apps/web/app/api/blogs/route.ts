@@ -34,6 +34,6 @@ async function createBlogs(req: NextRequest) {
 }
 
 export const createBlogsValidation = z.object({
-    title: z.string(), slug: z.string().optional().nullable(), description: z.string().optional().nullable(), content: z.string().optional().nullable(), image: z.string().optional().nullable(), date: z.string().optional().nullable(), custom: z.string().optional().nullable(), author: z.string().optional().nullable()
+    title: z.string(), slug: z.string().optional().nullable(), content: z.string().optional().nullable(), image: z.string().optional().nullable(), date: z.string().optional().nullable(), custom: z.string().optional().nullable(), author: z.string().optional().nullable()
 });
 

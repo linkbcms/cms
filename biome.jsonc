@@ -28,6 +28,9 @@
       "a11y": {
         "useButtonType": "info"
       },
+      "suspicious": {
+        "noExplicitAny": "warn"
+      },
       "nursery": {
         "useSortedClasses": {
           "level": "error",

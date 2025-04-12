@@ -17,6 +17,7 @@
     /* type checking */
     "strict": true,
     "noUnusedLocals": true,
+    "noImplicitAny": false,
     "noUnusedParameters": true,
     "allowJs": true,
     "baseUrl": ".",

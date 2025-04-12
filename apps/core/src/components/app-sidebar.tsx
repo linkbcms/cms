@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {
   BookOpen,
@@ -13,14 +13,14 @@ import {
   Send,
   Settings2,
   SquareTerminal,
-} from 'lucide-react'
-import type * as React from 'react'
+} from 'lucide-react';
+import type * as React from 'react';
 
-import { ModeToggle } from '@/components/mode-toggle'
-import { NavMain } from '@/components/nav-main'
-import { NavProjects } from '@/components/nav-projects'
-import { NavSecondary } from '@/components/nav-secondary'
-import { NavUser } from '@/components/nav-user'
+import { ModeToggle } from '@/components/mode-toggle';
+import { NavMain } from '@/components/nav-main';
+import { NavProjects } from '@/components/nav-projects';
+import { NavSecondary } from '@/components/nav-secondary';
+import { NavUser } from '@/components/nav-user';
 import {
   Sidebar,
   SidebarContent,
@@ -29,9 +29,10 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@linkbcms/ui/components/sidebar'
-import { useConfig } from '@/components/config-provider'
-import { Memo, Show } from '@legendapp/state/react'
+} from '@linkbcms/ui/components/sidebar';
+import { useConfig } from '@/components/config-provider';
+import { Memo, Show } from '@legendapp/state/react';
+import { Link } from 'react-router';
 
 const data = {
   user: {
@@ -155,62 +156,63 @@ const data = {
       icon: MapIcon,
     },
   ],
-}
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const config$ = useConfig()
+  const config$ = useConfig();
 
-  const fullCollections = Object.entries(config$.collections)
+  const fullCollections = Object.entries(config$.collections);
 
   const collections = fullCollections.filter(([key, value]) => {
     if ('fieldSlug' in value.get()) {
-      return true
+      return true;
     }
 
-    return false
-  })
+    return false;
+  });
 
   const singletons = fullCollections.filter(([key, value]) => {
     if ('fieldSlug' in value.get() || 'Component' in value.get()) {
-      return false
+      return false;
     }
 
-    return true
-  })
+    return true;
+  });
 
   const customCollections = fullCollections.filter(([key, value]) => {
     if ('Component' in value.get()) {
-      return true
+      return true;
     }
-    return false
-  })
+    return false;
+  });
 
   return (
-    <Sidebar variant='inset' {...props}>
+    <Sidebar variant="inset" {...props}>
       <SidebarHeader>
         <SidebarMenu>
-          <SidebarMenuItem className='w-full'>
-            <SidebarMenuButton size='lg' asChild>
-              <a href='/cms'>
+          <SidebarMenuItem className="w-full">
+            <SidebarMenuButton size="lg" asChild>
+              <Link to="/">
                 <Show
                   if={config$?.ui?.logo}
                   else={() => (
-                    <div className='flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground'>
-                      <Command className='size-4' />
+                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                      <Command className="size-4" />
                     </div>
-                  )}>
-                  <div className='flex aspect-square size-8 items-center justify-center'>
+                  )}
+                >
+                  <div className="flex aspect-square size-8 items-center justify-center">
                     {config$?.ui?.logo?.get()}
                   </div>
                 </Show>
 
-                <div className='grid flex-1 text-left text-sm leading-tight'>
-                  <span className='truncate font-semibold'>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-semibold">
                     <Memo>{config$.ui.name}</Memo>
                   </span>
                   {/* <span className='truncate text-xs'>Enterprise</span> */}
                 </div>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
 
@@ -233,7 +235,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain
-          title='Collections'
+          title="Collections"
           items={collections.map(([key, value]) => ({
             title: value.get().label,
             url: `/cms/collections/${key}`,
@@ -241,7 +243,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           }))}
         />
         <NavMain
-          title='Singletons'
+          title="Singletons"
           items={singletons.map(([key, value]) => ({
             title: value.get().label,
             url: `/cms/singletons/${key}`,
@@ -249,7 +251,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           }))}
         />
         <NavMain
-          title='Custom Collections'
+          title="Custom Collections"
           items={customCollections.map(([key, value]) => ({
             title: value.get().label,
             url: `/cms/custom-collections/${key}`,
@@ -257,11 +259,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           }))}
         />
         {/* <NavProjects projects={data.projects} /> */}
-        <NavSecondary items={data.navSecondary} className='mt-auto' />
+        <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
-      <SidebarFooter>
+      {/* <SidebarFooter>
         <NavUser user={data.user} />
-      </SidebarFooter>
+      </SidebarFooter> */}
     </Sidebar>
-  )
+  );
 }

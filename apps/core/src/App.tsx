@@ -2,15 +2,11 @@ import { useConfig } from '@/components/config-provider';
 import { m } from './paraglide/messages';
 import { getLocale, locales, setLocale } from './paraglide/runtime';
 
-import Layout from '@/layout';
-
-// import '@linkbcms/ui/globals.css';
-
 export const App = () => {
   const config = useConfig();
 
   return (
-    <Layout>
+    <>
       <div className="flex flex-1 flex-col gap-4 p-4">
         <div className="grid auto-rows-min gap-4 md:grid-cols-3">
           <div className="aspect-video rounded-xl bg-muted/50" />
@@ -73,7 +69,7 @@ export const App = () => {
             ))}
           </div>
         </div>
-      </div>{' '}
-    </Layout>
+      </div>
+    </>
   );
 };
