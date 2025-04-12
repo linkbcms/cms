@@ -39,20 +39,9 @@ export const CollectionScreen = () => {
     },
   });
   return (
-    <Layout>
-      {/* <Suspense fallback={<div>Loading...</div>}> */}
-      {/* <CollectionForm form={form} /> */}
-      {/* </Suspense> */}
-
-      <div className="p-5">
-        <h1 className="font-semibold text-2xl">
-          {isNew ? 'Add New' : 'Edit'}{' '}
-          {pluralize.singular(collection?.label.get())}
-        </h1>
-
-        <CollectionForm form={form} />
-      </div>
-    </Layout>
+    <div className="p-5">
+      <CollectionForm form={form} />
+    </div>
   );
 };
 
