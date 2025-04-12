@@ -75,24 +75,22 @@ export class Api {
 import { ${collectionName} } from "@linkbcms/schema/schema"
 ${this.defaultHeader()}
 
-export async function GET() {
-    return ${listCode.functionName}();
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+  const id = params.id;
+  if (id) {
+    return ${getCode.functionName}(id);
+  }
+  return ${listCode.functionName}();
 }
 
 export async function POST(req: NextRequest) {
     return ${createCode.functionName}(req);
 }
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-  const id = params.id;
-  return ${getCode.functionName}(id);
-}
-
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   const id = params.id;
   return ${deleteCode.functionName}(id);
 }
-
 
 ${listCode.code}
 ${createCode.code}

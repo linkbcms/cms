@@ -1,31 +1,28 @@
 
-import { NextResponse, NextRequest } from "next/server";
-import { drizzle } from 'drizzle-orm/node-postgres';
 import { blogs } from "@linkbcms/schema/schema"
-import { eq } from "drizzle-orm";
 import { z } from "zod";
-
-const db = drizzle(process.env.DATABASE_URL!);
+import { NextResponse, type NextRequest } from 'next/server';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { eq } from "drizzle-orm";
+const db = drizzle(process.env.DATABASE_URL ?? '');
     
 
-export async function GET() {
-    return listsBlogs();
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+  const id = params.id;
+  if (id) {
+    return getBlogs(id);
+  }
+  return listsBlogs();
 }
 
 export async function POST(req: NextRequest) {
     return createBlogs(req);
 }
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-  const id = params.id;
-  return getBlogs(id);
-}
-
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   const id = params.id;
   return deleteBlogs(id);
 }
-
 
 
 async function listsBlogs() {
