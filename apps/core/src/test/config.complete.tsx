@@ -1,11 +1,11 @@
-import { defineConfig, fields } from '@/test/type'
+import { defineConfig, fields } from '@linkbcms/core';
 
 const config = defineConfig({
   ui: {
     navigation: {
       blogs: ['blogs'],
     },
-    logo: () => <img src='/logo.png' alt='logo' width={32} height={32} />,
+    logo: () => <img src="/logo.png" alt="logo" width={32} height={32} />,
     name: 'CMS2',
     theme: {
       defaultTheme: 'system',
@@ -55,7 +55,7 @@ const config = defineConfig({
             name: 'author',
             label: 'Author',
             collection: 'authors',
-          })
+          }),
         ),
       },
     }),
@@ -123,15 +123,15 @@ const config = defineConfig({
 
   hook: {
     onInit: async ({ config, req }) => {
-      console.log('onInit', config, req)
+      console.log('onInit', config, req);
       if (config.collections.blogs) {
       }
     },
     onUpdate: async ({ config }) => {
-      console.log('onUpdate', config)
+      console.log('onUpdate', config);
     },
     onDelete: async ({ config }) => {
-      console.log('onDelete', config)
+      console.log('onDelete', config);
     },
   },
 
@@ -162,11 +162,11 @@ const config = defineConfig({
       if (config.auth.providers.length === 0) {
         config.auth.providers.push({
           provider: 'local',
-        })
+        });
       }
     },
   ],
-})
+});
 
 // Export with the proper type assertion
-export default config
+export default config;

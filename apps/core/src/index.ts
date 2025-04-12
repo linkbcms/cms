@@ -383,7 +383,7 @@ export const fields = {
    * Creates a collection configuration
    * @param config - Collection configuration
    */
-  collection: (config: CollectionConfig): CollectionConfig => ({
+  collection: (config: Omit<CollectionConfig, 'type'>): CollectionConfig => ({
     ...config,
     type: 'collection',
   }),
@@ -392,7 +392,7 @@ export const fields = {
    * Creates a singleton configuration
    * @param config - Singleton configuration
    */
-  singleton: (config: SingletonConfig): SingletonConfig => ({
+  singleton: (config: Omit<SingletonConfig, 'type'>): SingletonConfig => ({
     ...config,
     type: 'singleton',
   }),
@@ -401,7 +401,10 @@ export const fields = {
    * Creates a text field configuration
    * @param config - Text field configuration
    */
-  text: (config: TextField): TextField => ({ ...config, type: 'text' }),
+  text: (config: Omit<TextField, 'type'>): TextField => ({
+    ...config,
+    type: 'text',
+  }),
 
   /**
    * Creates an image field configuration
