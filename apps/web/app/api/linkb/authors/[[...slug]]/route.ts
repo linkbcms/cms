@@ -9,10 +9,10 @@ const db = drizzle(process.env.DATABASE_URL ?? '');
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ slug: string[] }> }) {
   const { slug } = await params;
-  if (!slug) return listsBlogs();
+  if (!slug) return listsAuthors();
 
   if (slug.length === 1 && slug[0]) {
-    return getBlogs(slug[0]);
+    return getAuthors(slug[0]);
   }
   return NextResponse.json({ message: 'Not Found' }, { status: 404 });
 }
