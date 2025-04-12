@@ -15,6 +15,7 @@
     "lint": "biome check .",
     "format": "biome format --write .",
     "prepublishOnly": "npm run build"
+    
   },
   "publishConfig": {
     "access": "public"

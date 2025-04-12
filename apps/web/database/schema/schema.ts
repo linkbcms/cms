@@ -6,7 +6,9 @@ export const blogs = table(
   "blogs",
   {
     id: t.bigserial({ mode: 'number' }).primaryKey(),
+    title: t.varchar().notNull().default(""),
     slug: t.varchar(),
+    description: t.varchar(),
     content: t.varchar(),
     image: t.varchar(),
     date: t.varchar(),
@@ -19,7 +21,9 @@ export const blogsid = table(
   "blogs_id",
   {
     id: t.bigserial({ mode: 'number' }).primaryKey(),
+    title: t.varchar().notNull().default(""),
     slug: t.varchar(),
+    description: t.varchar(),
     content: t.varchar(),
     image: t.varchar(),
     date: t.varchar(),
@@ -33,16 +37,6 @@ export const authors = table(
   {
     id: t.bigserial({ mode: 'number' }).primaryKey(),
     name: t.varchar(),
-  }
-);
-
-export const settings = table(
-  "settings",
-  {
-    id: t.bigserial({ mode: 'number' }).primaryKey(),
-    title: t.varchar(),
-    navigation: t.varchar(),
-    description: t.varchar(),
   }
 );
 

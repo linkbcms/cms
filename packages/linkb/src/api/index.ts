@@ -1,15 +1,15 @@
-import path from "path";
-import { defineConfig, Collection, CollectionConfig } from "../../type";
-import { findWorkspaceRoot } from "../utilities/findWorkSpaceRoot";
-import fs from "fs";
-require("esbuild-register");
+import path from 'node:path';
+import type { defineConfig, Collection, CollectionConfig } from '../../type';
+import { findWorkspaceRoot } from '../utilities/findWorkSpaceRoot';
+import fs from 'node:fs';
+require('esbuild-register');
 
 export class Api {
   private cmsConfig: ReturnType<typeof defineConfig>;
   private apiPath: string;
   private schemaPath: string;
   constructor() {
-    const filePath = path.resolve(`cms.config.tsx`);
+    const filePath = path.resolve('cms.config.tsx');
     this.cmsConfig = require(filePath).default as ReturnType<
       typeof defineConfig
     >;
@@ -22,12 +22,18 @@ export class Api {
   }
   execute() {
     if (this.cmsConfig.collections) {
-      Object.entries(this.cmsConfig.collections).forEach(
-        ([collectionName, collectionConfig]) => {
-          if ("Component" in collectionConfig) return;
-          this.generateDefaultCrud(collectionName, collectionConfig as Collection<Record<string, CollectionConfig>, string>);
-        }
-      );
+      for (const [collectionName, collectionConfig] of Object.entries(
+        this.cmsConfig.collections,
+      )) {
+        if ('Component' in collectionConfig) continue;
+        this.generateDefaultCrud(
+          collectionName,
+          collectionConfig as Collection<
+            Record<string, CollectionConfig>,
+            string
+          >,
+        );
+      }
     }
   }
 
@@ -50,19 +56,18 @@ export class Api {
 
   generateDefaultCrud(
     collectionName: string,
-    collectionConfig: Collection<Record<string, CollectionConfig>, string>
+    collectionConfig: Collection<Record<string, CollectionConfig>, string>,
   ) {
-    const collectionPath = this.createFolder(collectionName);
-    const collectionSubPath = this.createFolder(`${collectionName}/[id]`);
+    const collectionPath = this.createFolder(`[[...${collectionName}]]`);
     const listCode = this.generateList(collectionName, collectionConfig);
     const createCode = this.generateCreate(
       collectionName,
       collectionConfig as Collection<Record<string, CollectionConfig>, string>,
     );
+    const getCode = this.generateGet(collectionName, collectionConfig);
+    const deleteCode = this.generateDelete(collectionName, collectionConfig);
 
     const combineRootCode = `
-import { NextResponse, NextRequest } from "next/server";
-import { drizzle } from 'drizzle-orm/node-postgres';
 import { ${collectionName} } from "@linkbcms/schema/schema"
 ${this.defaultHeader()}
 
@@ -74,40 +79,28 @@ export async function POST(req: NextRequest) {
     return ${createCode.functionName}(req);
 }
 
-${listCode.code}
-${createCode.code}
-`;
-    fs.writeFileSync(path.join(collectionPath, `route.ts`), combineRootCode);
-
-    const getCode = this.generateGet(collectionName, collectionConfig);
-    const deleteCode = this.generateDelete(collectionName, collectionConfig);
-
-    const combineSubCode = `
-import { NextResponse, NextRequest } from "next/server";
-import { drizzle } from 'drizzle-orm/node-postgres';
-import { ${collectionName} } from "@linkbcms/schema/schema"
-import { eq } from "drizzle-orm";
-${this.defaultHeader()}
-
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
-    const id = params.id;
-    return ${getCode.functionName}(id);
+  const id = params.id;
+  return ${getCode.functionName}(id);
 }
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
-    const id = params.id;
-    return ${deleteCode.functionName}(id);
+  const id = params.id;
+  return ${deleteCode.functionName}(id);
 }
 
+
+${listCode.code}
+${createCode.code}
 ${getCode.code}
 ${deleteCode.code}
 `;
-    fs.writeFileSync(path.join(collectionSubPath, `route.ts`), combineSubCode);
+    fs.writeFileSync(path.join(collectionPath, 'route.ts'), combineRootCode);
   }
 
   generateList(
     collectionName: string,
-    collectionConfig: Collection<Record<string, CollectionConfig>, string>
+    collectionConfig: Collection<Record<string, CollectionConfig>, string>,
   ): {
     code: string;
     functionName: string;
@@ -160,7 +153,7 @@ export const ${functionName}Validation = ${validation});
 
   generateGet(
     collectionName: string,
-    collectionConfig: Collection<Record<string, CollectionConfig>, string>
+    collectionConfig: Collection<Record<string, CollectionConfig>, string>,
   ): {
     code: string;
     functionName: string;
@@ -188,7 +181,7 @@ async function ${functionName}(id: string) {
 
   generateDelete(
     collectionName: string,
-    collectionConfig: Collection<Record<string, CollectionConfig>, string>
+    collectionConfig: Collection<Record<string, CollectionConfig>, string>,
   ): {
     code: string;
     functionName: string;
@@ -215,8 +208,10 @@ async function ${functionName}(id: string) {
 
   defaultHeader() {
     return `import { z } from "zod";
-
-const db = drizzle(process.env.DATABASE_URL!);
+import { NextResponse, type NextRequest } from 'next/server';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { eq } from "drizzle-orm";
+const db = drizzle(process.env.DATABASE_URL ?? '');
     `;
   }
 
@@ -224,11 +219,11 @@ const db = drizzle(process.env.DATABASE_URL!);
     const validation: Record<string, string> = {};
     for (const key in schema) {
       const schemaValue = schema[key];
-      validation[key] = `z.string()`;
+      validation[key] = 'z.string()';
       if (schemaValue?.required !== true)
-        validation[key] += `.optional().nullable()`;
+        validation[key] += '.optional().nullable()';
     }
-    if (Object.keys(validation).length === 0) return ``;
+    if (Object.keys(validation).length === 0) return '';
     return `z.object({
     ${Object.entries(validation)
       .map(([key, value]) => `${key}: ${value}`)
