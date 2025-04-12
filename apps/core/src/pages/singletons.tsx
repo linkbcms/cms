@@ -9,7 +9,11 @@ import { formatDistanceToNowStrict } from 'date-fns';
 
 export const SingletonsScreen = () => {
   const { singleton: singletonId } = useParams();
+
+  const store = use$<V2>(formData);
+
   const form = useAppForm({
+    defaultValues: store.data[`/singletons/${singletonId}`],
     onSubmit({ value, formApi }) {
       toast.success('Data saved.', {
         description: `value: ${JSON.stringify(value, null, 2)}`,
@@ -78,9 +82,9 @@ const SingletonForm = withForm({
               <form.AppField
                 key={key + singletonId}
                 name={key + singletonId}
-                defaultValue={
-                  store.data[`/singletons/${singletonId}`]?.[key]?.value
-                }
+                // defaultValue={
+                //   store.data[`/singletons/${singletonId}`]?.[key]?.value
+                // }
                 validators={{
                   onChangeAsyncDebounceMs: 500,
                   onChangeAsync: async ({ value, signal, fieldApi }) => {
