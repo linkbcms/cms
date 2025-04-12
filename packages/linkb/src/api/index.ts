@@ -1,15 +1,8 @@
-import path from 'node:path';
-import type {
-  defineConfig,
-  Collection,
-  Singleton,
-  CustomCollectionConfig,
-  CollectionConfig,
-  SingletonConfig,
-} from '../../type';
-import { findWorkspaceRoot } from '../utilities/findWorkSpaceRoot';
-import fs from 'node:fs';
-require('esbuild-register');
+import path from "path";
+import { defineConfig, Collection, CollectionConfig } from "../../type";
+import { findWorkspaceRoot } from "../utilities/findWorkSpaceRoot";
+import fs from "fs";
+require("esbuild-register");
 
 export class Api {
   private cmsConfig: ReturnType<typeof defineConfig>;
@@ -29,12 +22,12 @@ export class Api {
   }
   execute() {
     if (this.cmsConfig.collections) {
-      for (const [collectionName, collectionConfig] of Object.entries(
-        this.cmsConfig.collections,
-      )) {
-        if ('Component' in collectionConfig) continue;
-        this.generateDefaultCrud(collectionName, collectionConfig);
-      }
+      Object.entries(this.cmsConfig.collections).forEach(
+        ([collectionName, collectionConfig]) => {
+          if ("Component" in collectionConfig) return;
+          this.generateDefaultCrud(collectionName, collectionConfig as Collection<Record<string, CollectionConfig>, string>);
+        }
+      );
     }
   }
 
@@ -57,10 +50,7 @@ export class Api {
 
   generateDefaultCrud(
     collectionName: string,
-    collectionConfig:
-      | Collection<Record<string, CollectionConfig>, string>
-      | Singleton<Record<string, SingletonConfig>>
-      | CustomCollectionConfig,
+    collectionConfig: Collection<Record<string, CollectionConfig>, string>
   ) {
     const collectionPath = this.createFolder(collectionName);
     const collectionSubPath = this.createFolder(`${collectionName}/[id]`);
@@ -117,10 +107,7 @@ ${deleteCode.code}
 
   generateList(
     collectionName: string,
-    collectionConfig:
-      | Collection<Record<string, CollectionConfig>, string>
-      | Singleton<Record<string, SingletonConfig>>
-      | CustomCollectionConfig,
+    collectionConfig: Collection<Record<string, CollectionConfig>, string>
   ): {
     code: string;
     functionName: string;
@@ -173,10 +160,7 @@ export const ${functionName}Validation = ${validation});
 
   generateGet(
     collectionName: string,
-    collectionConfig:
-      | Collection<Record<string, CollectionConfig>, string>
-      | Singleton<Record<string, SingletonConfig>>
-      | CustomCollectionConfig,
+    collectionConfig: Collection<Record<string, CollectionConfig>, string>
   ): {
     code: string;
     functionName: string;
@@ -204,10 +188,7 @@ async function ${functionName}(id: string) {
 
   generateDelete(
     collectionName: string,
-    collectionConfig:
-      | Collection<Record<string, CollectionConfig>, string>
-      | Singleton<Record<string, SingletonConfig>>
-      | CustomCollectionConfig,
+    collectionConfig: Collection<Record<string, CollectionConfig>, string>
   ): {
     code: string;
     functionName: string;
