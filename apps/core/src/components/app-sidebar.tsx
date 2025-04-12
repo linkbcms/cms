@@ -238,7 +238,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           title="Collections"
           items={collections.map(([key, value]) => ({
             title: value.get().label,
-            url: `/cms/collections/${key}`,
+            url: `/collections/${key}`,
             icon: Bot,
           }))}
         />
@@ -246,7 +246,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           title="Singletons"
           items={singletons.map(([key, value]) => ({
             title: value.get().label,
-            url: `/cms/singletons/${key}`,
+            url: `/singletons/${key}`,
             icon: Bot,
           }))}
         />
@@ -254,7 +254,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           title="Custom Collections"
           items={customCollections.map(([key, value]) => ({
             title: value.get().label,
-            url: `/cms/custom-collections/${key}`,
+            url: `/custom-collections/${key}`,
             icon: Bot,
           }))}
         />
