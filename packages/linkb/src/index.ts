@@ -98,7 +98,7 @@ dbCommand
   .action(async () => {
     // await databaseMiddleware('migrate');
     const api = new Api();
-    api.execute();
+    await api.execute();
     process.exit(0);
   });
 

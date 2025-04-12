@@ -2,17 +2,13 @@ import type { Collection, CollectionConfig, defineConfig } from '../../type';
 import fs from 'node:fs';
 import path from 'node:path';
 import { findWorkspaceRoot } from '../utilities/findWorkSpaceRoot';
-require('esbuild-register');
+import { loadModule } from '../utilities/loadModule';
 
 export class Api {
-  private cmsConfig: ReturnType<typeof defineConfig>;
+  private cmsConfig: ReturnType<typeof defineConfig> | undefined;
   private apiPath: string;
   private schemaPath: string;
   constructor() {
-    const filePath = path.resolve('cms.config.tsx');
-    this.cmsConfig = require(filePath).default as ReturnType<
-      typeof defineConfig
-    >;
     const workspaceRoot = findWorkspaceRoot();
     this.apiPath = path.join(workspaceRoot, 'apps/web/app/api/linkb');
     this.schemaPath = path.join(
@@ -20,7 +16,13 @@ export class Api {
       'apps/web/database/schema/schema.ts',
     );
   }
-  execute() {
+
+  async execute() {
+    const filePath = path.resolve('cms.config.tsx');
+    this.cmsConfig = (await loadModule(filePath)) as ReturnType<
+      typeof defineConfig
+    >;
+
     if (this.cmsConfig.collections) {
       for (const [collectionName, collectionConfig] of Object.entries(
         this.cmsConfig.collections,
