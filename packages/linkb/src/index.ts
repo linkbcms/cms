@@ -2,21 +2,18 @@
 
 import { Command } from 'commander';
 import chalk from 'chalk';
-import packageJson from '../package.json';
 import { execute } from './database';
 import { loadEnv } from './utilities/loadEnv';
-import path from 'path';
-import fs from 'fs';
+import path from 'node:path';
+import fs from 'node:fs';
 import { Api } from './api';
 
+const version: string = RSLIB_VERSION;
 // Create a new Commander program
 const program = new Command();
 
 // Set up program metadata
-program
-  .name('linkb')
-  .description('linkb CMS core CLI')
-  .version(packageJson.version);
+program.name('linkb').description('linkb CMS core CLI').version(version);
 
 // Middleware function for database commands
 const databaseMiddleware = async (actionName: string) => {

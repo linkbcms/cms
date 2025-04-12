@@ -2,9 +2,9 @@ import chalk from 'chalk';
 import { findWorkspaceRoot } from '../utilities/findWorkSpaceRoot';
 import { AdapterFactory } from './adapters';
 import { SUPPORTED_DATABASES, type SupportedDatabase } from './adapters/types';
-import path from 'path';
+import path from 'node:path';
 import type { defineConfig } from '../../type';
-require('esbuild-register');
+import { loadModule } from '../utilities/loadModule';
 
 // Define valid actions for better validation
 const VALID_ACTIONS = ['gen-schema', 'migrate', 'status', 'test-connection'];
@@ -22,8 +22,8 @@ export const execute = async (action: string): Promise<void> => {
   }
 
   const workspaceRoot = findWorkspaceRoot();
-  const databaseType = process.env.DATABASE_TYPE!;
-  const connectionString = process.env.DATABASE_URL!;
+  const databaseType = process.env.DATABASE_TYPE || '';
+  const connectionString = process.env.DATABASE_URL || '';
 
   // Validate database type
   if (
@@ -33,9 +33,9 @@ export const execute = async (action: string): Promise<void> => {
   ) {
     console.log(chalk.red(`Unsupported database type: ${databaseType}`));
     console.log(chalk.yellow('Supported database types:'));
-    SUPPORTED_DATABASES.forEach((db) => {
+    for (const db of SUPPORTED_DATABASES) {
       console.log(chalk.blue(`  - ${db}`));
-    });
+    }
     return;
   }
 
@@ -48,7 +48,7 @@ export const execute = async (action: string): Promise<void> => {
       schema: process.env.DATABASE_SCHEMA,
       schemaDir:
         process.env.SCHEMA_DIR || `${workspaceRoot}/apps/web/database/schema`,
-      migrationDir: process.env.MIGRATION_DIR || `apps/web/database/migration`,
+      migrationDir: process.env.MIGRATION_DIR || 'apps/web/database/migration',
       tableName: process.env.MIGRATION_TABLE || 'migrations',
       ssl: process.env.DATABASE_SSL === 'true',
     };
@@ -77,14 +77,14 @@ export const execute = async (action: string): Promise<void> => {
     console.log(chalk.blue(`  - Table: ${dbConfig.tableName}`));
     if (dbConfig.schema)
       console.log(chalk.blue(`  - Schema: ${dbConfig.schema}`));
-    if (dbConfig.ssl) console.log(chalk.blue(`  - SSL: enabled`));
+    if (dbConfig.ssl) console.log(chalk.blue('  - SSL: enabled'));
 
     // Create and initialize adapter
     const dbType = databaseType.toLowerCase() as SupportedDatabase;
     const adapter = AdapterFactory.createAdapter(dbType, dbConfig);
 
-    const filePath = path.resolve(`cms.config.tsx`);
-    const cmsConfig = require(filePath).default as ReturnType<
+    const filePath = path.resolve('cms.config.tsx');
+    const cmsConfig = (await loadModule(filePath)) as ReturnType<
       typeof defineConfig
     >;
 

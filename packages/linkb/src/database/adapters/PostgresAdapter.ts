@@ -1,22 +1,22 @@
-import chalk from "chalk";
-import { BaseAdapter } from "./BaseAdapter";
-import { MigrationOptions } from "./types";
-import { drizzle, NodePgDatabase } from "drizzle-orm/node-postgres";
-import { Client } from "pg";
-import fs from "fs";
-import path from "path";
-import { defineConfig } from "../../../type";
-import { DatabaseSchema } from "../schema";
-import { spawn } from "child_process";
+import chalk from 'chalk';
+import { BaseAdapter } from './BaseAdapter';
+import type { MigrationOptions } from './types';
+import { drizzle, type NodePgDatabase } from 'drizzle-orm/node-postgres';
+import pg from 'pg';
+import fs from 'node:fs';
+import path from 'node:path';
+import type { defineConfig } from '@linkbcms/core';
+import { DatabaseSchema } from '../schema';
+import { spawn } from 'node:child_process';
 
 // Define schema for migrations table
 const MIGRATIONS_TABLE = {
-  table: "linkb_migrations",
+  table: 'linkb_migrations',
   columns: {
-    id: "id",
-    name: "name",
-    batch: "batch",
-    executedAt: "executed_at",
+    id: 'id',
+    name: 'name',
+    batch: 'batch',
+    executedAt: 'executed_at',
   },
 };
 
@@ -34,14 +34,14 @@ interface PostgresConfig {
  */
 export class PostgresAdapter extends BaseAdapter {
   private db: NodePgDatabase<Record<string, never>> & {
-    $client: Client;
+    $client: pg.Client;
   };
   private schema: string;
 
   constructor(config: PostgresConfig) {
     super(config);
     this.tableName = config.tableName || MIGRATIONS_TABLE.table;
-    this.schema = config.schema || "public";
+    this.schema = config.schema || 'public';
 
     // For Supabase, we need to ensure SSL is enabled if not explicitly set
     const sslConfig =
@@ -50,21 +50,21 @@ export class PostgresAdapter extends BaseAdapter {
         : config.ssl;
 
     // Create PostgreSQL client
-    const client = new Client({
+    const client = new pg.Client({
       connectionString: config.connectionString,
       ssl: sslConfig,
     });
 
     // Log connection details (hiding sensitive info)
     console.log(
-      chalk.blue(`PostgreSQL adapter created with schema: ${this.schema}`)
+      chalk.blue(`PostgreSQL adapter created with schema: ${this.schema}`),
     );
     console.log(
       chalk.blue(
         `Connection string: ${
-          config.connectionString ? "[HIDDEN]" : "not provided"
-        }`
-      )
+          config.connectionString ? '[HIDDEN]' : 'not provided'
+        }`,
+      ),
     );
     console.log(chalk.blue(`SSL enabled: ${!!sslConfig}`));
     this.db = drizzle(client);
@@ -77,17 +77,17 @@ export class PostgresAdapter extends BaseAdapter {
     try {
       console.log(
         chalk.blue(
-          `Initializing PostgreSQL adapter with Drizzle ORM (schema: ${this.schema})`
-        )
+          `Initializing PostgreSQL adapter with Drizzle ORM (schema: ${this.schema})`,
+        ),
       );
 
       // Connect to PostgreSQL
       await this.db.$client.connect();
 
       // Create schema if it doesn't exist (helpful for Supabase custom schemas)
-      if (this.schema !== "public") {
+      if (this.schema !== 'public') {
         await this.db.$client.query(
-          `CREATE SCHEMA IF NOT EXISTS "${this.schema}"`
+          `CREATE SCHEMA IF NOT EXISTS "${this.schema}"`,
         );
       }
 
@@ -101,7 +101,7 @@ export class PostgresAdapter extends BaseAdapter {
         )
       `);
 
-      console.log(chalk.green("PostgreSQL adapter initialized"));
+      console.log(chalk.green('PostgreSQL adapter initialized'));
 
       // Check PostgreSQL version and extensions
       try {
@@ -110,7 +110,7 @@ export class PostgresAdapter extends BaseAdapter {
         `);
 
         console.log(
-          chalk.blue(`Connected to PostgreSQL ${result.rows[0].setting}`)
+          chalk.blue(`Connected to PostgreSQL ${result.rows[0].setting}`),
         );
 
         // Check for Supabase extensions
@@ -123,20 +123,20 @@ export class PostgresAdapter extends BaseAdapter {
         if (pgStatStatementsResult.rows[0].exists) {
           console.log(
             chalk.blue(
-              "Detected Supabase environment (pg_stat_statements extension)"
-            )
+              'Detected Supabase environment (pg_stat_statements extension)',
+            ),
           );
         }
       } catch (error) {
         // Ignore errors here, just for informational purposes
       }
     } catch (error: any) {
-      if (error.code === "ECONNREFUSED") {
-        console.error(chalk.red("Connection refused. Please check:"));
-        console.error(chalk.yellow("1. Database server is running"));
-        console.error(chalk.yellow("2. Connection string is correct"));
+      if (error.code === 'ECONNREFUSED') {
+        console.error(chalk.red('Connection refused. Please check:'));
+        console.error(chalk.yellow('1. Database server is running'));
+        console.error(chalk.yellow('2. Connection string is correct'));
         console.error(
-          chalk.yellow("3. Network allows connection to the database")
+          chalk.yellow('3. Network allows connection to the database'),
         );
         console.error(chalk.yellow(`Connection error: ${error.message}`));
       }
@@ -153,16 +153,16 @@ export class PostgresAdapter extends BaseAdapter {
       // Check if the client is already connected by attempting a simple query
       // If it fails, we'll try to connect first
       try {
-        await this.db.$client.query("SELECT 1 as connection_test");
+        await this.db.$client.query('SELECT 1 as connection_test');
       } catch (connectionError) {
         // If query fails, try to connect
         await this.db.$client.connect();
       }
 
       // Execute a simple query to test the connection
-      const result = await this.db.$client.query("SELECT 1 as test");
+      const result = await this.db.$client.query('SELECT 1 as test');
 
-      console.log(chalk.green("PostgreSQL connection test successful"));
+      console.log(chalk.green('PostgreSQL connection test successful'));
       return true;
     } catch (error) {
       console.error(chalk.red(`PostgreSQL connection test failed: ${error}`));
@@ -174,11 +174,11 @@ export class PostgresAdapter extends BaseAdapter {
    * Generate schema and create migrations if needed
    */
   public async generateSchema(
-    config: ReturnType<typeof defineConfig>
+    config: ReturnType<typeof defineConfig>,
   ): Promise<void> {
     try {
       if (!config?.collections) {
-        console.log(chalk.yellow("No collections found in config"));
+        console.log(chalk.yellow('No collections found in config'));
         return;
       }
 
@@ -190,7 +190,7 @@ export class PostgresAdapter extends BaseAdapter {
 
       await schema.generateSchema();
     } catch (error) {
-      console.error(chalk.red("Error generating schema:"), error);
+      console.error(chalk.red('Error generating schema:'), error);
       throw error;
     }
   }
@@ -205,16 +205,16 @@ export class PostgresAdapter extends BaseAdapter {
       dryRun?: boolean;
       verbose?: boolean;
       schemaPath?: string;
-    }
+    },
   ): Promise<void> {
     try {
-      console.log(chalk.blue("Running migrations with drizzle-kit..."));
+      console.log(chalk.blue('Running migrations with drizzle-kit...'));
 
       // Check if migrations directory exists
       if (!fs.existsSync(this.schemaDir)) {
         fs.mkdirSync(this.schemaDir, { recursive: true });
         console.log(
-          chalk.yellow(`Created migrations directory: ${this.schemaDir}`)
+          chalk.yellow(`Created migrations directory: ${this.schemaDir}`),
         );
       }
 
@@ -234,12 +234,10 @@ export class PostgresAdapter extends BaseAdapter {
   /**
    * Get migration status
    */
-  public async status(
-    options?: MigrationOptions
-  ): Promise<
+  public async status(options?: MigrationOptions): Promise<
     {
       name: string;
-      status: "pending" | "applied" | "rolled-back";
+      status: 'pending' | 'applied' | 'rolled-back';
       batch?: number;
       executedAt?: Date;
     }[]
@@ -247,8 +245,8 @@ export class PostgresAdapter extends BaseAdapter {
     try {
       // Get executed migrations from database
       const result = await this.db.$client.query(`
-        SELECT 
-          "${MIGRATIONS_TABLE.columns.name}", 
+        SELECT
+          "${MIGRATIONS_TABLE.columns.name}",
           "${MIGRATIONS_TABLE.columns.batch}",
           "${MIGRATIONS_TABLE.columns.executedAt}"
         FROM "${this.schema}"."${this.tableName}"
@@ -267,18 +265,18 @@ export class PostgresAdapter extends BaseAdapter {
       // Combine and determine status
       const statusList = migrationFiles.map((file) => {
         const executedMigration = executedMigrations.find(
-          (m) => m.name === file.name
+          (m) => m.name === file.name,
         );
 
         // Check if the migration has been rolled back by looking for a .rolled-back file
-        let status: "pending" | "applied" | "rolled-back" = "pending";
+        let status: 'pending' | 'applied' | 'rolled-back' = 'pending';
 
         if (executedMigration) {
-          status = "applied";
+          status = 'applied';
         } else if (file.folder) {
-          const rolledBackMarker = path.join(file.folder, ".rolled-back");
+          const rolledBackMarker = path.join(file.folder, '.rolled-back');
           if (fs.existsSync(rolledBackMarker)) {
-            status = "rolled-back";
+            status = 'rolled-back';
           }
         }
 
@@ -295,42 +293,42 @@ export class PostgresAdapter extends BaseAdapter {
 
       // Print status table
       if (statusList.length > 0) {
-        console.log(chalk.blue("Migration Status:"));
+        console.log(chalk.blue('Migration Status:'));
         console.log(
           chalk.blue(
-            "----------------------------------------------------------------------"
-          )
+            '----------------------------------------------------------------------',
+          ),
         );
         console.log(
           chalk.blue(
-            "Name                  | Status      | Batch | Executed At"
-          )
+            'Name                  | Status      | Batch | Executed At',
+          ),
         );
         console.log(
           chalk.blue(
-            "----------------------------------------------------------------------"
-          )
+            '----------------------------------------------------------------------',
+          ),
         );
 
-        statusList.forEach((migration) => {
+        for (const migration of statusList) {
           const name = migration.name.padEnd(22);
           const status = migration.status.padEnd(12);
           const batch = (
-            migration.batch ? migration.batch.toString() : "-"
+            migration.batch ? migration.batch.toString() : '-'
           ).padEnd(7);
           const executedAt = migration.executedAt
             ? new Date(migration.executedAt).toISOString()
-            : "-";
+            : '-';
 
-          let statusColor;
+          let statusColor: (text: string) => string;
           switch (migration.status) {
-            case "applied":
+            case 'applied':
               statusColor = chalk.green;
               break;
-            case "pending":
+            case 'pending':
               statusColor = chalk.yellow;
               break;
-            case "rolled-back":
+            case 'rolled-back':
               statusColor = chalk.red;
               break;
             default:
@@ -338,17 +336,17 @@ export class PostgresAdapter extends BaseAdapter {
           }
 
           console.log(
-            `${name} | ${statusColor(status)} | ${batch} | ${executedAt}`
+            `${name} | ${statusColor(status)} | ${batch} | ${executedAt}`,
           );
-        });
+        }
 
         console.log(
           chalk.blue(
-            "----------------------------------------------------------------------"
-          )
+            '----------------------------------------------------------------------',
+          ),
         );
       } else {
-        console.log(chalk.yellow("No migrations found"));
+        console.log(chalk.yellow('No migrations found'));
       }
 
       return statusList;
@@ -377,19 +375,19 @@ export class PostgresAdapter extends BaseAdapter {
       console.log(chalk.blue(`Executing interactively: ${command}`));
 
       // Split the command into command and args
-      const parts = command.split(" ");
+      const parts = command.split(' ');
       const cmd = parts[0];
       const args = parts.slice(1);
 
       // Use spawn to run command interactively
       const process = spawn(cmd, args, {
-        stdio: "inherit", // This connects the child process stdio to the parent
+        stdio: 'inherit', // This connects the child process stdio to the parent
         shell: true, // Use shell to resolve commands like 'npx'
       });
 
-      process.on("close", (code) => {
+      process.on('close', (code) => {
         if (code === 0) {
-          console.log(chalk.green(`Command completed successfully`));
+          console.log(chalk.green('Command completed successfully'));
           resolve();
         } else {
           console.error(chalk.red(`Command failed with code ${code}`));
@@ -397,7 +395,7 @@ export class PostgresAdapter extends BaseAdapter {
         }
       });
 
-      process.on("error", (err) => {
+      process.on('error', (err) => {
         console.error(chalk.red(`Failed to start command: ${err.message}`));
         reject(err);
       });
@@ -415,10 +413,10 @@ export class PostgresAdapter extends BaseAdapter {
     schemaPath?: string;
   }): Promise<void> {
     try {
-      console.log(chalk.blue("Running drizzle-kit migrate command..."));
+      console.log(chalk.blue('Running drizzle-kit migrate command...'));
 
       // Get the config path
-      const configPath = options?.configPath || "drizzle.config.ts";
+      const configPath = options?.configPath || 'drizzle.config.ts';
 
       // Check if config file exists, if not create a temporary one
       let tempConfig = false;
@@ -427,10 +425,10 @@ export class PostgresAdapter extends BaseAdapter {
       if (!fs.existsSync(configPath)) {
         console.log(
           chalk.yellow(
-            `Config file ${configPath} not found, creating temporary config...`
-          )
+            `Config file ${configPath} not found, creating temporary config...`,
+          ),
         );
-        actualConfigPath = "drizzle.config.temp.ts";
+        actualConfigPath = 'drizzle.config.temp.ts';
         tempConfig = true;
 
         // Create a TypeScript drizzle-kit config file
@@ -444,7 +442,7 @@ export default defineConfig({
   dbCredentials: {
     url: "${
       this.config.connectionString ||
-      "postgresql://postgres:postgres@localhost:5432/postgres"
+      'postgresql://postgres:postgres@localhost:5432/postgres'
     }"
   },
   verbose: true,
@@ -454,12 +452,12 @@ export default defineConfig({
 
         fs.writeFileSync(actualConfigPath, configContent);
         console.log(
-          chalk.blue(`Created temporary config file at ${actualConfigPath}`)
+          chalk.blue(`Created temporary config file at ${actualConfigPath}`),
         );
       }
 
       await this.runDrizzleKitInteractive(
-        `npx drizzle-kit generate --config=${actualConfigPath}`
+        `npx drizzle-kit generate --config=${actualConfigPath}`,
       );
 
       try {
@@ -468,22 +466,22 @@ export default defineConfig({
 
         // Add options
         if (options?.dryRun) {
-          command += " --dry-run";
+          command += ' --dry-run';
         }
 
         if (options?.verbose) {
-          command += " --verbose";
+          command += ' --verbose';
         }
 
         // Run the command interactively to allow for selection prompts
         await this.runDrizzleKitInteractive(command);
 
-        console.log(chalk.green("drizzle-kit migrate completed successfully"));
+        console.log(chalk.green('drizzle-kit migrate completed successfully'));
       } finally {
         // Clean up temp config if created
         if (tempConfig && fs.existsSync(actualConfigPath)) {
           console.log(
-            chalk.blue(`Removing temporary config file ${actualConfigPath}`)
+            chalk.blue(`Removing temporary config file ${actualConfigPath}`),
           );
           fs.unlinkSync(actualConfigPath);
         }
@@ -498,9 +496,11 @@ export default defineConfig({
   /**
    * Get DB Client
    */
-  public async getDBClient(): Promise<NodePgDatabase<Record<string, never>> & {
-    $client: Client;
-  }> {
+  public async getDBClient(): Promise<
+    NodePgDatabase<Record<string, never>> & {
+      $client: pg.Client;
+    }
+  > {
     return this.db;
   }
 }
