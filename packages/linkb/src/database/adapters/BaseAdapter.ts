@@ -1,8 +1,8 @@
-import fs from "fs";
-import path from "path";
-import chalk from "chalk";
-import { DatabaseAdapter, MigrationOptions } from "./types";
-import { defineConfig } from "../../../type";
+import fs from 'node:fs';
+import path from 'node:path';
+import chalk from 'chalk';
+import type { DatabaseAdapter, MigrationOptions } from './types';
+import type { defineConfig } from '@linkbcms/core';
 
 /**
  * Migration file information
@@ -24,9 +24,9 @@ export abstract class BaseAdapter implements DatabaseAdapter {
 
   constructor(config: Record<string, any>) {
     this.config = config;
-    this.schemaDir = config.schemaDir || "schema";
-    this.migrationDir = config.migrationDir || "migration";
-    this.tableName = config.tableName || "migrations";
+    this.schemaDir = config.schemaDir || 'schema';
+    this.migrationDir = config.migrationDir || 'migration';
+    this.tableName = config.tableName || 'migrations';
   }
 
   /**
@@ -44,7 +44,7 @@ export abstract class BaseAdapter implements DatabaseAdapter {
    * Generate schema
    */
   public abstract generateSchema(
-    config: ReturnType<typeof defineConfig>
+    config: ReturnType<typeof defineConfig>,
   ): Promise<void>;
 
   /**
@@ -58,7 +58,7 @@ export abstract class BaseAdapter implements DatabaseAdapter {
   public abstract status(options?: MigrationOptions): Promise<
     {
       name: string;
-      status: "pending" | "applied" | "rolled-back";
+      status: 'pending' | 'applied' | 'rolled-back';
       batch?: number;
       executedAt?: Date;
     }[]
@@ -80,7 +80,7 @@ export abstract class BaseAdapter implements DatabaseAdapter {
     // Generate a timestamp in YYYYMMDDHHmmss format
     const timestamp = new Date()
       .toISOString()
-      .replace(/[-:T.Z]/g, "")
+      .replace(/[-:T.Z]/g, '')
       .substring(0, 14);
 
     // Use timestamp as the folder name
@@ -106,7 +106,7 @@ export abstract class BaseAdapter implements DatabaseAdapter {
       if (!fs.existsSync(this.schemaDir)) {
         fs.mkdirSync(this.schemaDir, { recursive: true });
         console.log(
-          chalk.yellow(`Created migrations directory: ${this.schemaDir}`)
+          chalk.yellow(`Created migrations directory: ${this.schemaDir}`),
         );
         return [];
       }
@@ -119,9 +119,9 @@ export abstract class BaseAdapter implements DatabaseAdapter {
         const file = entry.name;
 
         // Handle TypeScript/JavaScript files
-        if (file.endsWith(".js") || file.endsWith(".ts")) {
+        if (file.endsWith('.js') || file.endsWith('.ts')) {
           // Extract the name without extension
-          const fullName = file.replace(/\.(js|ts)$/, "");
+          const fullName = file.replace(/\.(js|ts)$/, '');
 
           migrationFiles.push({
             name: fullName,
@@ -144,11 +144,11 @@ export abstract class BaseAdapter implements DatabaseAdapter {
 
         // Try to find index.ts or index.js first
         const migrationFile =
-          folderFiles.find((f) => f === "index.ts" || f === "index.js") ||
+          folderFiles.find((f) => f === 'index.ts' || f === 'index.js') ||
           folderFiles.find(
-            (f) => f === "migration.sql" || f === "sql.ts" || f === "sql.js"
+            (f) => f === 'migration.sql' || f === 'sql.ts' || f === 'sql.js',
           ) ||
-          folderFiles.find((f) => f.endsWith(".ts") || f.endsWith(".js"));
+          folderFiles.find((f) => f.endsWith('.ts') || f.endsWith('.js'));
 
         if (migrationFile) {
           migrationFiles.push({

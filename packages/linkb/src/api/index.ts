@@ -1,4 +1,8 @@
-import type { Collection, CollectionConfig, defineConfig } from '../../type';
+import type {
+  Collection,
+  CollectionConfig,
+  defineConfig,
+} from '@linkbcms/core';
 import fs from 'node:fs';
 import path from 'node:path';
 import { findWorkspaceRoot } from '../utilities/findWorkSpaceRoot';

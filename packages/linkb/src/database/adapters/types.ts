@@ -1,4 +1,4 @@
-import { defineConfig } from "../../../type";
+import type { defineConfig } from '@linkbcms/core';
 
 /**
  * Database migration options
@@ -14,19 +14,19 @@ export interface MigrationOptions {
  * List of supported database providers
  */
 export const SUPPORTED_DATABASES = [
-  'postgres',       // Standard PostgreSQL
-  'postgresql',     // Alternative spelling
-  'supabase',       // Supabase (PostgreSQL)
+  'postgres', // Standard PostgreSQL
+  'postgresql', // Alternative spelling
+  'supabase', // Supabase (PostgreSQL)
   'vercelpostgres', // Vercel Postgres
-  'neon',           // Neon PostgreSQL
-  'mysql',          // MySQL (not implemented yet)
-  'sqlite'          // SQLite (not implemented yet)
+  'neon', // Neon PostgreSQL
+  'mysql', // MySQL (not implemented yet)
+  'sqlite', // SQLite (not implemented yet)
 ] as const;
 
 /**
  * Database provider type
  */
-export type SupportedDatabase = typeof SUPPORTED_DATABASES[number];
+export type SupportedDatabase = (typeof SUPPORTED_DATABASES)[number];
 
 /**
  * Database adapter interface
@@ -47,30 +47,32 @@ export interface DatabaseAdapter {
    * Generate schema
    */
   generateSchema(config: ReturnType<typeof defineConfig>): Promise<void>;
-  
+
   /**
    * Run migrations
    */
   migrate(options?: MigrationOptions): Promise<void>;
-  
+
   /**
    * Get migration status
    */
-  status(options?: MigrationOptions): Promise<{ 
-    name: string; 
-    status: 'pending' | 'applied' | 'rolled-back'; 
-    batch?: number;
-    executedAt?: Date;
-  }[]>;
+  status(options?: MigrationOptions): Promise<
+    {
+      name: string;
+      status: 'pending' | 'applied' | 'rolled-back';
+      batch?: number;
+      executedAt?: Date;
+    }[]
+  >;
 
   /**
    * Close the database connection
    */
   close(): Promise<void>;
-  
+
   /**
    * Get database client for direct database operations
    * Returns the underlying database client specific to each adapter
    */
   getDBClient?(): Promise<any>;
-} 
+}

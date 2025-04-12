@@ -3,7 +3,7 @@ import { findWorkspaceRoot } from '../utilities/findWorkSpaceRoot';
 import { AdapterFactory } from './adapters';
 import { SUPPORTED_DATABASES, type SupportedDatabase } from './adapters/types';
 import path from 'node:path';
-import type { defineConfig } from '../../type';
+import type { defineConfig } from '@linkbcms/core';
 import { loadModule } from '../utilities/loadModule';
 
 // Define valid actions for better validation
