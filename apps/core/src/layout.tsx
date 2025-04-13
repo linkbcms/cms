@@ -1,8 +1,9 @@
 import { AppSidebar } from '@/components/app-sidebar';
+import { useConfig } from '@/components/config-provider';
+import { useObserveTheme } from '@/components/use-observe-theme';
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
@@ -13,10 +14,8 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@linkbcms/ui/components/sidebar';
-import { useObserveTheme } from '@/components/use-observe-theme';
-import { Outlet, useLocation } from 'react-router';
 import { useMemo } from 'react';
-import { useConfig } from '@/components/config-provider';
+import { Outlet, useLocation } from 'react-router';
 
 const breadcrumbTextsMap = {
   collections: 'Collections',
@@ -24,7 +23,7 @@ const breadcrumbTextsMap = {
   'custom-collections': 'Custom Collections',
 };
 
-export default function Layout({ children }: { children?: React.ReactNode }) {
+export default function Layout() {
   useObserveTheme();
 
   const { pathname } = useLocation();

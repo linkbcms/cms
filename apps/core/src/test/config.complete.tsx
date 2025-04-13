@@ -1,4 +1,4 @@
-import { defineConfig, fields } from '@linkbcms/core';
+import { defineConfig, fields } from '../index';
 
 const config = defineConfig({
   ui: {

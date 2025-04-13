@@ -1,4 +1,4 @@
-import type { CollectionsMap } from '@/test/type';
+import type { CollectionsMap } from '@/index';
 import type { Observable } from '@legendapp/state';
 import { ObservablePersistLocalStorage } from '@legendapp/state/persist-plugins/local-storage';
 import { useObservable } from '@legendapp/state/react';

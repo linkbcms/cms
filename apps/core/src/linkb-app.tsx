@@ -1,20 +1,16 @@
 'use client';
 
 import { type Config, ConfigProvider } from '@/components/config-provider';
-import { StrictMode, useEffect, useState } from 'react';
-import { Routes } from 'react-router';
-import { BrowserRouter } from 'react-router';
-import { Route } from 'react-router';
-import { App } from './App';
+import { Toaster } from '@/components/toaster';
+import Layout from '@/layout';
+import { CollectionScreen } from '@/pages/collection';
+import { CollectionsScreen } from '@/pages/collections';
 import { CustomComponents } from '@/pages/custom-components';
 import { SingletonsScreen } from '@/pages/singletons';
-import { Toaster } from '@/components/toaster';
-import { CollectionsScreen } from '@/pages/collections';
-import { CollectionScreen } from '@/pages/collection';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import Layout from '@/layout';
-
-// import './App.css';
+import { useEffect, useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router';
+import { App } from './App';
 
 // Create a client
 const queryClient = new QueryClient();

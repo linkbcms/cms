@@ -1,24 +1,24 @@
-'use client'
+'use client';
 
-import { useConfig } from '@/components/config-provider'
-import { reactive, Reactive } from '@legendapp/state/react'
+import { useConfig } from '@/components/config-provider';
+import { reactive } from '@legendapp/state/react';
 import {
   Sonner,
   type ToasterProps,
   toast,
-} from '@linkbcms/ui/components/sonner'
+} from '@linkbcms/ui/components/sonner';
 
-const ReactiveSonner = reactive(Sonner)
+const ReactiveSonner = reactive(Sonner);
 
 const Toaster = ({ ...props }: ToasterProps) => {
-  const config$ = useConfig()
+  const config$ = useConfig();
 
   return (
     <ReactiveSonner
       $theme={() =>
         config$.ui.theme.defaultTheme.get() as ToasterProps['theme']
       }
-      className='toaster group'
+      className="toaster group"
       toastOptions={{
         classNames: {
           toast:
@@ -32,7 +32,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
       }}
       {...props}
     />
-  )
-}
+  );
+};
 
-export { Toaster, toast }
+export { Toaster, toast };

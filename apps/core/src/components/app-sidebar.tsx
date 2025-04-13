@@ -6,32 +6,26 @@ import {
   Bug,
   Command,
   Frame,
-  LifeBuoy,
   MapIcon,
   MessageCircleCode,
   PieChart,
-  Send,
   Settings2,
   SquareTerminal,
 } from 'lucide-react';
 import type * as React from 'react';
 
-import { ModeToggle } from '@/components/mode-toggle';
+import { useConfig } from '@/components/config-provider';
 import { NavMain } from '@/components/nav-main';
-import { NavProjects } from '@/components/nav-projects';
 import { NavSecondary } from '@/components/nav-secondary';
-import { NavUser } from '@/components/nav-user';
+import { Memo, Show } from '@legendapp/state/react';
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@linkbcms/ui/components/sidebar';
-import { useConfig } from '@/components/config-provider';
-import { Memo, Show } from '@legendapp/state/react';
 import { Link } from 'react-router';
 
 const data = {
@@ -163,7 +157,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const fullCollections = Object.entries(config$.collections);
 
-  const collections = fullCollections.filter(([key, value]) => {
+  const collections = fullCollections.filter(([, value]) => {
     if ('fieldSlug' in value.get()) {
       return true;
     }
@@ -171,7 +165,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return false;
   });
 
-  const singletons = fullCollections.filter(([key, value]) => {
+  const singletons = fullCollections.filter(([, value]) => {
     if ('fieldSlug' in value.get() || 'Component' in value.get()) {
       return false;
     }
@@ -179,7 +173,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return true;
   });
 
-  const customCollections = fullCollections.filter(([key, value]) => {
+  const customCollections = fullCollections.filter(([, value]) => {
     if ('Component' in value.get()) {
       return true;
     }
@@ -237,7 +231,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain
           title="Collections"
           items={collections.map(([key, value]) => ({
-            title: value.get().label,
+            title: value.get().label || '',
             url: `/collections/${key}`,
             icon: Bot,
           }))}
@@ -245,7 +239,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain
           title="Singletons"
           items={singletons.map(([key, value]) => ({
-            title: value.get().label,
+            title: value.get().label || '',
             url: `/singletons/${key}`,
             icon: Bot,
           }))}
@@ -253,7 +247,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain
           title="Custom Collections"
           items={customCollections.map(([key, value]) => ({
-            title: value.get().label,
+            title: value.get().label || '',
             url: `/custom-collections/${key}`,
             icon: Bot,
           }))}

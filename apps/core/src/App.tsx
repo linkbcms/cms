@@ -1,10 +1,7 @@
-import { useConfig } from '@/components/config-provider';
 import { m } from './paraglide/messages';
 import { getLocale, locales, setLocale } from './paraglide/runtime';
 
 export const App = () => {
-  const config = useConfig();
-
   return (
     <>
       <div className="flex flex-1 flex-col gap-4 p-4">

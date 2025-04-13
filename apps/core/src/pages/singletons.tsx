@@ -6,6 +6,7 @@ import { useParams } from 'react-router';
 
 import { type V2, formData } from '@/hooks/form-data';
 import { formatDistanceToNowStrict } from 'date-fns';
+import type { SingletonConfig } from '@/index';
 
 export const SingletonsScreen = () => {
   const { singleton: singletonId } = useParams();
@@ -59,7 +60,7 @@ const SingletonForm = withForm({
       }
     }, []);
 
-    const singletonSchema = singleton?.schema;
+    const singletonSchema = (singleton as SingletonConfig)?.schema;
 
     const schemaFields = Object.entries(singletonSchema);
 
@@ -87,7 +88,7 @@ const SingletonForm = withForm({
                 // }
                 validators={{
                   onChangeAsyncDebounceMs: 500,
-                  onChangeAsync: async ({ value, signal, fieldApi }) => {
+                  onChangeAsync: async ({ value }) => {
                     formData.data.set({
                       ...store?.data,
                       [`/singletons/${singletonId}`]: {

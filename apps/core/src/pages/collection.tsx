@@ -1,28 +1,21 @@
 import { useConfig } from '@/components/config-provider';
 import { useAppForm, withForm } from '@/hooks/form';
-import Layout from '@/layout';
-import { observable } from '@legendapp/state';
-import { ObservablePersistLocalStorage } from '@legendapp/state/persist-plugins/local-storage';
 import { Memo, use$, useEffectOnce } from '@legendapp/state/react';
-import { syncObservable } from '@legendapp/state/sync';
 import { toast } from '@linkbcms/ui/components/sonner';
-import { useParams, useLocation } from 'react-router';
 import pluralize from 'pluralize';
+import { useLocation, useParams } from 'react-router';
 
 import { type V2, formData } from '@/hooks/form-data';
 import { formatDistanceToNowStrict } from 'date-fns';
+import type { CollectionConfig } from '@/index';
 
 export const CollectionScreen = () => {
   const { collection: collectionId, item: itemId } = useParams();
-  const location = useLocation();
 
-  const isNew = location.pathname.endsWith('/add/new');
-
-  const config = useConfig();
-
-  const collection = collectionId && config.collections?.[collectionId];
+  const store = use$<V2>(formData);
 
   const form = useAppForm({
+    defaultValues: store.data[`/collections/${collectionId}/${itemId}`],
     onSubmit({ value, formApi }) {
       toast.success('Data saved.', {
         description: `value: ${JSON.stringify(value, null, 2)}`,
@@ -35,7 +28,7 @@ export const CollectionScreen = () => {
       // Reset the form to start-over with a clean state
       formApi.reset();
 
-      formData.data[`/collections/${collectionId}`].set({});
+      formData.data[`/collections/${collectionId}/${itemId}`].set({});
     },
   });
   return (
@@ -52,14 +45,18 @@ const CollectionForm = withForm({
     const isNew = location.pathname.endsWith('/add/new');
     const config = useConfig();
 
-    const collection = collectionId && config.collections?.[collectionId];
+    const collection = use$(
+      () => collectionId && config.collections?.[collectionId].get(),
+    );
 
     const store = use$<V2>(formData);
 
     useEffectOnce(() => {
-      if (store.data[`/collections/${collectionId}`]?.__updatedAt) {
+      if (store.data[`/collections/${collectionId}/${itemId}`]?.__updatedAt) {
         const lastUpdated = formatDistanceToNowStrict(
-          new Date(store.data[`/collections/${collectionId}`].__updatedAt),
+          new Date(
+            store.data[`/collections/${collectionId}/${itemId}`].__updatedAt,
+          ),
           {
             addSuffix: true,
           },
@@ -75,7 +72,7 @@ const CollectionForm = withForm({
       return <div>Collection not found</div>;
     }
 
-    const collectionSchema = collection.schema.get();
+    const collectionSchema = (collection as CollectionConfig).schema;
 
     return (
       <div className="p-5">
@@ -89,10 +86,7 @@ const CollectionForm = withForm({
           <h1 className="font-semibold text-2xl">
             <Memo>
               {() => {
-                const label = collection.label.get();
-                if (!label) {
-                  return '';
-                }
+                const label = (collection as CollectionConfig).label;
 
                 const singularLabel = pluralize.singular(label);
 
@@ -110,22 +104,26 @@ const CollectionForm = withForm({
                 key={key}
                 name={key}
                 defaultValue={
-                  store.data[`/collections/${collectionId}`]?.[key]?.value
+                  store.data[`/collections/${collectionId}/${itemId}`]?.[key]
+                    ?.value
                 }
                 validators={{
                   onChangeAsyncDebounceMs: 500,
-                  onChangeAsync: async ({ value, signal, fieldApi }) => {
+                  onChangeAsync: async ({ value }) => {
                     formData.data.set({
                       ...store?.data,
                       [`/collections/${collectionId}`]: {
-                        ...store?.data?.[`/collections/${collectionId}`],
+                        ...store?.data?.[
+                          `/collections/${collectionId}/${itemId}`
+                        ],
                         __updatedAt: Date.now(),
                         [key]: {
                           value,
                           updatedAt: Date.now(),
                           previousValue:
-                            store?.data?.[`/collections/${collectionId}`]?.[key]
-                              ?.value || '',
+                            store?.data?.[
+                              `/collections/${collectionId}/${itemId}`
+                            ]?.[key]?.value || '',
                         },
                       },
                     });
@@ -136,7 +134,11 @@ const CollectionForm = withForm({
                   <field.TextField
                     label={_field.label}
                     previousValue={''}
-                    draft={store.data[`/collections/${collectionId}`]?.[key]}
+                    draft={
+                      store.data[`/collections/${collectionId}/${itemId}`]?.[
+                        key
+                      ]
+                    }
                   />
                 )}
               </form.AppField>
