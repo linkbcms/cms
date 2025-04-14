@@ -3,17 +3,20 @@ import { useAppForm, withForm } from '@/hooks/form';
 import { Memo, use$, useEffectOnce } from '@legendapp/state/react';
 import { toast } from '@linkbcms/ui/components/sonner';
 import pluralize from 'pluralize';
-import { useLocation, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
 import { type V2, formData } from '@/hooks/form-data';
 import { formatDistanceToNowStrict } from 'date-fns';
 import type { CollectionConfig } from '@/index';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { Loader2 } from 'lucide-react';
 
 export const CollectionScreen = () => {
   const { collection: collectionId, item: itemId } = useParams();
 
   const store = use$<V2>(formData);
+
+  const navigate = useNavigate();
 
   const location = useLocation();
   const isNew = location.pathname.endsWith('/add/new');
@@ -38,28 +41,55 @@ export const CollectionScreen = () => {
     },
   });
 
+  const query = useQuery({
+    queryKey: ['collection', collectionId, itemId],
+    queryFn: async () => {
+      const response = await fetch(`/api/linkb/${collectionId}/${itemId}`);
+      return response.json();
+    },
+  });
+
+  const isLoading = query.isLoading;
+
   const form = useAppForm({
-    defaultValues: store.data[`/collections/${collectionId}/${itemId}`],
+    defaultValues:
+      store?.data?.[`/collections/${collectionId}/${itemId}`] ||
+      query?.data?.result,
     async onSubmit({ value, formApi }) {
       try {
         if (isNew) {
           const result = await mutationCreate.mutateAsync(value);
-          console.log(result);
+          const newId = result?.result?.[0]?.id;
+          toast.success('Data saved.', {
+            description: `value: ${JSON.stringify(value, null, 2)}`,
+            action: newId
+              ? {
+                  label: 'View Item',
+                  onClick: () => {
+                    navigate(`/collections/${collectionId}/${newId}`);
+                  },
+                }
+              : undefined,
+          });
+          // Reset the form to start-over with a clean state
+          formApi.reset();
+
+          formData.data[`/collections/${collectionId}/${itemId}`].set({});
         } else {
           const result = await mutationUpdate.mutateAsync(value);
           console.log(result);
-        }
-        toast.success('Data saved.', {
-          description: `value: ${JSON.stringify(value, null, 2)}`,
-          action: {
-            label: 'Test',
-            onClick: () => console.log('action: props.action.onClick'),
-          },
-        });
-        // Reset the form to start-over with a clean state
-        formApi.reset();
+          toast.success('Data saved.', {
+            description: `value: ${JSON.stringify(value, null, 2)}`,
+            action: {
+              label: 'Test',
+              onClick: () => console.log('action: props.action.onClick'),
+            },
+          });
+          // Reset the form to start-over with a clean state
+          formApi.reset();
 
-        formData.data[`/collections/${collectionId}/${itemId}`].set({});
+          formData.data[`/collections/${collectionId}/${itemId}`].set({});
+        }
       } catch (error) {
         toast.error('Failed to save data.', {
           description: `Error: ${error}`,
@@ -69,7 +99,13 @@ export const CollectionScreen = () => {
   });
   return (
     <div className="p-5">
-      <CollectionForm form={form} />
+      {isLoading ? (
+        <div className="flex h-full items-center justify-center">
+          <Loader2 className="h-4 w-4 animate-spin" />
+        </div>
+      ) : (
+        <CollectionForm form={form} />
+      )}
     </div>
   );
 };
