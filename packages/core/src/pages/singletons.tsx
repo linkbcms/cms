@@ -7,27 +7,66 @@ import { useParams } from 'react-router';
 import { type V2, formData } from '@/hooks/form-data';
 import { formatDistanceToNowStrict } from 'date-fns';
 import type { SingletonConfig } from '@/index';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 export const SingletonsScreen = () => {
   const { singleton: singletonId } = useParams();
 
   const store = use$<V2>(formData);
 
+  const query = useQuery({
+    queryKey: ['singletons', singletonId],
+    queryFn: () => {
+      return fetch(`/api/linkb/${singletonId}`).then((res) => res.json());
+    },
+  });
+
+  const mutation = useMutation({
+    mutationKey: ['singletons', singletonId],
+    mutationFn: (value: any) => {
+      return fetch(`/api/linkb/${singletonId}`, {
+        method: 'POST',
+        body: JSON.stringify(value),
+      });
+    },
+  });
+
+  console.log(query.data);
+
+  const extractValuesFromStore = (data: any) => {
+    return Object.entries(data).reduce((acc, [key, value]) => {
+      acc[key] = (value as any)?.value;
+      return acc;
+    }, {});
+  };
+
+  const isNotEmptyObject = (obj: any) => {
+    return obj && Object.keys(obj).length > 0;
+  };
+
   const form = useAppForm({
-    defaultValues: store.data[`/singletons/${singletonId}`],
+    defaultValues: isNotEmptyObject(store?.data?.[`/singletons/${singletonId}`])
+      ? extractValuesFromStore(store.data[`/singletons/${singletonId}`])
+      : query.data?.result?.[0],
     onSubmit({ value, formApi }) {
-      toast.success('Data saved.', {
-        description: `value: ${JSON.stringify(value, null, 2)}`,
-        action: {
-          label: 'Test',
-          onClick: () => console.log('action: props.action.onClick'),
+      toast.promise(() => mutation.mutateAsync(value), {
+        loading: 'Saving...',
+        success: () => {
+          // toast.success('Saved');
+
+          formData.data[`/singletons/${singletonId}`].set({});
+          return 'Saved';
+        },
+        error: (error) => {
+          console.error(error);
+          return 'Failed to save';
         },
       });
 
-      // Reset the form to start-over with a clean state
-      formApi.reset();
+      // // Reset the form to start-over with a clean state
+      // formApi.reset();
 
-      formData.data[`/singletons/${singletonId}`].set({});
+      // formData.data[`/singletons/${singletonId}`].set({});
     },
   });
 
@@ -44,6 +83,15 @@ const SingletonForm = withForm({
     );
 
     const store = use$<V2>(formData);
+
+    const query = useQuery({
+      queryKey: ['singletons', singletonId],
+      queryFn: () => {
+        return fetch(`/api/linkb/${singletonId}`).then((res) => res.json());
+      },
+    });
+
+    const currentValue = query.data?.result?.[0];
 
     useEffectOnce(() => {
       if (store.data[`/singletons/${singletonId}`]?.__updatedAt) {
@@ -82,10 +130,7 @@ const SingletonForm = withForm({
             {schemaFields.map(([key, _field]) => (
               <form.AppField
                 key={key + singletonId}
-                name={key + singletonId}
-                // defaultValue={
-                //   store.data[`/singletons/${singletonId}`]?.[key]?.value
-                // }
+                name={key}
                 validators={{
                   onChangeAsyncDebounceMs: 500,
                   onChangeAsync: async ({ value }) => {
@@ -106,13 +151,16 @@ const SingletonForm = withForm({
                   },
                 }}
               >
-                {(field) => (
-                  <field.TextField
-                    label={_field.label}
-                    previousValue={''}
-                    draft={store.data[`/singletons/${singletonId}`]?.[key]}
-                  />
-                )}
+                {(field) => {
+                  console.log(field, _field);
+                  return (
+                    <field.TextField
+                      label={_field.label}
+                      previousValue={currentValue?.[key]}
+                      draft={store.data[`/singletons/${singletonId}`]?.[key]}
+                    />
+                  );
+                }}
               </form.AppField>
             ))}
           </div>
