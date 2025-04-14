@@ -20,9 +20,11 @@ export const CollectionsScreen = () => {
   const query = useQuery({
     queryKey: ['collections', collectionId],
     queryFn: () => {
-      return fetch(`/api/${collectionId}`).then((res) => res.json());
+      return fetch(`/api/linkb/${collectionId}`).then((res) => res.json());
     },
   });
+
+  console.log(query.data);
 
   return (
     <div className="container mx-auto px-5 py-10">

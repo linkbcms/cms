@@ -38,6 +38,20 @@ export default defineConfig({
           },
           db: false,
         }),
+        order: fields.number({
+          label: 'Order',
+          required: true,
+        }),
+        status: fields.select({
+          label: 'Status',
+          required: true,
+          options: [
+            { value: 'draft', label: 'Draft' },
+            { value: 'published', label: 'Published' },
+            { value: 'archived', label: 'Archived' },
+          ],
+        }),
+
         slug: fields.text({ name: 'slug', label: 'Slug' }),
         // description: fields.text({ name: 'description', label: 'Description' }),
         content: fields.text({ name: 'content', label: 'Content' }),

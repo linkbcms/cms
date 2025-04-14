@@ -203,6 +203,90 @@ interface TextField {
 }
 
 /**
+ * Interface for number field configuration
+ * @example
+ * ```ts
+ * const priceField: NumberField = {
+ *   label: 'Price',
+ *   required: true,
+ *   validation: {
+ *     min: 0,
+ *     max: 1000
+ *   }
+ * }
+ * ```
+ */
+interface NumberField {
+  /** Type of the field */
+  type: 'number';
+  /** Display label for the field */
+  label: string;
+  /** Field name */
+  name?: string;
+  /** Whether the field is required */
+  required?: boolean;
+  /** Whether the field is hidden in the UI */
+  hidden?: boolean;
+  /** Internationalization options for the field */
+  i18n?: Record<string, string>;
+  /** Whether the field is stored in the database */
+  db?: boolean;
+  /** Validation rules for the field */
+  validation?: {
+    /** Whether the field is required */
+    required?: boolean;
+    /** Minimum allowed value */
+    min?: number;
+    /** Maximum allowed value */
+    max?: number;
+    /** Custom validation function */
+    validate?: (value: number) => boolean | string;
+  };
+}
+
+/**
+ * Interface for select field configuration
+ * @example
+ * ```ts
+ * const statusField: SelectField = {
+ *   label: 'Status',
+ *   options: ['Draft', 'Published', 'Archived'],
+ *   required: true
+ * }
+ * ```
+ */
+interface SelectField {
+  /** Type of the field */
+  type: 'select';
+  /** Display label for the field */
+  label: string;
+  /** Field name */
+  name?: string;
+  /** Whether the field is required */
+  required?: boolean;
+  /** Whether the field is hidden in the UI */
+  hidden?: boolean;
+  /** Internationalization options for the field */
+  i18n?: Record<string, string>;
+  /** Whether the field is stored in the database */
+  db?: boolean;
+  /** Available options for selection */
+  options: {
+    /** Value of the option. This data will be stored. */
+    value: string;
+    /** Label of the option. This data will be displayed in the UI. */
+    label: string;
+  }[];
+  /** Validation rules for the field */
+  validation?: {
+    /** Whether the field is required */
+    required?: boolean;
+    /** Custom validation function */
+    validate?: (value: string) => boolean | string;
+  };
+}
+
+/**
  * Interface for image field configuration
  * @example
  * ```ts
@@ -404,6 +488,24 @@ export const fields = {
   text: (config: Omit<TextField, 'type'>): TextField => ({
     ...config,
     type: 'text',
+  }),
+
+  /**
+   * Creates a number field configuration
+   * @param config - Number field configuration
+   */
+  number: (config: Omit<NumberField, 'type'>): NumberField => ({
+    ...config,
+    type: 'number',
+  }),
+
+  /**
+   * Creates a select field configuration
+   * @param config - Select field configuration
+   */
+  select: (config: Omit<SelectField, 'type'>): SelectField => ({
+    ...config,
+    type: 'select',
   }),
 
   /**
