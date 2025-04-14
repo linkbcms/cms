@@ -8,27 +8,63 @@ import { useLocation, useParams } from 'react-router';
 import { type V2, formData } from '@/hooks/form-data';
 import { formatDistanceToNowStrict } from 'date-fns';
 import type { CollectionConfig } from '@/index';
+import { useMutation } from '@tanstack/react-query';
 
 export const CollectionScreen = () => {
   const { collection: collectionId, item: itemId } = useParams();
 
   const store = use$<V2>(formData);
 
+  const location = useLocation();
+  const isNew = location.pathname.endsWith('/add/new');
+
+  const mutationCreate = useMutation({
+    mutationFn: async (value: any) => {
+      const response = await fetch(`/api/linkb/${collectionId}/${itemId}`, {
+        method: 'POST',
+        body: JSON.stringify(value),
+      });
+      return response.json();
+    },
+  });
+
+  const mutationUpdate = useMutation({
+    mutationFn: async (value: any) => {
+      const response = await fetch(`/api/linkb/${collectionId}/${itemId}`, {
+        method: 'PUT',
+        body: JSON.stringify(value),
+      });
+      return response.json();
+    },
+  });
+
   const form = useAppForm({
     defaultValues: store.data[`/collections/${collectionId}/${itemId}`],
-    onSubmit({ value, formApi }) {
-      toast.success('Data saved.', {
-        description: `value: ${JSON.stringify(value, null, 2)}`,
-        action: {
-          label: 'Test',
-          onClick: () => console.log('action: props.action.onClick'),
-        },
-      });
+    async onSubmit({ value, formApi }) {
+      try {
+        if (isNew) {
+          const result = await mutationCreate.mutateAsync(value);
+          console.log(result);
+        } else {
+          const result = await mutationUpdate.mutateAsync(value);
+          console.log(result);
+        }
+        toast.success('Data saved.', {
+          description: `value: ${JSON.stringify(value, null, 2)}`,
+          action: {
+            label: 'Test',
+            onClick: () => console.log('action: props.action.onClick'),
+          },
+        });
+        // Reset the form to start-over with a clean state
+        formApi.reset();
 
-      // Reset the form to start-over with a clean state
-      formApi.reset();
-
-      formData.data[`/collections/${collectionId}/${itemId}`].set({});
+        formData.data[`/collections/${collectionId}/${itemId}`].set({});
+      } catch (error) {
+        toast.error('Failed to save data.', {
+          description: `Error: ${error}`,
+        });
+      }
     },
   });
   return (

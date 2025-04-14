@@ -24,8 +24,6 @@ export const CollectionsScreen = () => {
     },
   });
 
-  console.log(query.data);
-
   return (
     <div className="container mx-auto px-5 py-10">
       <h1 className="mb-5 font-semibold text-2xl">
@@ -35,7 +33,6 @@ export const CollectionsScreen = () => {
         columns={columns}
         data={query?.data?.result || []}
         onRowClick={(row) => {
-          console.log(row);
           navigate(`/collections/${collectionId}/${row.id}`);
         }}
       />
