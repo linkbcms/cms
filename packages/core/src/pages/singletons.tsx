@@ -2,7 +2,7 @@ import { useConfig } from '@/components/config-provider';
 import { useAppForm, withForm } from '@/hooks/form';
 import { use$, useEffectOnce } from '@legendapp/state/react';
 import { toast } from '@linkbcms/ui/components/sonner';
-import { data, useParams } from 'react-router';
+import { useParams } from 'react-router';
 
 import { type V2, formData } from '@/hooks/form-data';
 import { formatDistanceToNowStrict } from 'date-fns';
@@ -60,7 +60,7 @@ export const SingletonsScreen = () => {
     defaultValues: isNotEmptyObject(store?.data?.[`/singletons/${singletonId}`])
       ? extractValuesFromStore(store.data[`/singletons/${singletonId}`])
       : query.data?.result?.[0],
-    onSubmit({ value, formApi }) {
+    onSubmit({ value }) {
       toast.promise(() => mutation.mutateAsync(value), {
         loading: 'Saving...',
         success: () => {

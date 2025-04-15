@@ -16,28 +16,10 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@linkbcms/ui/components/sidebar';
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { useMemo } from 'react';
 import { Link, Outlet, useLocation } from 'react-router';
 import pluralize from 'pluralize';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@linkbcms/ui/components/dialog';
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-  AlertDialogCancel,
-  AlertDialogAction,
-} from '@linkbcms/ui/components/alert-dialog';
 import { DeleteCollection } from '@/pages/delete-collection';
 
 const breadcrumbTextsMap = {
