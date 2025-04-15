@@ -19,7 +19,7 @@ export default function TextField({
   previousValue: string;
   draft?: {
     value: string;
-    updatedAt: number;
+    updatedAt?: number;
   };
 }) {
   const field = useFieldContext<string>();
@@ -27,8 +27,6 @@ export default function TextField({
   const errors = useStore(field.store, (state) => state.meta.errors);
 
   const hasChanged = field.state.value !== previousValue;
-
-  console.log(field.state.value, previousValue);
 
   return (
     <div className="relative">

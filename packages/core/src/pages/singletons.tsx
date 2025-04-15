@@ -2,7 +2,7 @@ import { useConfig } from '@/components/config-provider';
 import { useAppForm, withForm } from '@/hooks/form';
 import { use$, useEffectOnce } from '@legendapp/state/react';
 import { toast } from '@linkbcms/ui/components/sonner';
-import { useParams } from 'react-router';
+import { data, useParams } from 'react-router';
 
 import { type V2, formData } from '@/hooks/form-data';
 import { formatDistanceToNowStrict } from 'date-fns';
@@ -16,9 +16,18 @@ export const SingletonsScreen = () => {
 
   const query = useQuery({
     queryKey: ['singletons', singletonId],
-    queryFn: () => {
-      return fetch(`/api/linkb/${singletonId}`).then((res) => res.json());
+    queryFn: async () => {
+      const res = await fetch(`/api/linkb/${singletonId}`);
+      console.log(res);
+      if (res.ok) {
+        const data = await res.json();
+        return data;
+      }
+
+      throw new Error('error');
     },
+    enabled: !!singletonId,
+    retry: false,
   });
 
   const mutation = useMutation({
@@ -29,9 +38,12 @@ export const SingletonsScreen = () => {
         body: JSON.stringify(value),
       });
     },
+    retry: false,
   });
 
-  console.log(query.data);
+  const isLoading = query.isLoading;
+
+  console.log(query.error);
 
   const extractValuesFromStore = (data: any) => {
     return Object.entries(data).reduce((acc, [key, value]) => {
@@ -70,7 +82,12 @@ export const SingletonsScreen = () => {
     },
   });
 
-  return <SingletonForm form={form} />;
+  return (
+    <>
+      {isLoading && <div>Loading...</div>}
+      {!isLoading && <SingletonForm form={form} key={singletonId} />}
+    </>
+  );
 };
 
 const SingletonForm = withForm({
@@ -86,12 +103,21 @@ const SingletonForm = withForm({
 
     const query = useQuery({
       queryKey: ['singletons', singletonId],
-      queryFn: () => {
-        return fetch(`/api/linkb/${singletonId}`).then((res) => res.json());
+      queryFn: async () => {
+        const res = await fetch(`/api/linkb/${singletonId}`);
+        if (res.ok) {
+          const data = await res.json();
+          return data;
+        }
+        throw new Error('error');
       },
+      enabled: !!singletonId,
+      retry: false,
     });
 
     const currentValue = query.data?.result?.[0];
+
+    console.log(currentValue);
 
     useEffectOnce(() => {
       if (store.data[`/singletons/${singletonId}`]?.__updatedAt) {
@@ -152,12 +178,15 @@ const SingletonForm = withForm({
                 }}
               >
                 {(field) => {
-                  console.log(field, _field);
                   return (
                     <field.TextField
                       label={_field.label}
                       previousValue={currentValue?.[key]}
-                      draft={store.data[`/singletons/${singletonId}`]?.[key]}
+                      draft={
+                        store?.data?.[`/singletons/${singletonId}`]?.[key] || {
+                          value: currentValue?.[key],
+                        }
+                      }
                     />
                   );
                 }}
