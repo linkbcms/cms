@@ -1,5 +1,5 @@
 {
-  "id": "fdfb5870-00dd-4539-bb1b-c7672becde96",
+  "id": "bbb09b84-7e92-4f05-9d55-f6f667a853cc",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -39,8 +39,20 @@
           "primaryKey": true,
           "notNull": true
         },
+        "title": {
+          "name": "title",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
         "slug": {
           "name": "slug",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
@@ -94,8 +106,20 @@
           "primaryKey": true,
           "notNull": true
         },
+        "title": {
+          "name": "title",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
         "slug": {
           "name": "slug",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
@@ -126,43 +150,6 @@
         },
         "author": {
           "name": "author",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.settings": {
-      "name": "settings",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "bigserial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "title": {
-          "name": "title",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "navigation": {
-          "name": "navigation",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "description": {
-          "name": "description",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false

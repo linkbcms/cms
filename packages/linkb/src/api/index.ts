@@ -70,6 +70,10 @@ export class Api {
       collectionName,
       collectionConfig as Collection<Record<string, CollectionConfig>, string>,
     );
+    const patchCode = this.generatePatch(
+      collectionName,
+      collectionConfig as Collection<Record<string, CollectionConfig>, string>,
+    );
     const getCode = this.generateGet(collectionName, collectionConfig);
     const deleteCode = this.generateDelete(collectionName, collectionConfig);
 
@@ -84,26 +88,37 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ slug
   if (slug.length === 1 && slug[0]) {
     return ${getCode.functionName}(slug[0]);
   }
-  return NextResponse.json({ message: 'Not Found' }, { status: 404 });
+  return NextResponse.json({ name: 'Not Found' }, { status: 404 });
 }
 
 export async function POST(req: NextRequest) {
-    return ${createCode.functionName}(req);
+  return ${createCode.functionName}(req);
+}
+
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ slug: string[] }> }) {
+  const { slug } = await params;
+  if (!slug) return NextResponse.json({ name: 'Not Found' }, { status: 404 });
+
+  if (slug.length === 1 && slug[0]) {
+    return ${patchCode.functionName}(slug[0], req);
+  }
+  return NextResponse.json({ name: 'Not Found' }, { status: 404 });
 }
 
 export async function DELETE(req: NextRequest,  { params }: { params: Promise<{ slug: string[] }> }) {
   const { slug } = await params;
-  if (!slug) return NextResponse.json({ message: 'Not Found' }, { status: 404 });
+  if (!slug) return NextResponse.json({ name: 'Not Found' }, { status: 404 });
 
   if (slug.length === 1 && slug[0]) {
     return ${deleteCode.functionName}(slug[0]);
   }
-  return NextResponse.json({ status: 404 });
+  return NextResponse.json({ name: 'Not Found' }, { status: 404 });
 }
 
 ${listCode.code}
 ${createCode.code}
 ${getCode.code}
+${patchCode.code}
 ${deleteCode.code}
 `;
     fs.writeFileSync(path.join(collectionPath, 'route.ts'), combineRootCode);
@@ -144,14 +159,57 @@ async function ${functionName}() {
     // Create clean, properly formatted code without extra indentation
     const code = `
 async function ${functionName}(req: NextRequest) {
-    const payload = await req.json();
-    try{
-        ${functionName}Validation.parse(payload);
-    }catch(error){
-        return NextResponse.json({ error: error }, { status: 400 });
-    }
-    const result = await db.insert(${collectionName}).values(payload).returning();
-    return NextResponse.json({ result });
+  let payload
+  try{
+    payload = await req.json();
+  }catch(error){  
+    return NextResponse.json({ error : {name: "Payload empty"} }, { status: 400 });
+  }
+  try{
+      ${functionName}Validation.parse(payload);
+  }catch(error){
+      return NextResponse.json({ error: error }, { status: 400 });
+  }
+  const result = await db.insert(${collectionName}).values(payload).returning();
+  return NextResponse.json({ result });
+}
+
+export const ${functionName}Validation = ${validation});
+`;
+    return {
+      code,
+      functionName,
+    };
+  }
+
+  generatePatch(
+    collectionName: string,
+    collectionConfig: Collection<Record<string, CollectionConfig>, string>,
+  ): {
+    code: string;
+    functionName: string;
+  } {
+    const { schema } = collectionConfig as CollectionConfig;
+    const validation = this.generateValidation(schema);
+
+    const functionName = `patch${collectionName.charAt(0).toUpperCase() + collectionName.slice(1)}`;
+    // Create clean, properly formatted code without extra indentation
+    const code = `
+async function ${functionName}(id: string,req: NextRequest) {
+  let payload
+  try{
+    payload = await req.json();
+  }catch(error){  
+    return NextResponse.json({ error : {name: "Payload empty"} }, { status: 400 });
+  }
+  try{
+    ${functionName}Validation.parse(payload);
+  }catch(error){
+    return NextResponse.json({ error: error }, { status: 400 });
+  }
+  const result = await db.update(${collectionName}).set(payload).where(eq(${collectionName}.id, Number.parseInt(id))).returning();
+  if(result.length === 0) return NextResponse.json({ name: "ID not found" }, { status: 404 });
+  return NextResponse.json({ result });
 }
 
 export const ${functionName}Validation = ${validation});
@@ -173,15 +231,15 @@ export const ${functionName}Validation = ${validation});
     // Create clean, properly formatted code without extra indentation
     const code = `
 async function ${functionName}(id: string) {
-    // Validate that ID is a number
-    const numId = Number.parseInt(id);
-    if (Number.isNaN(numId)) {
-      return NextResponse.json({ message: "Invalid ID format. ID must be a number." }, { status: 400 });
-    }
+  // Validate that ID is a number
+  const numId = Number.parseInt(id);
+  if (Number.isNaN(numId)) {
+    return NextResponse.json({ name: "Invalid ID format. ID must be a number." }, { status: 400 });
+  }
 
-    const result = await db.select().from(${collectionName}).where(eq(${collectionName}.id, numId));
-    if(result.length === 0) return NextResponse.json({ message: "blog not found" }, { status: 404 });
-    return NextResponse.json({ message:"success", result: result[0] });
+  const result = await db.select().from(${collectionName}).where(eq(${collectionName}.id, numId));
+  if(result.length === 0) return NextResponse.json({ name: "${collectionName} not found" }, { status: 404 });
+  return NextResponse.json({ name:"success", result: result[0] });
 }
 `;
     return {
@@ -200,15 +258,15 @@ async function ${functionName}(id: string) {
     const functionName = `delete${collectionName.charAt(0).toUpperCase() + collectionName.slice(1)}`;
     // Create clean, properly formatted code without extra indentation
     const code = `async function ${functionName}(id: string) {
-    // Validate that ID is a number
-    const numId = Number.parseInt(id);
-    if (Number.isNaN(numId)) {
-      return NextResponse.json({ message: "Invalid ID format. ID must be a number." }, { status: 400 });
-    }
+  // Validate that ID is a number
+  const numId = Number.parseInt(id);
+  if (Number.isNaN(numId)) {
+    return NextResponse.json({ name: "Invalid ID format. ID must be a number." }, { status: 400 });
+  }
 
-    const result = await db.delete(${collectionName}).where(eq(${collectionName}.id, numId)).returning();
-    if(result.length === 0) return NextResponse.json({ message: "blog not found" }, { status: 404 });
-    return NextResponse.json({ message:"success", result: result[0] });
+  const result = await db.delete(${collectionName}).where(eq(${collectionName}.id, numId)).returning();
+  if(result.length === 0) return NextResponse.json({ name: "${collectionName} not found" }, { status: 404 });
+  return NextResponse.json({ name:"success", result: result[0] });
 }
 `;
     return {
@@ -222,8 +280,7 @@ async function ${functionName}(id: string) {
 import { NextResponse, type NextRequest } from 'next/server';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { eq } from "drizzle-orm";
-const db = drizzle(process.env.DATABASE_URL ?? '');
-    `;
+const db = drizzle(process.env.DATABASE_URL ?? '');`;
   }
 
   generateValidation(schema: Record<string, Record<string, unknown>>): string {
