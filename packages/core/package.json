@@ -21,7 +21,9 @@
     },
     "./styles": "./dist/App.css"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@legendapp/state": "3.0.0-beta.30",
     "@linkbcms/ui": "workspace:*",
@@ -48,7 +50,11 @@
     "@types/pluralize": "^0.0.33",
     "@types/react": "19.1.1",
     "@types/react-dom": "19.1.2",
+    "@vitejs/plugin-react": "^4.3.4",
+    "rsbuild-plugin-dts": "^0.6.3",
     "tailwindcss": "^4",
+    "tsdown": "^0.6.10",
+    "tsup": "^8.4.0",
     "typescript": "^5.8.2"
   },
   "publishConfig": {
