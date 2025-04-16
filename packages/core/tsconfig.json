@@ -6,20 +6,36 @@
     "noEmit": true,
     "skipLibCheck": true,
     "useDefineForClassFields": true,
-    "rootDir": "./src",
+    "rootDir": "src",
+    "outDir": "dist",
     /* modules */
     "module": "ESNext",
     "isolatedModules": true,
     "resolveJsonModule": true,
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
+    // Emptily imported modules must exist
+    "noUncheckedSideEffectImports": true,
+    "verbatimModuleSyntax": true,
+    "sourceMap": true,
+    "declarationMap": true,
+
+    "erasableSyntaxOnly": true, // TS 5.8+
+    "isolatedDeclarations": true,
+    "declaration": true,
 
     /* type checking */
     "strict": true,
     "noUnusedLocals": true,
     "noImplicitAny": false,
     "noUnusedParameters": true,
-    "allowJs": true,
+    // "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "checkJs": false,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]

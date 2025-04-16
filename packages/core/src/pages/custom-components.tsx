@@ -1,8 +1,9 @@
 import { useConfig } from '@/components/config-provider';
 import { Memo } from '@legendapp/state/react';
 import { useParams } from 'react-router';
+import type { JSX } from 'react/jsx-runtime';
 
-export const CustomComponents = () => {
+export const CustomComponents = (): JSX.Element => {
   const { customCollection } = useParams();
   const config = useConfig();
 

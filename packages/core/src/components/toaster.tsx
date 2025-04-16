@@ -7,10 +7,11 @@ import {
   type ToasterProps,
   toast,
 } from '@linkbcms/ui/components/sonner';
+import type { JSX } from 'react/jsx-runtime';
 
 const ReactiveSonner = reactive(Sonner);
 
-const Toaster = ({ ...props }: ToasterProps) => {
+const Toaster = ({ ...props }: ToasterProps): JSX.Element => {
   const config$ = useConfig();
 
   return (

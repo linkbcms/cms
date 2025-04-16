@@ -19,6 +19,7 @@ import {
   SidebarMenuSubItem,
 } from '@linkbcms/ui/components/sidebar';
 import { Link } from 'react-router';
+import type { JSX } from 'react/jsx-runtime';
 
 export function NavMain({
   title,
@@ -35,13 +36,17 @@ export function NavMain({
       url: string;
     }[];
   }[];
-}) {
+}): JSX.Element {
   return (
     <SidebarGroup>
       <SidebarGroupLabel>{title}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
-          <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
+          <Collapsible
+            key={item.title}
+            asChild
+            defaultOpen={item.isActive || false}
+          >
             <SidebarMenuItem>
               <SidebarMenuButton asChild tooltip={item.title}>
                 <Link to={item.url}>

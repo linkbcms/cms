@@ -1,7 +1,7 @@
 import { useObserve } from '@legendapp/state/react';
 import { useConfig } from '@/components/config-provider';
 
-export function useObserveTheme() {
+export function useObserveTheme(): void {
   const config$ = useConfig();
 
   useObserve(() => {

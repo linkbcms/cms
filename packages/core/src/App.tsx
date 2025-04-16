@@ -1,7 +1,8 @@
 import { m } from './paraglide/messages';
 import { getLocale, locales, setLocale } from './paraglide/runtime';
+import type { JSX } from 'react/jsx-runtime';
 
-export const App = () => {
+export const App = (): JSX.Element => {
   return (
     <>
       <div className="flex flex-1 flex-col gap-4 p-4">

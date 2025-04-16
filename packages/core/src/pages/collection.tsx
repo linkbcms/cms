@@ -10,8 +10,9 @@ import { formatDistanceToNowStrict } from 'date-fns';
 import type { CollectionConfig } from '@/index';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
+import type { JSX } from 'react/jsx-runtime';
 
-export const CollectionScreen = () => {
+export const CollectionScreen = (): JSX.Element => {
   const { collection: collectionId, item: itemId } = useParams();
 
   const store = use$<V2>(formData);
@@ -34,7 +35,7 @@ export const CollectionScreen = () => {
   const mutationUpdate = useMutation({
     mutationFn: async (value: any) => {
       const response = await fetch(`/api/linkb/${collectionId}/${itemId}`, {
-        method: 'PUT',
+        method: 'PATCH',
         body: JSON.stringify(value),
       });
       return response.json();
@@ -53,28 +54,29 @@ export const CollectionScreen = () => {
 
   const form = useAppForm({
     defaultValues:
-      store?.data?.[`/collections/${collectionId}/${itemId}`] ||
+      // store?.data?.[`/collections/${collectionId}/${itemId}`] ||
       query?.data?.result,
     async onSubmit({ value, formApi }) {
       try {
         if (isNew) {
           const result = await mutationCreate.mutateAsync(value);
           const newId = result?.result?.[0]?.id;
+          navigate(`/collections/${collectionId}/${newId}`);
           toast.success('Data saved.', {
             description: `value: ${JSON.stringify(value, null, 2)}`,
-            action: newId
-              ? {
-                  label: 'View Item',
-                  onClick: () => {
-                    navigate(`/collections/${collectionId}/${newId}`);
-                  },
-                }
-              : undefined,
+            // action: newId
+            //   ? {
+            //       label: 'View Item',
+            //       onClick: () => {
+            //         navigate(`/collections/${collectionId}/${newId}`);
+            //       },
+            //     }
+            //   : undefined,
           });
           // Reset the form to start-over with a clean state
           formApi.reset();
 
-          formData.data[`/collections/${collectionId}/${itemId}`].set({});
+          formData.data[`/collections/${collectionId}/${itemId}`]?.set({});
         } else {
           const result = await mutationUpdate.mutateAsync(value);
           console.log(result);
@@ -88,7 +90,7 @@ export const CollectionScreen = () => {
           // Reset the form to start-over with a clean state
           formApi.reset();
 
-          formData.data[`/collections/${collectionId}/${itemId}`].set({});
+          formData.data[`/collections/${collectionId}/${itemId}`]?.set({});
         }
       } catch (error) {
         toast.error('Failed to save data.', {
@@ -118,7 +120,7 @@ const CollectionForm = withForm({
     const config = useConfig();
 
     const collection = use$(
-      () => collectionId && config.collections?.[collectionId].get(),
+      () => collectionId && config.collections?.[collectionId]?.get(),
     );
 
     const store = use$<V2>(formData);

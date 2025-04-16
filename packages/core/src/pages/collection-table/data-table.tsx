@@ -15,6 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from '@linkbcms/ui/components/table';
+import type { JSX } from 'react/jsx-runtime';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -26,7 +27,7 @@ export function DataTable<TData, TValue>({
   columns,
   data,
   onRowClick,
-}: DataTableProps<TData, TValue>) {
+}: DataTableProps<TData, TValue>): JSX.Element {
   const table = useReactTable({
     data,
     columns,

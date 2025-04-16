@@ -7,15 +7,16 @@ import { DataTable } from '@/pages/collection-table/data-table';
 import { columns, type Payment } from '@/pages/collection-table/columns';
 import type { CollectionConfig } from '@/index';
 import { Loader2 } from 'lucide-react';
+import type { JSX } from 'react/jsx-runtime';
 
-export const CollectionsScreen = () => {
+export const CollectionsScreen = (): JSX.Element => {
   const { collection: collectionId } = useParams();
   const navigate = useNavigate();
 
   const config = useConfig();
 
   const collection = use$(
-    () => collectionId && config.collections?.[collectionId].get(),
+    () => collectionId && config.collections?.[collectionId]?.get(),
   );
 
   const query = useQuery({

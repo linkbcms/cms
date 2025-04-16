@@ -4,6 +4,7 @@ import { ObservablePersistLocalStorage } from '@legendapp/state/persist-plugins/
 import { useObservable } from '@legendapp/state/react';
 import { synced } from '@legendapp/state/sync';
 import { createContext, useContext } from 'react';
+import type { JSX } from 'react/jsx-runtime';
 
 export type Theme = 'light' | 'dark' | 'system';
 
@@ -27,8 +28,8 @@ export const ConfigProvider = ({
 }: {
   children: React.ReactNode;
   config: Config;
-}) => {
-  const $state = useObservable<Config>({
+}): JSX.Element => {
+  const $state = useObservable({
     ...config,
     ui: {
       ...config.ui,
@@ -45,11 +46,13 @@ export const ConfigProvider = ({
     },
   });
   return (
-    <StateContext.Provider value={$state}>{children}</StateContext.Provider>
+    <StateContext.Provider value={$state as any}>
+      {children}
+    </StateContext.Provider>
   );
 };
 
-export const useConfig = () => {
+export const useConfig = (): Observable<Config> => {
   const $state = useContext(StateContext);
   if (!$state) {
     throw new Error('useConfig must be used within a ConfigProvider');

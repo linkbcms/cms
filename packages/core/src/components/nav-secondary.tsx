@@ -13,6 +13,7 @@ import { Switch } from '@linkbcms/ui/components/switch';
 import { useConfig } from '@/components/config-provider';
 import { reactive } from '@legendapp/state/react';
 import { Link } from 'react-router';
+import type { JSX } from 'react/jsx-runtime';
 
 const ReactiveSwitch = reactive(Switch);
 
@@ -25,7 +26,7 @@ export function NavSecondary({
     url: string;
     icon: LucideIcon;
   }[];
-} & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
+} & React.ComponentPropsWithoutRef<typeof SidebarGroup>): JSX.Element {
   const config$ = useConfig();
   return (
     <SidebarGroup {...props}>

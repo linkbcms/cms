@@ -4,9 +4,9 @@
   "type": "module",
   "sideEffects": false,
   "scripts": {
-    "build": "paraglide-js compile --project ./project.inlang --outdir ./src/paraglide && rslib build",
+    "build": "paraglide-js compile --project ./project.inlang --outdir ./src/paraglide && tsdown && node build-css.js",
     "check": "biome check --write",
-    "dev": "rslib build --watch",
+    "dev": "tsdown --watch",
     "format": "biome format --write",
     "machine-translate": "inlang machine translate --project project.inlang"
   },
@@ -21,7 +21,14 @@
     },
     "./styles": "./dist/App.css"
   },
-  "files": ["dist"],
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "LICENSE",
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
   "dependencies": {
     "@legendapp/state": "3.0.0-beta.30",
     "@linkbcms/ui": "workspace:*",
@@ -44,12 +51,19 @@
     "@rsbuild/plugin-react": "^1.1.1",
     "@rslib/core": "^0.6.2",
     "@tailwindcss/postcss": "^4.0.9",
+    "@tailwindcss/vite": "^4.0.9",
     "@types/node": "^22.13.10",
     "@types/pluralize": "^0.0.33",
     "@types/react": "19.1.1",
     "@types/react-dom": "19.1.2",
+    "@vitejs/plugin-react": "^4.3.4",
+    "postcss": "^8.5.3",
+    "postcss-loader": "^8.1.1",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rsbuild-plugin-dts": "^0.6.3",
     "tailwindcss": "^4",
-    "typescript": "^5.8.2"
+    "tsdown": "^0.6.10",
+    "typescript": "^5.8.3"
   },
   "publishConfig": {
     "access": "public"

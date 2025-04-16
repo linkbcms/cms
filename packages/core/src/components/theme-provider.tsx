@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+import type { JSX } from 'react/jsx-runtime';
 
 type Theme = 'dark' | 'light' | 'system';
 
@@ -25,7 +26,7 @@ export function ThemeProvider({
   defaultTheme = 'system',
   storageKey = 'vite-ui-theme',
   ...props
-}: ThemeProviderProps) {
+}: ThemeProviderProps): JSX.Element {
   const [theme, setTheme] = useState<Theme>(
     () => (localStorage.getItem(storageKey) as Theme) || defaultTheme,
   );
@@ -63,7 +64,7 @@ export function ThemeProvider({
   );
 }
 
-export const useTheme = () => {
+export const useTheme = (): ThemeProviderState => {
   const context = useContext(ThemeProviderContext);
 
   if (context === undefined)

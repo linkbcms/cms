@@ -153,7 +153,7 @@ export type Config<Collections extends CollectionsMap> = {
  */
 export const defineConfig = <Collections extends CollectionsMap>(
   config: Config<Collections>,
-) => config;
+): Config<Collections> => config;
 
 /**
  * Interface for text field configuration

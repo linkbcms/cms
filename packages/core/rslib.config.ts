@@ -1,14 +1,18 @@
 import { paraglideRspackPlugin } from '@inlang/paraglide-js';
 import { defineConfig } from '@rslib/core';
 import { pluginReact } from '@rsbuild/plugin-react';
+import { pluginDts } from 'rsbuild-plugin-dts';
 
 export default defineConfig({
-  plugins: [pluginReact()],
+  plugins: [pluginReact(), pluginDts()],
 
   lib: [
     {
       bundle: false,
-      dts: true,
+      // dts: {
+      //   bundle: false,
+      //   // distPath: './dist-types',
+      // },
       format: 'esm',
     },
   ],
