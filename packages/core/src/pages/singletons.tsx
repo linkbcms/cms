@@ -12,8 +12,6 @@ import type { JSX } from 'react/jsx-runtime';
 import { Loader2 } from 'lucide-react';
 import { useMemo } from 'react';
 
-// console.log(query.error);
-
 const extractValuesFromStore = (data: any) => {
   return Object.entries(data).reduce((acc, [key, value]) => {
     acc[key] = (value as any)?.value;
@@ -35,8 +33,12 @@ export const SingletonsScreen = (): JSX.Element => {
       const res = await fetch(`/api/linkb/${singletonId}/1`, {
         method: 'GET',
       });
-      const data = await res.json();
-      return data;
+
+      if (res.ok) {
+        return res.json();
+      }
+
+      throw new Error('Failed to fetch data.');
     },
   });
 
@@ -53,12 +55,36 @@ export const SingletonsScreen = (): JSX.Element => {
         },
       );
 
-      const result = await res.json();
+      if (res.ok) {
+        return res.json();
+      }
 
-      return result;
+      throw new Error('Failed to save data.');
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['singletons', singletonId] });
+    },
+    onMutate: async (newPost) => {
+      await queryClient.cancelQueries({
+        queryKey: ['singletons', singletonId],
+      });
+
+      const previousPosts = queryClient.getQueryData<any>([
+        'singletons',
+        singletonId,
+      ]);
+
+      queryClient.setQueryData(['singletons', singletonId], (old: any) => {
+        return {
+          ...old,
+          result: {
+            ...old.result,
+            ...newPost,
+          },
+        };
+      });
+
+      return previousPosts;
     },
   });
 

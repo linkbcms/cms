@@ -8,13 +8,14 @@ import { useLocation, useNavigate, useParams } from 'react-router';
 import { formData } from '@/hooks/form-data';
 
 import type { CollectionConfig } from '@/index';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import type { JSX } from 'react/jsx-runtime';
 import { useMemo } from 'react';
 
 export const CollectionScreen = (): JSX.Element => {
   const { collection: collectionId, item: itemId } = useParams();
+  const queryClient = useQueryClient();
 
   const navigate = useNavigate();
 
@@ -28,18 +29,59 @@ export const CollectionScreen = (): JSX.Element => {
         method: 'POST',
         body: JSON.stringify(value),
       });
-      return response.json();
+
+      if (response.ok) {
+        return response.json();
+      }
+
+      throw new Error('Failed to create data.');
     },
   });
 
   const mutationUpdate = useMutation({
-    mutationKey: ['collection', collectionId, itemId],
+    // mutationKey: ['collection', collectionId, itemId],
     mutationFn: async (value: any) => {
       const response = await fetch(`/api/linkb/${collectionId}/${itemId}`, {
         method: 'PATCH',
         body: JSON.stringify(value),
       });
-      return response.json();
+
+      if (response.ok) {
+        return response.json();
+      }
+
+      throw new Error('Failed to update data.');
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['collection', collectionId, itemId],
+      });
+    },
+    onMutate: async (newPost) => {
+      await queryClient.cancelQueries({
+        queryKey: ['collection', collectionId, itemId],
+      });
+
+      const previousPosts = queryClient.getQueryData<any>([
+        'collection',
+        collectionId,
+        itemId,
+      ]);
+
+      queryClient.setQueryData(
+        ['collection', collectionId, itemId],
+        (old: any) => {
+          return {
+            ...old,
+            result: {
+              ...old.result,
+              ...newPost,
+            },
+          };
+        },
+      );
+
+      return previousPosts;
     },
   });
 
@@ -47,16 +89,23 @@ export const CollectionScreen = (): JSX.Element => {
     queryKey: ['collection', collectionId, itemId],
     queryFn: async () => {
       const response = await fetch(`/api/linkb/${collectionId}/${itemId}`);
-      return response.json();
+
+      if (response.ok) {
+        return response.json();
+      }
+
+      throw new Error('Failed to fetch data.');
     },
   });
+
+  const result = query.data?.result;
 
   const isLoading = query.isLoading;
 
   const updatedValue = useMemo(
     () =>
-      query.data?.result
-        ? Object.entries(query.data?.result).reduce((acc, [key, value]) => {
+      result && itemId
+        ? Object.entries(result).reduce((acc, [key, value]) => {
             const newKey = `${key}/${itemId}`;
 
             if (newKey) {
@@ -65,7 +114,7 @@ export const CollectionScreen = (): JSX.Element => {
             return acc;
           }, {})
         : undefined,
-    [query.data?.result, itemId],
+    [result, itemId],
   );
 
   const form = useAppForm({
@@ -99,7 +148,7 @@ export const CollectionScreen = (): JSX.Element => {
           }
         } else {
           const result = await mutationUpdate.mutateAsync(updatedValue);
-          console.log(result);
+
           toast.success('Data saved.', {
             description: `value: ${JSON.stringify(updatedValue, null, 2)}`,
             action: {
@@ -149,6 +198,8 @@ const CollectionForm = withForm({
 
     const collectionSchema = (collection as CollectionConfig).schema;
 
+    const schemaFields = Object.entries(collectionSchema);
+
     return (
       <div className="p-5">
         <form
@@ -174,7 +225,7 @@ const CollectionForm = withForm({
           </h1>
 
           <div className="flex w-full flex-col gap-4">
-            {Object.entries(collectionSchema).map(([key, _field]) =>
+            {schemaFields.map(([key, _field]) =>
               _field.type === 'select' ? (
                 <form.AppField key={key + itemId} name={`${key}/${itemId}`}>
                   {(field) => {

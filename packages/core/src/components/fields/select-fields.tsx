@@ -33,7 +33,9 @@ export default function SelectField({
 
           <Select
             value={field.state.value}
-            onValueChange={(values) => field.handleChange(values)}
+            onValueChange={(values) => {
+              values && field.handleChange(values);
+            }}
           >
             <SelectTrigger>
               <SelectValue placeholder={placeholder || 'Select an option'} />
