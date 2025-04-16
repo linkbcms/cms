@@ -27,7 +27,7 @@ export const LinkbApp = ({ config }: { config: Config }): JSX.Element => {
   return (
     <ClientOnly>
       <ConfigProvider config={config}>
-        <QueryClientProvider client={queryClient} c>
+        <QueryClientProvider client={queryClient}>
           <BrowserRouter basename="/cms">
             <Routes>
               <Route path=":lang?/" element={<Layout />}>
