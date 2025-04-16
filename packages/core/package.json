@@ -4,22 +4,22 @@
   "type": "module",
   "sideEffects": false,
   "scripts": {
-    "build": "paraglide-js compile --project ./project.inlang --outdir ./src/paraglide && rslib build",
+    "build": "paraglide-js compile --project ./project.inlang --outdir ./src/paraglide && tsdown && node build-css.js",
     "check": "biome check --write",
-    "dev": "rslib build --watch",
+    "dev": "tsdown --watch",
     "format": "biome format --write",
     "machine-translate": "inlang machine translate --project project.inlang"
   },
   "exports": {
     ".": {
-      "types": "./dist/index.js",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
     "./app": {
       "types": "./dist/linkb-app.d.ts",
       "import": "./dist/linkb-app.js"
     },
-    "./styles": "./dist/App.css"
+    "./styles": "./dist/app.css"
   },
   "files": [
     "dist",
