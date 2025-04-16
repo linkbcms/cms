@@ -31,20 +31,25 @@ export default defineConfig({
       schema: {
         title: fields.text({
           label: 'Title',
-          required: true,
           multiline: true,
           i18n: {
             id: 'Judul',
           },
-          db: false,
+          validation: {
+            required: true,
+          },
         }),
         order: fields.number({
           label: 'Order',
-          required: true,
+          validation: {
+            required: true,
+          },
         }),
         status: fields.select({
           label: 'Status',
-          required: true,
+          validation: {
+            required: true,
+          },
           options: [
             { value: 'draft', label: 'Draft' },
             { value: 'published', label: 'Published' },

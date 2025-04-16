@@ -8,6 +8,41 @@
       "when": 1744714331884,
       "tag": "0000_ambiguous_vengeance",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1744806304462,
+      "tag": "0001_third_maverick",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1744807201590,
+      "tag": "0002_outgoing_the_renegades",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1744808835806,
+      "tag": "0003_chief_tigra",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1744811591030,
+      "tag": "0004_gray_colonel_america",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1744811637949,
+      "tag": "0005_uneven_miracleman",
+      "breakpoints": true
     }
   ]
 }

@@ -21,12 +21,9 @@ const DB_TYPE_MAPPING: Record<string, string> = {
  * Factory for creating database adapters
  */
 export class AdapterFactory {
-  /**
-   * Create a database adapter instance
-   */
-  public static createAdapter(
+  createAdapter(
     type: SupportedDatabase,
-    config: Record<string, any>,
+    config: Record<string, unknown>,
   ): DatabaseAdapter {
     // Normalize the database type
     const normalizedType =

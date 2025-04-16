@@ -1,9 +1,11 @@
+//Please don't edit this file, it is automatically generated
+// if you need to edit the file, please edit the route.ts file instead
 
-import { settings2 } from "@linkbcms/schema/schema"
+import { settings2 } from "@linkbcms/schema/schema";
 import { z } from "zod";
 import { NextResponse, type NextRequest } from 'next/server';
 import { drizzle } from 'drizzle-orm/node-postgres';
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 const db = drizzle(process.env.DATABASE_URL ?? '');
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ slug: string[] }> }) {
@@ -42,31 +44,29 @@ export async function DELETE(req: NextRequest,  { params }: { params: Promise<{ 
 
 
 async function listsSettings2() {
-    const result = await db.select().from(settings2);
-    return NextResponse.json({ result });
+  const result = await db.select().from(settings2).orderBy(desc(settings2.id));
+  return NextResponse.json({ result });
 }
 
-
 async function createSettings2(req: NextRequest) {
-  let payload
+  let request: Promise<unknown>
   try{
-    payload = await req.json();
+    request = await req.json();
   }catch(error){  
     return NextResponse.json({ error : {name: "Payload empty"} }, { status: 400 });
   }
   try{
-      createSettings2Validation.parse(payload);
+    const payload = createSettings2Validation.parse(request);
+    const result = await db.insert(settings2).values(payload).returning();
+    return NextResponse.json({ result });
   }catch(error){
-      return NextResponse.json({ error: error }, { status: 400 });
+    return NextResponse.json({ error: error }, { status: 400 });
   }
-  const result = await db.insert(settings2).values(payload).returning();
-  return NextResponse.json({ result });
 }
 
 export const createSettings2Validation = z.object({
     title: z.string().optional().nullable(), navigation: z.string().optional().nullable(), description: z.string().optional().nullable()
 });
-
 
 async function getSettings2(id: string) {
   // Validate that ID is a number
@@ -80,22 +80,22 @@ async function getSettings2(id: string) {
   return NextResponse.json({ name:"success", result: result[0] });
 }
 
-
 async function patchSettings2(id: string,req: NextRequest) {
-  let payload
+  let request: Promise<unknown>
   try{
-    payload = await req.json();
+    request = await req.json();
   }catch(error){  
     return NextResponse.json({ error : {name: "Payload empty"} }, { status: 400 });
   }
   try{
-    patchSettings2Validation.parse(payload);
+    const payload = patchSettings2Validation.parse(request);
+    const result = await db.update(settings2).set(payload).where(eq(settings2.id, Number.parseInt(id))).returning();
+    if(result.length === 0) return NextResponse.json({ name: "ID not found" }, { status: 404 });
+    return NextResponse.json({ result });
   }catch(error){
     return NextResponse.json({ error: error }, { status: 400 });
   }
-  const result = await db.update(settings2).set(payload).where(eq(settings2.id, Number.parseInt(id))).returning();
-  if(result.length === 0) return NextResponse.json({ name: "ID not found" }, { status: 404 });
-  return NextResponse.json({ result });
+ 
 }
 
 export const patchSettings2Validation = z.object({

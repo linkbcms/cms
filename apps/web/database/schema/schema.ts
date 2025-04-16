@@ -6,8 +6,9 @@ export const blogs = table(
   "blogs",
   {
     id: t.bigserial({ mode: 'number' }).primaryKey(),
-    order: t.varchar().notNull().default(""),
-    status: t.varchar().notNull().default(""),
+    title: t.varchar(),
+    order: t.integer(),
+    status: t.text(),
     slug: t.varchar(),
     content: t.varchar(),
     image: t.varchar(),
@@ -21,8 +22,9 @@ export const blogsid = table(
   "blogs_id",
   {
     id: t.bigserial({ mode: 'number' }).primaryKey(),
-    order: t.varchar().notNull().default(""),
-    status: t.varchar().notNull().default(""),
+    title: t.varchar(),
+    order: t.integer(),
+    status: t.text(),
     slug: t.varchar(),
     content: t.varchar(),
     image: t.varchar(),

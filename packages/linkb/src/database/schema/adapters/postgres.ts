@@ -1,4 +1,3 @@
-import type { Client } from 'pg';
 import chalk from 'chalk';
 import type { defineConfig } from '@linkbcms/core';
 import {
@@ -7,57 +6,11 @@ import {
   type TableDefinition,
   type SchemaGeneratorOptions,
 } from '../base';
-import type { NodePgDatabase } from 'drizzle-orm/node-postgres';
-import { SqlDatabaseAdapter } from './base';
 
-export type PostgresConnection = NodePgDatabase<Record<string, never>> & {
-  $client: Client;
-};
-
-export interface PostgresSchemaGeneratorOptions extends SchemaGeneratorOptions {
-  db: PostgresConnection;
-  schema?: string;
-}
-
-/**
- * PostgreSQL adapter for database operations
- */
-export class PostgresAdapter extends SqlDatabaseAdapter {
-  private client: Client;
-
-  constructor(client: Client, schema = 'public') {
-    super(schema);
-    this.client = client;
-
-    console.log(
-      chalk.blue(
-        `PostgreSQL schema adapter created for schema: ${this.schema}`,
-      ),
-    );
-  }
-}
-
-/**
- * PostgreSQL-specific schema generator
- */
 export class PostgresSchemaGenerator extends BaseSchemaGenerator {
-  private schema: string;
-
-  constructor(options: PostgresSchemaGeneratorOptions) {
-    // Create a PostgreSQL adapter directly using the client from the database connection
-    const adapter = new PostgresAdapter(options.db.$client, options.schema);
-
-    // Pass the adapter to the base class
-    super(adapter, options);
-
-    this.schema = options.schema || 'public';
-
-    console.log(
-      chalk.blue(
-        `PostgreSQL schema generator created for schema: ${this.schema}`,
-      ),
-    );
-    console.log(chalk.blue(`Migrations will be stored in: ${this.schemaDir}`));
+  constructor(options: SchemaGeneratorOptions) {
+    super(options);
+    console.log(chalk.blue(`Schema will be stored in: ${this.schemaDir}`));
   }
 
   /**
@@ -149,7 +102,7 @@ export class PostgresSchemaGenerator extends BaseSchemaGenerator {
     };
 
     for (const [fieldName, field] of Object.entries(schema)) {
-      field.type = 'text'; // Force all fields to "text" type
+      if (!field.type) field.type = 'text';
 
       // Skip Component fields
       if (field.type === 'Component') continue;
@@ -181,7 +134,7 @@ export class PostgresSchemaGenerator extends BaseSchemaGenerator {
       textarea: 'text',
       date: 'timestamp',
       boolean: 'boolean',
-      number: 'numeric',
+      number: 'integer',
       select: 'text',
       radio: 'text',
       checkbox: 'boolean',

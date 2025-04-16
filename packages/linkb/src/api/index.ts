@@ -77,8 +77,10 @@ export class Api {
     const getCode = this.generateGet(collectionName, collectionConfig);
     const deleteCode = this.generateDelete(collectionName, collectionConfig);
 
-    const combineRootCode = `
-import { ${collectionName} } from "@linkbcms/schema/schema"
+    const combineRootCode = `//Please don't edit this file, it is automatically generated
+// if you need to edit the file, please edit the route.ts file instead
+
+import { ${collectionName} } from "@linkbcms/schema/schema";
 ${this.defaultHeader()}
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ slug: string[] }> }) {
@@ -135,8 +137,8 @@ ${deleteCode.code}
     // Create clean, properly formatted code without extra indentation
     const code = `
 async function ${functionName}() {
-    const result = await db.select().from(${collectionName});
-    return NextResponse.json({ result });
+  const result = await db.select().from(${collectionName}).orderBy(desc(${collectionName}.id));
+  return NextResponse.json({ result });
 }
 `;
     return {
@@ -157,21 +159,20 @@ async function ${functionName}() {
 
     const functionName = `create${collectionName.charAt(0).toUpperCase() + collectionName.slice(1)}`;
     // Create clean, properly formatted code without extra indentation
-    const code = `
-async function ${functionName}(req: NextRequest) {
-  let payload
+    const code = `async function ${functionName}(req: NextRequest) {
+  let request: Promise<unknown>
   try{
-    payload = await req.json();
+    request = await req.json();
   }catch(error){  
     return NextResponse.json({ error : {name: "Payload empty"} }, { status: 400 });
   }
   try{
-      ${functionName}Validation.parse(payload);
+    const payload = ${functionName}Validation.parse(request);
+    const result = await db.insert(${collectionName}).values(payload).returning();
+    return NextResponse.json({ result });
   }catch(error){
-      return NextResponse.json({ error: error }, { status: 400 });
+    return NextResponse.json({ error: error }, { status: 400 });
   }
-  const result = await db.insert(${collectionName}).values(payload).returning();
-  return NextResponse.json({ result });
 }
 
 export const ${functionName}Validation = ${validation});
@@ -194,22 +195,22 @@ export const ${functionName}Validation = ${validation});
 
     const functionName = `patch${collectionName.charAt(0).toUpperCase() + collectionName.slice(1)}`;
     // Create clean, properly formatted code without extra indentation
-    const code = `
-async function ${functionName}(id: string,req: NextRequest) {
-  let payload
+    const code = `async function ${functionName}(id: string,req: NextRequest) {
+  let request: Promise<unknown>
   try{
-    payload = await req.json();
+    request = await req.json();
   }catch(error){  
     return NextResponse.json({ error : {name: "Payload empty"} }, { status: 400 });
   }
   try{
-    ${functionName}Validation.parse(payload);
+    const payload = ${functionName}Validation.parse(request);
+    const result = await db.update(${collectionName}).set(payload).where(eq(${collectionName}.id, Number.parseInt(id))).returning();
+    if(result.length === 0) return NextResponse.json({ name: "ID not found" }, { status: 404 });
+    return NextResponse.json({ result });
   }catch(error){
     return NextResponse.json({ error: error }, { status: 400 });
   }
-  const result = await db.update(${collectionName}).set(payload).where(eq(${collectionName}.id, Number.parseInt(id))).returning();
-  if(result.length === 0) return NextResponse.json({ name: "ID not found" }, { status: 404 });
-  return NextResponse.json({ result });
+ 
 }
 
 export const ${functionName}Validation = ${validation});
@@ -229,8 +230,7 @@ export const ${functionName}Validation = ${validation});
   } {
     const functionName = `get${collectionName.charAt(0).toUpperCase() + collectionName.slice(1)}`;
     // Create clean, properly formatted code without extra indentation
-    const code = `
-async function ${functionName}(id: string) {
+    const code = `async function ${functionName}(id: string) {
   // Validate that ID is a number
   const numId = Number.parseInt(id);
   if (Number.isNaN(numId)) {
@@ -279,7 +279,7 @@ async function ${functionName}(id: string) {
     return `import { z } from "zod";
 import { NextResponse, type NextRequest } from 'next/server';
 import { drizzle } from 'drizzle-orm/node-postgres';
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 const db = drizzle(process.env.DATABASE_URL ?? '');`;
   }
 
@@ -291,8 +291,13 @@ const db = drizzle(process.env.DATABASE_URL ?? '');`;
         unknown
       >;
 
-      // const schemaValue = schema?.validation[key] as Record<string, unknown>;
       validation[key] = 'z.string()';
+      if (schema[key]?.type === 'number') validation[key] = 'z.number()';
+      if (schema[key]?.type === 'select') {
+        validation[key] =
+          `z.enum([${(schema[key]?.options as { value: string; label: string }[]).map((option) => `"${option.value}"`).join(', ')}])`;
+      }
+
       if (validationObject?.required !== true)
         validation[key] += '.optional().nullable()';
       if (validationObject?.minLength)
