@@ -1,5 +1,3 @@
-'use client';
-
 import { type Config, ConfigProvider } from '@/components/config-provider';
 import { Toaster } from '@/components/toaster';
 import Layout from '@/layout';
@@ -11,13 +9,13 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import { App } from './App';
-
+import type { JSX } from 'react/jsx-runtime';
 // Create a client
 const queryClient = new QueryClient();
 
-export const LinkbApp = ({ config }: { config: Config }) => {
+export const LinkbApp = ({ config }: { config: Config }): JSX.Element => {
   if (typeof window === 'undefined') {
-    return null;
+    return <></>;
   }
 
   return (

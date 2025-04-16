@@ -27,6 +27,7 @@ import {
   SidebarMenuItem,
 } from '@linkbcms/ui/components/sidebar';
 import { Link } from 'react-router';
+import type { JSX } from 'react/jsx-runtime';
 
 const data = {
   user: {
@@ -152,7 +153,9 @@ const data = {
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({
+  ...props
+}: React.ComponentProps<typeof Sidebar>): JSX.Element {
   const config$ = useConfig();
 
   const fullCollections = Object.entries(config$.collections);
@@ -188,7 +191,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenuButton size="lg" asChild>
               <Link to="/">
                 <Show
-                  if={config$?.ui?.logo}
+                  if={!!config$?.ui?.logo}
                   else={() => (
                     <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                       <Command className="size-4" />

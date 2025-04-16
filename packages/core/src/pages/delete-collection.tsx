@@ -17,8 +17,9 @@ import { useMutation } from '@tanstack/react-query';
 import { Trash2 } from 'lucide-react';
 import pluralize from 'pluralize';
 import { useNavigate, useParams } from 'react-router';
+import type { JSX } from 'react/jsx-runtime';
 
-export const DeleteCollection = () => {
+export const DeleteCollection = (): JSX.Element => {
   const { collection: collectionId, item: itemId } = useParams();
   const navigate = useNavigate();
 

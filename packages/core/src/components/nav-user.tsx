@@ -29,6 +29,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@linkbcms/ui/components/sidebar';
+import type { JSX } from 'react/jsx-runtime';
 
 export function NavUser({
   user,
@@ -38,7 +39,7 @@ export function NavUser({
     email: string;
     avatar: string;
   };
-}) {
+}): JSX.Element {
   const { isMobile } = useSidebar();
 
   return (

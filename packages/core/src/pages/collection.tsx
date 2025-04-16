@@ -10,8 +10,9 @@ import { formatDistanceToNowStrict } from 'date-fns';
 import type { CollectionConfig } from '@/index';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
+import type { JSX } from 'react/jsx-runtime';
 
-export const CollectionScreen = () => {
+export const CollectionScreen = (): JSX.Element => {
   const { collection: collectionId, item: itemId } = useParams();
 
   const store = use$<V2>(formData);
@@ -74,7 +75,7 @@ export const CollectionScreen = () => {
           // Reset the form to start-over with a clean state
           formApi.reset();
 
-          formData.data[`/collections/${collectionId}/${itemId}`].set({});
+          formData.data[`/collections/${collectionId}/${itemId}`]?.set({});
         } else {
           const result = await mutationUpdate.mutateAsync(value);
           console.log(result);
@@ -88,7 +89,7 @@ export const CollectionScreen = () => {
           // Reset the form to start-over with a clean state
           formApi.reset();
 
-          formData.data[`/collections/${collectionId}/${itemId}`].set({});
+          formData.data[`/collections/${collectionId}/${itemId}`]?.set({});
         }
       } catch (error) {
         toast.error('Failed to save data.', {
@@ -118,7 +119,7 @@ const CollectionForm = withForm({
     const config = useConfig();
 
     const collection = use$(
-      () => collectionId && config.collections?.[collectionId].get(),
+      () => collectionId && config.collections?.[collectionId]?.get(),
     );
 
     const store = use$<V2>(formData);

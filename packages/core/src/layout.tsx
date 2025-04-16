@@ -21,6 +21,7 @@ import { useMemo } from 'react';
 import { Link, Outlet, useLocation } from 'react-router';
 import pluralize from 'pluralize';
 import { DeleteCollection } from '@/pages/delete-collection';
+import type { JSX } from 'react/jsx-runtime';
 
 const breadcrumbTextsMap = {
   collections: 'Collections',
@@ -28,7 +29,7 @@ const breadcrumbTextsMap = {
   'custom-collections': 'Custom Collections',
 };
 
-export default function Layout() {
+export default function Layout(): JSX.Element {
   useObserveTheme();
 
   const { pathname } = useLocation();
@@ -45,12 +46,15 @@ export default function Layout() {
       { link: undefined, text: breadcrumbTextsMap[first], path: first },
       {
         link: third ? `/${first}/${second}` : undefined,
-        text: config.collections[second].label.get(),
+        text: config.collections[second]?.label.get(),
         path: second,
       },
       {
         link: undefined,
-        text: third?.length > 30 ? `${third.slice(0, 30)}...` : third,
+        text:
+          third !== undefined && third?.length > 30
+            ? `${third.slice(0, 30)}...`
+            : third,
         path: third,
       },
     ];

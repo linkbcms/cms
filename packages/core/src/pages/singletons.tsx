@@ -8,8 +8,9 @@ import { type V2, formData } from '@/hooks/form-data';
 import { formatDistanceToNowStrict } from 'date-fns';
 import type { SingletonConfig } from '@/index';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import type { JSX } from 'react/jsx-runtime';
 
-export const SingletonsScreen = () => {
+export const SingletonsScreen = (): JSX.Element => {
   const { singleton: singletonId } = useParams();
 
   const store = use$<V2>(formData);
@@ -66,7 +67,7 @@ export const SingletonsScreen = () => {
         success: () => {
           // toast.success('Saved');
 
-          formData.data[`/singletons/${singletonId}`].set({});
+          formData.data[`/singletons/${singletonId}`]?.set({});
           return 'Saved';
         },
         error: (error) => {
@@ -96,7 +97,7 @@ const SingletonForm = withForm({
     const config = useConfig();
 
     const singleton = use$(
-      () => singletonId && config.collections?.[singletonId].get(),
+      () => singletonId && config.collections?.[singletonId]?.get(),
     );
 
     const store = use$<V2>(formData);

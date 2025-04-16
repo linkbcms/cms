@@ -1,12 +1,51 @@
-// tsdown.config.ts
 import { paraglideRolldownPlugin } from '@inlang/paraglide-js';
 import { defineConfig } from 'tsdown';
-import react from '@vitejs/plugin-react';
+import path from 'node:path';
+import postcss from 'rollup-plugin-postcss';
+import tailwindcss from '@tailwindcss/postcss';
+// import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  entry: ['./src'],
+  entry: {
+    index: 'src/index.ts',
+    // css: './src/App.css',
+  },
+  // entry: ['./src', './src/App.css'],
+  // exclude: ['./src/paraglide/**'],
+
+  // fromVite: true,
+
+  // sourcemap: true,
+  clean: true,
+  dts: {
+    ignoreErrors: true,
+    // include: ['./src/**'],
+    exclude: ['./src/App.css'],
+
+    sourceMap: true,
+  },
+
+  outputOptions: {
+    // cssEntryFileNames: 'App.css',
+    // moduleTypes: { '.css': 'css' },
+  },
+  inputOptions: {
+    // moduleTypes: { '.css': 'css' },
+  },
+
+  sourcemap: true,
+
+  format: 'esm',
+  treeshake: true,
+  outDir: './dist',
+
+  // bundleDts: true,
+
+  alias: {
+    '@': path.resolve(__dirname, './src'),
+  },
+
   plugins: [
-    react(),
     paraglideRolldownPlugin({
       project: './project.inlang',
       outdir: './src/paraglide',
@@ -28,14 +67,13 @@ export default defineConfig({
         },
       ],
     }),
+
+    postcss({
+      extract: true,
+      plugins: [tailwindcss()],
+    }),
+    // tailwindcss(),
   ],
-  dts: true,
 
-  // platform: 'neutral',
-
-  alias: {
-    '@/*': './*',
-  },
-
-  // ...
+  // tsconfigPath: 'tsconfig.json',
 });

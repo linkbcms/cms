@@ -9,6 +9,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@linkbcms/ui/components/popover';
+import type { JSX } from 'react/jsx-runtime';
 
 export default function TextField({
   label,
@@ -21,7 +22,7 @@ export default function TextField({
     value: string;
     updatedAt?: number;
   };
-}) {
+}): JSX.Element {
   const field = useFieldContext<string>();
 
   const errors = useStore(field.store, (state) => state.meta.errors);
