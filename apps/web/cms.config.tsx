@@ -94,6 +94,16 @@ export default defineConfig({
           },
         }),
         description: fields.text({ name: 'description', label: 'Description' }),
+        number: fields.number({ name: 'number', label: 'Number' }),
+        select: fields.select({
+          name: 'select',
+          label: 'Select',
+          options: [
+            { value: 'option1', label: 'Option 1' },
+            { value: 'option2', label: 'Option 2' },
+            { value: 'option3', label: 'Option 3' },
+          ],
+        }),
       },
     }),
 

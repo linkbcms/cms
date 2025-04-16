@@ -33,7 +33,8 @@ CREATE TABLE "settings" (
 	"id" bigserial PRIMARY KEY NOT NULL,
 	"title" varchar,
 	"navigation" varchar,
-	"description" varchar
+	"description" varchar,
+	"number" integer
 );
 --> statement-breakpoint
 CREATE TABLE "settings2" (

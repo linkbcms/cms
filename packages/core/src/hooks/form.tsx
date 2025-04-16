@@ -4,7 +4,9 @@ import { fieldContext, formContext, useFormContext } from './form-context.tsx';
 import { Button } from '@linkbcms/ui/components/button';
 import type { JSX } from 'react/jsx-runtime';
 
-const TextField = lazy(() => import('../components/text-fields.tsx'));
+const TextField = lazy(() => import('@/components/fields/text-fields.tsx'));
+const NumberField = lazy(() => import('@/components/fields/number-fields.tsx'));
+const SelectField = lazy(() => import('@/components/fields/select-fields.tsx'));
 
 function SubscribeButton({ label }: { label: string }): JSX.Element {
   const form = useFormContext();
@@ -18,6 +20,8 @@ function SubscribeButton({ label }: { label: string }): JSX.Element {
 const dest: any = createFormHook({
   fieldComponents: {
     TextField,
+    NumberField,
+    SelectField,
   },
   formComponents: {
     SubscribeButton,

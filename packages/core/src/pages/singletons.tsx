@@ -86,8 +86,6 @@ export const SingletonsScreen = (): JSX.Element => {
 
     defaultValues: updatedValue,
     onSubmit({ value }) {
-      console.log({ value });
-
       const updatedValue = Object.entries(value).reduce((acc, [key, value]) => {
         const newKey = key.split('/')[0];
 
@@ -175,45 +173,40 @@ const SingletonForm = withForm({
           <h1 className="font-semibold text-2xl">{singleton.label}</h1>
 
           <div className="flex w-full flex-col gap-4">
-            {schemaFields.map(([key, _field]) => (
-              <form.AppField
-                key={key + singletonId}
-                name={`${key}/${singletonId}`}
-                validators={{
-                  onChangeAsyncDebounceMs: 500,
-                  onChangeAsync: async ({ value }) => {
-                    formData.data.set({
-                      ...store?.data,
-                      [`/singletons/${singletonId}`]: {
-                        ...store?.data?.[`/singletons/${singletonId}`],
-                        __updatedAt: Date.now(),
-                        [key]: {
-                          value,
-                          updatedAt: Date.now(),
-                          previousValue:
-                            store?.data?.[`/singletons/${singletonId}`]?.[key]
-                              ?.value || '',
-                        },
-                      },
-                    });
-                  },
-                }}
-              >
-                {(field) => {
-                  return (
-                    <field.TextField
-                      label={_field.label}
-                      previousValue={currentValue?.[key]}
-                      draft={
-                        store?.data?.[`/singletons/${singletonId}`]?.[key] || {
-                          value: currentValue?.[key],
-                        }
-                      }
-                    />
-                  );
-                }}
-              </form.AppField>
-            ))}
+            {schemaFields.map(([key, _field]) =>
+              _field.type === 'select' ? (
+                <form.AppField
+                  key={key + singletonId}
+                  name={`${key}/${singletonId}`}
+                >
+                  {(field) => {
+                    return (
+                      <field.SelectField
+                        label={_field.label}
+                        options={_field.options}
+                        placeholder={_field.placeholder}
+                      />
+                    );
+                  }}
+                </form.AppField>
+              ) : _field.type === 'number' ? (
+                <form.AppField
+                  key={key + singletonId}
+                  name={`${key}/${singletonId}`}
+                >
+                  {(field) => {
+                    return <field.NumberField label={_field.label} />;
+                  }}
+                </form.AppField>
+              ) : (
+                <form.AppField
+                  key={key + singletonId}
+                  name={`${key}/${singletonId}`}
+                >
+                  {(field) => <field.TextField label={_field.label} />}
+                </form.AppField>
+              ),
+            )}
           </div>
 
           <form.AppForm>

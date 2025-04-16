@@ -1,6 +1,6 @@
 {
-  "id": "986aa551-bef9-4c56-934c-0785d8335388",
-  "prevId": "bbb09b84-7e92-4f05-9d55-f6f667a853cc",
+  "id": "bf58b9e2-f968-4318-a6ff-3f8e44611321",
+  "prevId": "aa23b856-618f-419b-b4bc-75e8dd806bc0",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -39,9 +39,15 @@
           "primaryKey": true,
           "notNull": true
         },
+        "title": {
+          "name": "title",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
         "order": {
           "name": "order",
-          "type": "numeric",
+          "type": "integer",
           "primaryKey": false,
           "notNull": false
         },
@@ -106,9 +112,15 @@
           "primaryKey": true,
           "notNull": true
         },
+        "title": {
+          "name": "title",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
         "order": {
           "name": "order",
-          "type": "numeric",
+          "type": "integer",
           "primaryKey": false,
           "notNull": false
         },
@@ -188,6 +200,18 @@
         "description": {
           "name": "description",
           "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "number": {
+          "name": "number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "select": {
+          "name": "select",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         }

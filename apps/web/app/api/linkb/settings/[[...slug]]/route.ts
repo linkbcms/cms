@@ -65,7 +65,7 @@ async function createSettings(req: NextRequest) {
 }
 
 export const createSettingsValidation = z.object({
-    title: z.string().optional().nullable(), navigation: z.string().optional().nullable(), description: z.string().optional().nullable()
+    title: z.string().optional().nullable(), navigation: z.string().optional().nullable(), description: z.string().optional().nullable(), number: z.number().optional().nullable(), select: z.enum(["option1", "option2", "option3"]).optional().nullable()
 });
 
 async function getSettings(id: string) {
@@ -99,7 +99,7 @@ async function patchSettings(id: string,req: NextRequest) {
 }
 
 export const patchSettingsValidation = z.object({
-    title: z.string().optional().nullable(), navigation: z.string().optional().nullable(), description: z.string().optional().nullable()
+    title: z.string().optional().nullable(), navigation: z.string().optional().nullable(), description: z.string().optional().nullable(), number: z.number().optional().nullable(), select: z.enum(["option1", "option2", "option3"]).optional().nullable()
 });
 
 async function deleteSettings(id: string) {

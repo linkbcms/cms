@@ -49,6 +49,8 @@ export const settings = table(
     title: t.varchar(),
     navigation: t.varchar(),
     description: t.varchar(),
+    number: t.integer(),
+    select: t.text(),
   }
 );
 
