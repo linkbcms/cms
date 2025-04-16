@@ -11,7 +11,13 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 import { App } from './App';
 import type { JSX } from 'react/jsx-runtime';
 // Create a client
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 0,
+    },
+  },
+});
 
 export const LinkbApp = ({ config }: { config: Config }): JSX.Element => {
   if (typeof window === 'undefined') {
@@ -21,7 +27,7 @@ export const LinkbApp = ({ config }: { config: Config }): JSX.Element => {
   return (
     <ClientOnly>
       <ConfigProvider config={config}>
-        <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClient} c>
           <BrowserRouter basename="/cms">
             <Routes>
               <Route path=":lang?/" element={<Layout />}>

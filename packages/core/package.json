@@ -19,7 +19,7 @@
       "types": "./dist/linkb-app.d.ts",
       "import": "./dist/linkb-app.js"
     },
-    "./styles": "./dist/app.css"
+    "./styles": "./dist/App.css"
   },
   "files": [
     "dist",

@@ -7,62 +7,97 @@ import { useParams } from 'react-router';
 import { type V2, formData } from '@/hooks/form-data';
 import { formatDistanceToNowStrict } from 'date-fns';
 import type { SingletonConfig } from '@/index';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { JSX } from 'react/jsx-runtime';
+import { Loader2 } from 'lucide-react';
+import { useMemo } from 'react';
+
+// console.log(query.error);
+
+const extractValuesFromStore = (data: any) => {
+  return Object.entries(data).reduce((acc, [key, value]) => {
+    acc[key] = (value as any)?.value;
+    return acc;
+  }, {});
+};
+
+const isNotEmptyObject = (obj: any) => {
+  return obj && Object.keys(obj).length > 0;
+};
 
 export const SingletonsScreen = (): JSX.Element => {
   const { singleton: singletonId } = useParams();
-
-  const store = use$<V2>(formData);
+  const queryClient = useQueryClient();
 
   const query = useQuery({
     queryKey: ['singletons', singletonId],
     queryFn: async () => {
-      const res = await fetch(`/api/linkb/${singletonId}`);
-      console.log(res);
-      if (res.ok) {
-        const data = await res.json();
-        return data;
-      }
-
-      throw new Error('error');
+      const res = await fetch(`/api/linkb/${singletonId}/1`, {
+        method: 'GET',
+      });
+      const data = await res.json();
+      return data;
     },
-    enabled: !!singletonId,
-    retry: false,
   });
 
   const mutation = useMutation({
     mutationKey: ['singletons', singletonId],
-    mutationFn: (value: any) => {
-      return fetch(`/api/linkb/${singletonId}`, {
-        method: 'POST',
-        body: JSON.stringify(value),
-      });
+    mutationFn: async (value: any) => {
+      const hasData = query.data?.result;
+
+      const res = await fetch(
+        `/api/linkb/${singletonId}${hasData ? '/1' : ''}`,
+        {
+          method: hasData ? 'PATCH' : 'POST',
+          body: JSON.stringify(value),
+        },
+      );
+
+      const result = await res.json();
+
+      return result;
     },
-    retry: false,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['singletons', singletonId] });
+    },
   });
 
   const isLoading = query.isLoading;
 
-  console.log(query.error);
+  const updatedValue = useMemo(
+    () =>
+      query.data?.result
+        ? Object.entries(query.data?.result).reduce((acc, [key, value]) => {
+            const newKey = `${key}/${singletonId}`;
 
-  const extractValuesFromStore = (data: any) => {
-    return Object.entries(data).reduce((acc, [key, value]) => {
-      acc[key] = (value as any)?.value;
-      return acc;
-    }, {});
-  };
-
-  const isNotEmptyObject = (obj: any) => {
-    return obj && Object.keys(obj).length > 0;
-  };
+            if (newKey) {
+              acc[newKey] = value;
+            }
+            return acc;
+          }, {})
+        : undefined,
+    [query.data?.result, singletonId],
+  );
 
   const form = useAppForm({
-    defaultValues: isNotEmptyObject(store?.data?.[`/singletons/${singletonId}`])
-      ? extractValuesFromStore(store.data[`/singletons/${singletonId}`])
-      : query.data?.result?.[0],
+    // defaultValues: isNotEmptyObject(store?.data?.[`/singletons/${singletonId}`])
+    //   ? extractValuesFromStore(store.data[`/singletons/${singletonId}`])
+    //   : query.data?.result?.[0],
+
+    defaultValues: updatedValue,
     onSubmit({ value }) {
-      toast.promise(() => mutation.mutateAsync(value), {
+      console.log({ value });
+
+      const updatedValue = Object.entries(value).reduce((acc, [key, value]) => {
+        const newKey = key.split('/')[0];
+
+        if (newKey) {
+          acc[newKey] = value;
+        }
+        return acc;
+      }, {});
+
+      toast.promise(() => mutation.mutateAsync(updatedValue), {
         loading: 'Saving...',
         success: () => {
           // toast.success('Saved');
@@ -75,24 +110,28 @@ export const SingletonsScreen = (): JSX.Element => {
           return 'Failed to save';
         },
       });
-
-      // // Reset the form to start-over with a clean state
-      // formApi.reset();
-
-      // formData.data[`/singletons/${singletonId}`].set({});
     },
   });
 
   return (
     <>
-      {isLoading && <div>Loading...</div>}
-      {!isLoading && <SingletonForm form={form} key={singletonId} />}
+      {isLoading ? (
+        <div className="flex h-full items-center justify-center">
+          <Loader2 className="h-4 w-4 animate-spin" />
+        </div>
+      ) : (
+        <SingletonForm
+          form={form}
+          key={singletonId}
+          currentValue={updatedValue}
+        />
+      )}
     </>
   );
 };
 
 const SingletonForm = withForm({
-  render: ({ form }) => {
+  render: ({ form, currentValue }) => {
     const { singleton: singletonId } = useParams();
     const config = useConfig();
 
@@ -101,24 +140,6 @@ const SingletonForm = withForm({
     );
 
     const store = use$<V2>(formData);
-
-    const query = useQuery({
-      queryKey: ['singletons', singletonId],
-      queryFn: async () => {
-        const res = await fetch(`/api/linkb/${singletonId}`);
-        if (res.ok) {
-          const data = await res.json();
-          return data;
-        }
-        throw new Error('error');
-      },
-      enabled: !!singletonId,
-      retry: false,
-    });
-
-    const currentValue = query.data?.result?.[0];
-
-    console.log(currentValue);
 
     useEffectOnce(() => {
       if (store.data[`/singletons/${singletonId}`]?.__updatedAt) {
@@ -157,7 +178,7 @@ const SingletonForm = withForm({
             {schemaFields.map(([key, _field]) => (
               <form.AppField
                 key={key + singletonId}
-                name={key}
+                name={`${key}/${singletonId}`}
                 validators={{
                   onChangeAsyncDebounceMs: 500,
                   onChangeAsync: async ({ value }) => {

@@ -7,7 +7,7 @@ import tailwindcss from '@tailwindcss/postcss';
 export default defineConfig({
   entry: ['src/**/*'],
 
-  clean: true,
+  // clean: true,
   dts: {
     ignoreErrors: true,
     include: ['src/**/*'],

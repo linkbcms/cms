@@ -35,7 +35,7 @@ export const CollectionScreen = (): JSX.Element => {
   const mutationUpdate = useMutation({
     mutationFn: async (value: any) => {
       const response = await fetch(`/api/linkb/${collectionId}/${itemId}`, {
-        method: 'PUT',
+        method: 'PATCH',
         body: JSON.stringify(value),
       });
       return response.json();
@@ -54,23 +54,24 @@ export const CollectionScreen = (): JSX.Element => {
 
   const form = useAppForm({
     defaultValues:
-      store?.data?.[`/collections/${collectionId}/${itemId}`] ||
+      // store?.data?.[`/collections/${collectionId}/${itemId}`] ||
       query?.data?.result,
     async onSubmit({ value, formApi }) {
       try {
         if (isNew) {
           const result = await mutationCreate.mutateAsync(value);
           const newId = result?.result?.[0]?.id;
+          navigate(`/collections/${collectionId}/${newId}`);
           toast.success('Data saved.', {
             description: `value: ${JSON.stringify(value, null, 2)}`,
-            action: newId
-              ? {
-                  label: 'View Item',
-                  onClick: () => {
-                    navigate(`/collections/${collectionId}/${newId}`);
-                  },
-                }
-              : undefined,
+            // action: newId
+            //   ? {
+            //       label: 'View Item',
+            //       onClick: () => {
+            //         navigate(`/collections/${collectionId}/${newId}`);
+            //       },
+            //     }
+            //   : undefined,
           });
           // Reset the form to start-over with a clean state
           formApi.reset();
