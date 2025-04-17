@@ -7,6 +7,7 @@ import { loadEnv } from './utilities/loadEnv';
 import path from 'node:path';
 import fs from 'node:fs';
 import { Api } from './api';
+import { createApp } from './app';
 
 const version: string = RSLIB_VERSION;
 // Create a new Commander program
@@ -14,6 +15,27 @@ const program = new Command();
 
 // Set up program metadata
 program.name('linkb').description('linkb CMS core CLI').version(version);
+
+// Add create-app command
+program
+  .command('create-app <app-name>')
+  .description('Create a new linkb application')
+  .option('-t, --template <name>', 'Template to use (default: basic)')
+  .option('--use-npm', 'Use npm as the package manager')
+  .option('--use-yarn', 'Use yarn as the package manager')
+  .option('--use-pnpm', 'Use pnpm as the package manager')
+  .action(async (appName, options) => {
+    // Determine package manager
+    let packageManager: 'npm' | 'yarn' | 'pnpm' | undefined;
+    if (options.useNpm) packageManager = 'npm';
+    else if (options.useYarn) packageManager = 'yarn';
+    else if (options.usePnpm) packageManager = 'pnpm';
+
+    await createApp(appName, {
+      template: options.template,
+      packageManager,
+    });
+  });
 
 // Middleware function for database commands
 const databaseMiddleware = async (actionName: string) => {
