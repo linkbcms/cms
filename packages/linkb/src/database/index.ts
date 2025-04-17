@@ -16,7 +16,6 @@ export const execute = async (action: string): Promise<void> => {
     console.log(chalk.yellow('Supported actions:'));
     console.log(chalk.blue('  - gen-schema: Generate database schema'));
     console.log(chalk.blue('  - migrate: Run pending migrations'));
-    console.log(chalk.blue('  - status: Show migration status'));
     console.log(chalk.blue('  - test-connection: Test database connectivity'));
     return;
   }
@@ -71,17 +70,10 @@ export const execute = async (action: string): Promise<void> => {
       );
     }
 
-    // Log configuration (without sensitive data)
-    console.log(chalk.blue('Database configuration:'));
-    console.log(chalk.blue(`  - Migration directory: ${dbConfig.schemaDir}`));
-    console.log(chalk.blue(`  - Table: ${dbConfig.tableName}`));
-    if (dbConfig.schema)
-      console.log(chalk.blue(`  - Schema: ${dbConfig.schema}`));
-    if (dbConfig.ssl) console.log(chalk.blue('  - SSL: enabled'));
-
     // Create and initialize adapter
     const dbType = databaseType.toLowerCase() as SupportedDatabase;
-    const adapter = AdapterFactory.createAdapter(dbType, dbConfig);
+    const adapterFactory = new AdapterFactory();
+    const adapter = adapterFactory.createAdapter(dbType, dbConfig);
 
     const filePath = path.resolve('cms.config.tsx');
     const cmsConfig = (await loadModule(filePath)) as ReturnType<
@@ -95,23 +87,17 @@ export const execute = async (action: string): Promise<void> => {
         await adapter.close();
         break;
       case 'migrate':
+        console.log(chalk.blue('Database configuration:'));
+        console.log(
+          chalk.blue(`  - Migration directory: ${dbConfig.schemaDir}`),
+        );
+        console.log(chalk.blue(`  - Table: ${dbConfig.tableName}`));
+        if (dbConfig.schema)
+          console.log(chalk.blue(`  - Schema: ${dbConfig.schema}`));
+        if (dbConfig.ssl) console.log(chalk.blue('  - SSL: enabled'));
         await adapter.migrate();
         await adapter.close();
         break;
-      // case "status":
-      //   const status = await adapter.status();
-      //   console.log(chalk.blue("Migration Status:"));
-      //   status.forEach((migration) => {
-      //     const statusColor =
-      //       migration.status === "applied" ? chalk.green : chalk.yellow;
-      //     console.log(
-      //       `${statusColor(migration.status)} - ${migration.name}${
-      //         migration.batch ? ` (batch ${migration.batch})` : ""
-      //       }`
-      //     );
-      //   });
-      //   await adapter.close();
-      //   break;
       case 'test-connection':
         try {
           console.log(chalk.blue('Testing database connection...'));

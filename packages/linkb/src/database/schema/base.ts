@@ -1,7 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import chalk from 'chalk';
-import type { DatabaseAdapter } from './adapters';
 import type { defineConfig } from '@linkbcms/core';
 
 // Basic schema definition types
@@ -35,10 +34,8 @@ export interface SchemaGeneratorOptions {
 export abstract class BaseSchemaGenerator {
   protected schemaDir: string;
   protected config: ReturnType<typeof defineConfig>;
-  protected adapter: DatabaseAdapter;
 
-  constructor(adapter: DatabaseAdapter, options: SchemaGeneratorOptions) {
-    this.adapter = adapter;
+  constructor(options: SchemaGeneratorOptions) {
     this.schemaDir = options.schemaDir;
     this.config = options.config;
 
@@ -65,11 +62,7 @@ export abstract class BaseSchemaGenerator {
 
       // Generate new schema based on config
       const newSchema = await this.generateNewSchema(this.config);
-      // Output schema information
-      console.log(chalk.green('Schema generation completed'));
-      console.log(chalk.blue('Generated schema structure:'));
 
-      // Save schema to file if needed
       await this.saveSchemaToFile(newSchema);
 
       console.log(chalk.green('Schema generation completed successfully'));
@@ -164,7 +157,6 @@ import * as t from "drizzle-orm/pg-core";
   ): string {
     const type = columnDef.type.toLowerCase();
     const isSnakeCase = columnName.includes('_');
-    let columnDeclaration = '';
 
     // For ID columns, always use bigserial (represented as bigint with auto-increment)
     if (columnName === 'id') {
@@ -178,258 +170,158 @@ import * as t from "drizzle-orm/pg-core";
       return isSnakeCase ? `t.bigint("${columnName}")` : 't.bigint()';
     }
 
-    // If column name is snake_case, we need special handling for the field name
-    if (isSnakeCase) {
-      // Handle different column types
-      switch (type) {
-        case 'integer':
-        case 'int':
-        case 'int4':
-          columnDeclaration = `t.integer("${columnName}")`;
-          break;
+    const columnDeclaration = this.getColumnTypeDeclaration(
+      type,
+      columnDef,
+      isSnakeCase ? columnName : undefined,
+    );
 
-        case 'smallint':
-        case 'int2':
-          columnDeclaration = `t.smallint("${columnName}")`;
-          break;
-
-        case 'bigint':
-        case 'int8':
-          columnDeclaration = `t.bigint("${columnName}")`;
-          break;
-
-        case 'serial':
-        case 'serial4':
-          columnDeclaration = `t.serial("${columnName}").notNull()`;
-          break;
-
-        case 'smallserial':
-        case 'serial2':
-          columnDeclaration = `t.smallserial("${columnName}").notNull()`;
-          break;
-
-        case 'bigserial':
-        case 'serial8':
-          columnDeclaration = `t.bigserial("${columnName}").notNull()`;
-          break;
-
-        case 'text':
-          columnDeclaration = `t.text("${columnName}")`;
-          break;
-
-        case 'varchar':
-        case 'character varying':
-          if (columnDef.maxLength) {
-            columnDeclaration = `t.varchar("${columnName}", { length: ${columnDef.maxLength} })`;
-          } else {
-            columnDeclaration = `t.varchar("${columnName}")`;
-          }
-          break;
-
-        case 'char':
-        case 'character': {
-          const charLength = columnDef.maxLength || 1;
-          columnDeclaration = `t.char("${columnName}", { length: ${charLength} })`;
-          break;
-        }
-
-        case 'boolean':
-        case 'bool':
-          columnDeclaration = `t.boolean("${columnName}")`;
-          break;
-
-        case 'timestamp':
-          columnDeclaration = `t.timestamp("${columnName}", { mode: 'string' })`;
-          break;
-
-        case 'timestamptz':
-        case 'timestamp with time zone':
-          columnDeclaration = `t.timestamp("${columnName}", { withTimezone: true, mode: 'string' })`;
-          break;
-
-        case 'time':
-          columnDeclaration = `t.time("${columnName}", { mode: 'string' })`;
-          break;
-
-        case 'date':
-          columnDeclaration = `t.date("${columnName}", { mode: 'string' })`;
-          break;
-
-        case 'uuid':
-          columnDeclaration = `t.uuid("${columnName}")`;
-          break;
-
-        case 'json':
-          columnDeclaration = `t.json("${columnName}")`;
-          break;
-
-        case 'jsonb':
-          columnDeclaration = `t.jsonb("${columnName}")`;
-          break;
-
-        case 'numeric':
-        case 'decimal':
-          columnDeclaration = `t.numeric("${columnName}")`;
-          break;
-
-        case 'real':
-          columnDeclaration = `t.real("${columnName}")`;
-          break;
-
-        case 'double precision':
-          columnDeclaration = `t.doublePrecision("${columnName}")`;
-          break;
-
-        case 'interval':
-          columnDeclaration = `t.interval("${columnName}")`;
-          break;
-
-        case 'point':
-          columnDeclaration = `t.point("${columnName}")`;
-          break;
-
-        case 'line':
-          columnDeclaration = `t.line("${columnName}")`;
-          break;
-
-        default:
-          // Default to text for unknown types
-          console.warn(
-            chalk.yellow(`Unknown column type: ${type}, defaulting to text()`),
-          );
-          columnDeclaration = `t.text("${columnName}")`;
-      }
-    } else {
-      // Handle different column types without the column name (for camelCase)
-      switch (type) {
-        case 'integer':
-        case 'int':
-        case 'int4':
-          columnDeclaration = 't.integer()';
-          break;
-
-        case 'smallint':
-        case 'int2':
-          columnDeclaration = 't.smallint()';
-          break;
-
-        case 'bigint':
-        case 'int8':
-          columnDeclaration = 't.bigint()';
-          break;
-
-        case 'serial':
-        case 'serial4':
-          columnDeclaration = 't.serial().notNull()';
-          break;
-
-        case 'smallserial':
-        case 'serial2':
-          columnDeclaration = 't.smallserial().notNull()';
-          break;
-
-        case 'bigserial':
-        case 'serial8':
-          columnDeclaration = 't.bigserial().notNull()';
-          break;
-
-        case 'text':
-          columnDeclaration = 't.text()';
-          break;
-
-        case 'varchar':
-        case 'character varying':
-          if (columnDef.maxLength) {
-            columnDeclaration = `t.varchar({ length: ${columnDef.maxLength} })`;
-          } else {
-            columnDeclaration = 't.varchar()';
-          }
-          break;
-
-        case 'char':
-        case 'character': {
-          const charLength = columnDef.maxLength || 1;
-          columnDeclaration = `t.char({ length: ${charLength} })`;
-          break;
-        }
-
-        case 'boolean':
-        case 'bool':
-          columnDeclaration = 't.boolean()';
-          break;
-
-        case 'timestamp':
-          columnDeclaration = `t.timestamp({ mode: 'string' })`;
-          break;
-
-        case 'timestamptz':
-        case 'timestamp with time zone':
-          columnDeclaration = `t.timestamp({ withTimezone: true, mode: 'string' })`;
-          break;
-
-        case 'time':
-          columnDeclaration = `t.time({ mode: 'string' })`;
-          break;
-
-        case 'date':
-          columnDeclaration = `t.date({ mode: 'string' })`;
-          break;
-
-        case 'uuid':
-          columnDeclaration = 't.uuid()';
-          break;
-
-        case 'json':
-          columnDeclaration = 't.json()';
-          break;
-
-        case 'jsonb':
-          columnDeclaration = 't.jsonb()';
-          break;
-
-        case 'numeric':
-        case 'decimal':
-          columnDeclaration = 't.numeric()';
-          break;
-
-        case 'real':
-          columnDeclaration = 't.real()';
-          break;
-
-        case 'double precision':
-          columnDeclaration = 't.doublePrecision()';
-          break;
-
-        case 'interval':
-          columnDeclaration = 't.interval()';
-          break;
-
-        case 'point':
-          columnDeclaration = 't.point()';
-          break;
-
-        case 'line':
-          columnDeclaration = 't.line()';
-          break;
-
-        default:
-          // Default to text for unknown types
-          console.warn(
-            chalk.yellow(`Unknown column type: ${type}, defaulting to text()`),
-          );
-          columnDeclaration = 't.text()';
-      }
-    }
-
-    // Add nullable
-    if (!columnDef.nullable) {
-      columnDeclaration += '.notNull().default("")';
-    }
-
-    // Add default value if exists
-    if (columnDef.default) {
-      columnDeclaration += `.default(${columnDef.default})`;
-    }
     return columnDeclaration;
+  }
+
+  /**
+   * Get the appropriate Drizzle column type declaration based on the database type
+   */
+  private getColumnTypeDeclaration(
+    type: string,
+    columnDef: ColumnDefinition,
+    columnName?: string,
+  ): string {
+    // Create the column name parameter for the function call if it exists
+    const nameParam = columnName ? `"${columnName}"` : '';
+
+    // Handle different column types
+    switch (type) {
+      case 'integer':
+      case 'int':
+      case 'int4':
+        return this.buildColumnDeclaration('integer', nameParam);
+
+      case 'smallint':
+      case 'int2':
+        return this.buildColumnDeclaration('smallint', nameParam);
+
+      case 'bigint':
+      case 'int8':
+        return this.buildColumnDeclaration('bigint', nameParam);
+
+      case 'serial':
+      case 'serial4':
+        return `${this.buildColumnDeclaration('serial', nameParam)}.notNull()`;
+
+      case 'smallserial':
+      case 'serial2':
+        return `${this.buildColumnDeclaration('smallserial', nameParam)}.notNull()`;
+
+      case 'bigserial':
+      case 'serial8':
+        return `${this.buildColumnDeclaration('bigserial', nameParam)}.notNull()`;
+
+      case 'text':
+        return this.buildColumnDeclaration('text', nameParam);
+
+      case 'varchar':
+      case 'character varying':
+        if (columnDef.maxLength) {
+          const options = `{ length: ${columnDef.maxLength} }`;
+          return this.buildColumnDeclaration('varchar', nameParam, options);
+        }
+        return this.buildColumnDeclaration('varchar', nameParam);
+
+      case 'char':
+      case 'character': {
+        const charLength = columnDef.maxLength || 1;
+        const options = `{ length: ${charLength} }`;
+        return this.buildColumnDeclaration('char', nameParam, options);
+      }
+
+      case 'boolean':
+      case 'bool':
+        return this.buildColumnDeclaration('boolean', nameParam);
+
+      case 'timestamp':
+        return this.buildColumnDeclaration(
+          'timestamp',
+          nameParam,
+          `{ mode: 'string' }`,
+        );
+
+      case 'timestamptz':
+      case 'timestamp with time zone':
+        return this.buildColumnDeclaration(
+          'timestamp',
+          nameParam,
+          `{ withTimezone: true, mode: 'string' }`,
+        );
+
+      case 'time':
+        return this.buildColumnDeclaration(
+          'time',
+          nameParam,
+          `{ mode: 'string' }`,
+        );
+
+      case 'date':
+        return this.buildColumnDeclaration(
+          'date',
+          nameParam,
+          `{ mode: 'string' }`,
+        );
+
+      case 'uuid':
+        return this.buildColumnDeclaration('uuid', nameParam);
+
+      case 'json':
+        return this.buildColumnDeclaration('json', nameParam);
+
+      case 'jsonb':
+        return this.buildColumnDeclaration('jsonb', nameParam);
+
+      case 'numeric':
+      case 'decimal':
+        return this.buildColumnDeclaration('numeric', nameParam);
+
+      case 'real':
+        return this.buildColumnDeclaration('real', nameParam);
+
+      case 'double precision':
+        return this.buildColumnDeclaration('doublePrecision', nameParam);
+
+      case 'interval':
+        return this.buildColumnDeclaration('interval', nameParam);
+
+      case 'point':
+        return this.buildColumnDeclaration('point', nameParam);
+
+      case 'line':
+        return this.buildColumnDeclaration('line', nameParam);
+
+      default:
+        // Default to text for unknown types
+        console.warn(
+          chalk.yellow(`Unknown column type: ${type}, defaulting to text()`),
+        );
+        return this.buildColumnDeclaration('text', nameParam);
+    }
+  }
+
+  /**
+   * Build a column declaration with the correct syntax based on parameters
+   */
+  private buildColumnDeclaration(
+    columnType: string,
+    nameParam: string,
+    options?: string,
+  ): string {
+    if (nameParam && options) {
+      return `t.${columnType}(${nameParam}, ${options})`;
+    }
+    if (nameParam) {
+      return `t.${columnType}(${nameParam})`;
+    }
+    if (options) {
+      return `t.${columnType}(${options})`;
+    }
+    return `t.${columnType}()`;
   }
 }

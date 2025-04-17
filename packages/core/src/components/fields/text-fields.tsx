@@ -1,20 +1,12 @@
 import { useStore } from '@tanstack/react-form';
-import { useFieldContext } from '../hooks/form-context.tsx';
+import { useFieldContext } from '../../hooks/form-context.tsx';
 import { Label } from '@linkbcms/ui/components/label';
 import { Input } from '@linkbcms/ui/components/input';
 
-import ReactDiffViewer from 'react-diff-viewer-continued';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@linkbcms/ui/components/popover';
 import type { JSX } from 'react/jsx-runtime';
 
 export default function TextField({
   label,
-  previousValue,
-  draft,
 }: {
   label: string;
   previousValue: string;
@@ -27,11 +19,11 @@ export default function TextField({
 
   const errors = useStore(field.store, (state) => state.meta.errors);
 
-  const hasChanged = field.state.value !== previousValue;
+  // const hasChanged = field.state.value !== previousValue;
 
   return (
     <div className="relative">
-      {hasChanged && (
+      {/* {hasChanged && (
         <Popover>
           <PopoverTrigger className="-left-4 absolute top-0 h-full">
             <div className="h-full w-1 rounded-md bg-amber-200 dark:bg-amber-100" />
@@ -46,7 +38,8 @@ export default function TextField({
             />
           </PopoverContent>
         </Popover>
-      )}
+      )} */}
+
       <div className="flex w-full flex-col items-start gap-2">
         <Label className="flex w-full flex-col items-start gap-2">
           <div>{label}</div>

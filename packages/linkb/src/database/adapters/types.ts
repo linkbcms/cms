@@ -54,25 +54,7 @@ export interface DatabaseAdapter {
   migrate(options?: MigrationOptions): Promise<void>;
 
   /**
-   * Get migration status
-   */
-  status(options?: MigrationOptions): Promise<
-    {
-      name: string;
-      status: 'pending' | 'applied' | 'rolled-back';
-      batch?: number;
-      executedAt?: Date;
-    }[]
-  >;
-
-  /**
    * Close the database connection
    */
   close(): Promise<void>;
-
-  /**
-   * Get database client for direct database operations
-   * Returns the underlying database client specific to each adapter
-   */
-  getDBClient?(): Promise<any>;
 }

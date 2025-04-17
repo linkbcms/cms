@@ -1,7 +1,7 @@
-import { Client } from "pg";
-import { BaseSchemaGenerator, SchemaGeneratorOptions } from "./base";
-import { PostgresSchemaGenerator } from "./adapters";
-import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import type { Client } from 'pg';
+import type { BaseSchemaGenerator, SchemaGeneratorOptions } from './base';
+import { PostgresSchemaGenerator } from './adapters';
+import type { NodePgDatabase } from 'drizzle-orm/node-postgres';
 
 /**
  * Database schema manager for schema generation and migrations
@@ -14,27 +14,25 @@ export class DatabaseSchema {
    * Create a schema manager for a PostgreSQL database
    */
   static forPostgres(
-    db: NodePgDatabase<Record<string, never>> & { $client: Client },
-    options: Omit<SchemaGeneratorOptions, "type">
+    options: Omit<SchemaGeneratorOptions, 'type'>,
   ): DatabaseSchema {
     const pgOptions: SchemaGeneratorOptions = {
       ...options,
-      type: "postgres"
+      type: 'postgres',
     };
-    
+
     const schemaGenerator = new PostgresSchemaGenerator({
       ...pgOptions,
-      db
     });
-    
+
     return new DatabaseSchema(schemaGenerator);
   }
-  
+
   // When adding MySQL support:
   // static forMySQL(db: MySQLConnection, options: Omit<SchemaGeneratorOptions, "type">): DatabaseSchema {
   //   ...
   // }
-  
+
   /**
    * Create a schema manager with an existing schema generator
    */
@@ -50,7 +48,7 @@ export class DatabaseSchema {
     try {
       await this.schemaGenerator.generateSchema();
     } catch (error) {
-      console.error("Error generating schema:", error);
+      console.error('Error generating schema:', error);
       throw error;
     }
   }
