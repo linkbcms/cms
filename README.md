@@ -1,6 +1,8 @@
-# shadcn/ui monorepo template
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
 
-This template is for creating a monorepo with shadcn/ui.
+# linkbcms monorepo template
+
+This template is for creating a monorepo with linkbcms.
 
 ## Usage
 
@@ -29,3 +31,11 @@ To use the components in your app, import them from the `ui` package.
 ```tsx
 import { Button } from "@linkbcms/ui/components/button"
 ```
+
+## Contributing
+
+Please read the [CONTRIBUTING.md](.github/CONTRIBUTING.md) file for details on our code of conduct, and the process for submitting pull requests to us.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
