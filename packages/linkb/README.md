@@ -48,6 +48,29 @@ Running the command without arguments will display the help menu:
 linkb
 ```
 
+### Creating a New Application
+
+You can create a new linkb application using the create-app command:
+
+```bash
+linkb create-app my-app
+```
+
+Or using npx directly:
+
+```bash
+npx linkb create-app my-app
+```
+
+The create-app command accepts the following options:
+
+- `-t, --template <name>`: Template to use (default: basic)
+- `--use-npm`: Use npm as the package manager
+- `--use-yarn`: Use yarn as the package manager
+- `--use-pnpm`: Use pnpm as the package manager
+
+This will create a new application based on the specified template. The dependencies will be automatically installed.
+
 ### Database Operations
 
 The CLI provides several database management commands:
