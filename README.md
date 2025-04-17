@@ -14,7 +14,7 @@ pnpm dlx @linkbcms/cli create-app my-app
 
 ## Documentation
 
-Visit <http://linkbcms.com/docs> to view the documentation.
+Visit <https://linkbcms.com/docs> to view the documentation.
 
 ## Contributing
 
