@@ -1,0 +1,1 @@
+export { PostgresSchemaGenerator } from './postgres';

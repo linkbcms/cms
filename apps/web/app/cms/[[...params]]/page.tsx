@@ -1,7 +1,5 @@
-'use client';
+import React from 'react';
 
-import { LinkbApp } from '@linkb/core/app';
-
-export default function CMSPage() {
-  return <LinkbApp />;
+export default function Page() {
+  return null;
 }
