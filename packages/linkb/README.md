@@ -59,7 +59,7 @@ linkb create-app my-app
 Or using npx directly:
 
 ```bash
-npx linkb create-app my-app
+npx @linkbcms/cli linkb create-app my-app
 ```
 
 The create-app command accepts the following options:
