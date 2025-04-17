@@ -1,24 +1,140 @@
 ---
-title: Introduction
-description: Connect your CMS to NextJS with our powerful integration tools
-
+title: Quick Start
+description: Getting started with Linkbcms
+icon: Album
 ---
 
-# CMS Integration for NextJS
+## Introduction
 
-Seamlessly connect your headless CMS to your NextJS application with our powerful integration tools. Our packages provide a streamlined workflow for content management, data fetching, and rendering.
+Linkbcms is a **headless CMS** built with NextJS in mind, designed to be fast, flexible,
+and composes seamlessly into Next.js App Router.
 
-## Get Started Quickly
+
 
 <Cards>
-  <Card title="Installation Guide" href="/docs/getting-started/installation" />
-  <Card title="Quick Start" href="/docs/getting-started/quickstart" />
-  <Card title="Core Concepts" href="/docs/getting-started/concepts" />
+
+<Card icon={<CpuIcon className="text-purple-300" />} title='Linkbcms Core'>
+
+Handles most of the logic, including configuration for the CMS from DB adapter and content source and the fields for the content.
+
+</Card>
+
+<Card icon={<Terminal />} title='Linkbcms CLI'>
+
+A command line tool to generate schema and DB migration.
+
+</Card>
+
 </Cards>
 
-## Features
+### Features
 
 - **Type-safe content**: Automatically generate TypeScript types from your CMS schema
 - **Seamless integration**: Connect to popular headless CMS platforms with minimal configuration
 - **CLI tools**: Automate content setup and deployment
 - **Optimized rendering**: Fast page loads with efficient data fetching strategies
+
+## Automatic Installation
+
+A minimum version of Node.js 18 required, note that Node.js 23.1 might have problems with Next.js production build.
+
+```package-install
+npm create linkbcms@latest
+```
+
+It will ask you:
+
+- `DATABASE_TYPE`: the type of the database to use. (default: `"supabase"`)
+- `DATABASE_URL`: the connection string for the database. (optional, can be set later)
+
+A new Linkbcms app should be initialized. Now you can start hacking!
+
+
+<Callout title='From Existing Codebase?'>
+
+    You can follow the [Manual Installation](/docs/ui/manual-installation) guide to get started.
+
+</Callout>
+
+### Happy Hacking!
+
+Update the CMS schema and content.
+
+```tsx title="cms.config.tsx"
+import { fields, defineConfig } from '@linkbcms/core';
+
+export default defineConfig({
+  collections: {
+    settings: fields.singleton({
+      name: 'Settings',
+      schema: {
+        appName: fields.text({
+          name: 'appName',
+          label: 'App Name',
+        }),
+      },
+    }),
+  }
+});
+```
+
+
+Open terminal and run the CLI to generate the schema using Drizzle.
+
+```package-install
+npx @linkbcms/cli db gen-schema
+```
+
+After generating the schema, you need to run the following command to generate the DB migration and execute it.
+
+```package-install
+npx @linkbcms/cli db migrate
+```
+
+Run the app in development mode and see http://localhost:3000/cms.
+
+```package-install
+npm run dev
+```
+
+
+## Explore
+
+In the project, you can see:
+
+- `database/`: Folder for the database schema and migration.
+- `cms.config.tsx`: The CMS configuration.
+
+| Route                     | Description                                            |
+| ------------------------- | ------------------------------------------------------ |
+| `app/cms/[[...params]]`   | This is the route for the CMS. |
+| `app/api/linkb/`          | All the API routes will be generated here.                         |
+
+## Learn More
+
+New to here? Don't worry, we are welcome for your questions.
+
+If you find anything confusing, please give your feedback on [Github Discussion](https://github.com/linkb15/cms/discussions)!
+
+<Cards>
+  <Card
+    href="/docs/ui/static-export"
+    title="Configure Static Export"
+    description="Learn how to enable static export on your docs"
+  />
+  <Card
+    href="/docs/ui/search"
+    title="Customise Search"
+    description="Learn how to customise document search"
+  />
+  <Card
+    href="/docs/ui/theme"
+    title="Theming"
+    description="Add themes to Fumadocs UI"
+  />
+  <Card
+    href="/docs/ui/components"
+    title="Components"
+    description="See all available components to enhance your docs"
+  />
+</Cards>

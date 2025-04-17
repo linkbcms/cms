@@ -9,6 +9,15 @@ export const docs = defineDocs({
 export default defineConfig({
   mdxOptions: {
     // MDX options
-    remarkPlugins: [remarkInstall],
+    remarkPlugins: [
+      [
+        remarkInstall,
+        {
+          persist: {
+            id: 'package-manager',
+          },
+        },
+      ],
+    ],
   },
 });
