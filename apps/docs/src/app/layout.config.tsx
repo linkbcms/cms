@@ -8,6 +8,7 @@ import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
  * Docs Layout: app/docs/layout.tsx
  */
 export const baseOptions: BaseLayoutProps = {
+  githubUrl: 'https://github.com/linkb15/cms',
   nav: {
     title: (
       <>
@@ -17,9 +18,10 @@ export const baseOptions: BaseLayoutProps = {
           xmlns="http://www.w3.org/2000/svg"
           aria-label="Logo"
         >
+          <title>LinkbCMS</title>
           <circle cx={12} cy={12} r={12} fill="currentColor" />
         </svg>
-        My App
+        LinkbCMS
       </>
     ),
   },
@@ -28,6 +30,11 @@ export const baseOptions: BaseLayoutProps = {
       text: 'Documentation',
       url: '/docs',
       active: 'nested-url',
+    },
+    {
+      text: 'GitHub',
+      url: 'https://github.com/linkb15/cms',
+      external: true,
     },
   ],
 };

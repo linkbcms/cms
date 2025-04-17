@@ -4,18 +4,18 @@ description: Getting started with Linkbcms
 icon: Album
 ---
 
+![hero](/demo.png)
+
 ## Introduction
 
 Linkbcms is a **headless CMS** built with NextJS in mind, designed to be fast, flexible,
 and composes seamlessly into Next.js App Router.
 
-
-
 <Cards>
 
 <Card icon={<CpuIcon className="text-purple-300" />} title='Linkbcms Core'>
 
-Handles most of the logic, including configuration for the CMS from DB adapter and content source and the fields for the content.
+Type-safe configuration. Admin UI.
 
 </Card>
 
@@ -39,7 +39,7 @@ A command line tool to generate schema and DB migration.
 A minimum version of Node.js 18 required, note that Node.js 23.1 might have problems with Next.js production build.
 
 ```package-install
-npm create linkbcms@latest
+npx @linkbcms/cli@latest create-app my-app
 ```
 
 It will ask you:
