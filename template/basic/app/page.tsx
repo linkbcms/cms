@@ -1,11 +1,7 @@
-// import { reader } from '@linkbcms/core/reader';
-
-import { Button } from '@linkbcms/ui/components/button';
 import Link from 'next/link';
 import type { JSX } from 'react';
 
 export default function Page(): JSX.Element {
-  // const cms = reader.api.getCollection.blogs.list();
   return (
     <div className="flex min-h-svh items-center justify-center">
       <div className="flex flex-col items-center justify-center gap-4">

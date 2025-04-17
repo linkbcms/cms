@@ -1,10 +1,11 @@
 {
   "name": "@linkbcms/core",
-  "version": "0.0.6",
+  "version": "0.0.11",
   "type": "module",
   "sideEffects": false,
   "scripts": {
-    "build": "paraglide-js compile --project ./project.inlang --outdir ./src/paraglide && tsdown",
+    "build": "paraglide-js compile --project ./project.inlang --outdir ./src/paraglide && rslib build",
+    "build:tsdown": "paraglide-js compile --project ./project.inlang --outdir ./src/paraglide && tsdown",
     "check": "biome check --write",
     "dev": "tsdown --watch",
     "format": "biome format --write",
@@ -19,7 +20,7 @@
       "types": "./dist/linkb-app.d.ts",
       "import": "./dist/linkb-app.js"
     },
-    "./styles": "./dist/App.css"
+    "./styles": "./dist/styles.css"
   },
   "files": [
     "dist",
@@ -30,6 +31,7 @@
     "src/**/*.tsx"
   ],
   "dependencies": {
+    "@inlang/paraglide-js": "2.0.0-beta.26",
     "@legendapp/state": "3.0.0-beta.30",
     "@linkbcms/ui": "workspace:*",
     "@tabler/icons-react": "^3.31.0",
@@ -47,7 +49,6 @@
   },
   "devDependencies": {
     "@inlang/cli": "^3.0.0",
-    "@inlang/paraglide-js": "2.0.0-beta.26",
     "@rsbuild/core": "^1.2.14",
     "@rsbuild/plugin-react": "^1.1.1",
     "@rslib/core": "^0.6.2",

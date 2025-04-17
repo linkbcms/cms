@@ -10,8 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@linkbcms/core": "latest",
-    "@linkbcms/ui": "latest",
+    "@linkbcms/core": "^0.0.11",
     "@next/bundle-analyzer": "^15.2.4",
     "drizzle-kit": "^0.30.6",
     "drizzle-orm": "^0.41.0",
@@ -28,7 +27,6 @@
     "@types/node": "^20",
     "@types/react": "19.1.1",
     "@types/react-dom": "19.1.2",
-    "@workspace/typescript-config": "latest",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

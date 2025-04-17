@@ -1,6 +1,5 @@
 import { Geist, Geist_Mono } from 'next/font/google';
 
-// import '@linkbcms/ui/globals.css';
 import { Providers } from '@/components/providers';
 
 import '@/app/global.css';
@@ -25,7 +24,7 @@ export default function RootLayout({
       <body
         className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
       >
-        <Providers>{children as any}</Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

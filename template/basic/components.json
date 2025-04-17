@@ -4,8 +4,8 @@
   "rsc": true,
   "tsx": true,
   "tailwind": {
-    "config": "../../packages/ui/tailwind.config.ts",
-    "css": "../../packages/ui/src/styles/globals.css",
+    "config": "./tailwind.config.ts",
+    "css": "./src/styles/globals.css",
     "baseColor": "zinc",
     "cssVariables": true
   },
@@ -14,7 +14,7 @@
     "components": "@/components",
     "hooks": "@/hooks",
     "lib": "@/lib",
-    "utils": "@linkbcms/ui/lib/utils",
-    "ui": "@linkbcms/ui/components"
+    "utils": "@/lib/utils",
+    "ui": "@/components"
   }
 }
