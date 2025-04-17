@@ -1,36 +1,20 @@
+# linkbcms
+
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
 
-# linkbcms monorepo template
+Linkbcms is a Next.js native CMS that can install directly in your existing /app folder. It's the continuation of the era for headless CMS.
 
-This template is for creating a monorepo with linkbcms.
+![hero](apps/docs/public/demo.png)
 
-## Usage
-
-```bash
-pnpm dlx shadcn@latest init
-```
-
-## Adding components
-
-To add components to your app, run the following command at the root of your `web` app:
+## Quick Start
 
 ```bash
-pnpm dlx shadcn@latest add button -c apps/web
+pnpm dlx @linkbcms/cli create-app my-app
 ```
 
-This will place the ui components in the `packages/ui/src/components` directory.
+## Documentation
 
-## Tailwind
-
-Your `tailwind.config.ts` and `globals.css` are already set up to use the components from the `ui` package.
-
-## Using components
-
-To use the components in your app, import them from the `ui` package.
-
-```tsx
-import { Button } from "@linkbcms/ui/components/button"
-```
+Visit <http://linkbcms.com/docs> to view the documentation.
 
 ## Contributing
 

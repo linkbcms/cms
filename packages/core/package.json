@@ -7,7 +7,8 @@
     "build": "paraglide-js compile --project ./project.inlang --outdir ./src/paraglide && rslib build",
     "build:tsdown": "paraglide-js compile --project ./project.inlang --outdir ./src/paraglide && tsdown",
     "check": "biome check --write",
-    "dev": "tsdown --watch",
+    "dev:tsdown": "tsdown --watch",
+    "dev": "rslib build --watch",
     "format": "biome format --write",
     "machine-translate": "inlang machine translate --project project.inlang"
   },
