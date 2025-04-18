@@ -1,7 +1,5 @@
-import type { Client } from 'pg';
 import type { BaseSchemaGenerator, SchemaGeneratorOptions } from './base';
 import { PostgresSchemaGenerator } from './adapters';
-import type { NodePgDatabase } from 'drizzle-orm/node-postgres';
 
 /**
  * Database schema manager for schema generation and migrations
@@ -18,9 +16,9 @@ export class DatabaseSchema {
   ): DatabaseSchema {
     const pgOptions: SchemaGeneratorOptions = {
       ...options,
+      schema: options.schema || '',
       type: 'postgres',
     };
-
     const schemaGenerator = new PostgresSchemaGenerator({
       ...pgOptions,
     });

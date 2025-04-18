@@ -24,7 +24,7 @@ export interface SchemaGeneratorOptions {
   type?: 'postgres' | 'mysql' | 'sqlite';
   schemaDir: string;
   config: ReturnType<typeof defineConfig>;
-  schema?: string;
+  schema: string;
 }
 
 /**
@@ -33,10 +33,12 @@ export interface SchemaGeneratorOptions {
  */
 export abstract class BaseSchemaGenerator {
   protected schemaDir: string;
+  protected schema: string;
   protected config: ReturnType<typeof defineConfig>;
 
   constructor(options: SchemaGeneratorOptions) {
     this.schemaDir = options.schemaDir;
+    this.schema = options.schema;
     this.config = options.config;
 
     // Ensure schema directory exists
@@ -93,9 +95,8 @@ export abstract class BaseSchemaGenerator {
 import { pgTable as table } from "drizzle-orm/pg-core";
 import * as t from "drizzle-orm/pg-core";
 
+export const defaultSchema = ${this.schema ? `t.pgSchema("${this.schema}").table` : 'table'}
 `;
-
-      // Generate any enums if needed (would need to extend our schema definition to support this)
 
       // Generate table declarations
       for (const [tableName, tableSchema] of Object.entries(schema)) {
@@ -106,7 +107,7 @@ import * as t from "drizzle-orm/pg-core";
             (col as any).references !== undefined,
         );
 
-        schemaFileContent += `export const ${this.camelCase(tableName)} = table(\n`;
+        schemaFileContent += `export const ${this.camelCase(tableName)} = defaultSchema(\n`;
         schemaFileContent += `  "${tableName}",\n`;
         schemaFileContent += '  {\n';
 

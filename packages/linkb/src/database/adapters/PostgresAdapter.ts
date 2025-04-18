@@ -9,12 +9,10 @@ import { DatabaseSchema } from '../schema';
 import { spawn } from 'node:child_process';
 
 export interface PostgresConfig {
-  connectionString?: string;
+  connectionString: string;
   schemaDir?: string;
   migrationDir?: string;
-  tableName?: string;
-  ssl?: boolean;
-  schema?: string;
+  schema: string;
 }
 
 /**
@@ -29,19 +27,11 @@ export class PostgresAdapter extends BaseAdapter {
 
   constructor(config: PostgresConfig) {
     super(config);
-    this.tableName = config.tableName || '';
-    this.schema = config.schema || 'public';
-
-    // For Supabase, we need to ensure SSL is enabled if not explicitly set
-    const sslConfig =
-      config.ssl === undefined
-        ? { rejectUnauthorized: false } // Default for Supabase
-        : config.ssl;
+    this.schema = config.schema;
 
     // Create PostgreSQL client
     const client = new pg.Client({
       connectionString: config.connectionString,
-      ssl: sslConfig,
     });
 
     this.db = drizzle(client);
@@ -50,7 +40,9 @@ export class PostgresAdapter extends BaseAdapter {
   /**
    * Initialize the adapter
    */
-  public async initialize(): Promise<void> {}
+  public async initialize(): Promise<void> {
+    await this.db.$client.connect();
+  }
 
   /**
    * Test database connection
@@ -58,18 +50,6 @@ export class PostgresAdapter extends BaseAdapter {
    */
   public async testConnection(): Promise<boolean> {
     try {
-      // Check if the client is already connected by attempting a simple query
-      // If it fails, we'll try to connect first
-      try {
-        await this.db.$client.query('SELECT 1 as connection_test');
-      } catch (connectionError) {
-        // If query fails, try to connect
-        await this.db.$client.connect();
-      }
-
-      // Execute a simple query to test the connection
-      const result = await this.db.$client.query('SELECT 1 as test');
-
       console.log(chalk.green('PostgreSQL connection test successful'));
       return true;
     } catch (error) {
@@ -94,6 +74,7 @@ export class PostgresAdapter extends BaseAdapter {
       const schema = DatabaseSchema.forPostgres({
         schemaDir: this.schemaDir,
         config: config,
+        schema: this.schema,
       });
 
       await schema.generateSchema();
@@ -119,10 +100,10 @@ export class PostgresAdapter extends BaseAdapter {
       console.log(chalk.blue('Running migrations...'));
 
       // Check if migrations directory exists
-      if (!fs.existsSync(this.schemaDir)) {
-        fs.mkdirSync(this.schemaDir, { recursive: true });
+      if (!fs.existsSync(this.migrationDir)) {
+        fs.mkdirSync(this.migrationDir, { recursive: true });
         console.log(
-          chalk.yellow(`Created migrations directory: ${this.schemaDir}`),
+          chalk.yellow(`Created migrations directory: ${this.migrationDir}`),
         );
       }
 
@@ -151,12 +132,96 @@ export class PostgresAdapter extends BaseAdapter {
   }
 
   /**
+   * Reset database by dropping all tables
+   * @param options Options for resetting the database
+   * @returns Promise that resolves when the reset is complete
+   */
+  public async resetDatabase(options?: {
+    deleteMigrations?: boolean;
+    deleteSchema?: boolean;
+  }): Promise<void> {
+    try {
+      console.log(chalk.blue('Resetting database...'));
+
+      // Get the schema
+      const schemaName = this.schema || 'public';
+
+      // Drop all tables in the schema
+      const tablesQuery = `
+        SELECT tablename FROM pg_tables 
+        WHERE schemaname = $1;
+      `;
+
+      const tablesResult = await this.db.$client.query(tablesQuery, [
+        schemaName,
+      ]);
+      const tables = tablesResult.rows.map((row) => row.tablename);
+
+      if (tables.length === 0) {
+        console.log(chalk.yellow('No tables found in the database to reset.'));
+      } else {
+        console.log(chalk.blue(`Dropping ${tables.length} tables...`));
+
+        // Drop all tables in one transaction
+        await this.db.$client.query('BEGIN;');
+
+        for (const table of tables) {
+          console.log(chalk.yellow(`Dropping table: ${schemaName}.${table}`));
+          await this.db.$client.query(
+            `DROP TABLE IF EXISTS "${schemaName}"."${table}" CASCADE;`,
+          );
+        }
+
+        await this.db.$client.query('COMMIT;');
+        console.log(chalk.green('All tables have been dropped successfully.'));
+      }
+
+      // Handle additional cleanup if requested
+      if (options?.deleteMigrations) {
+        if (fs.existsSync(this.migrationDir)) {
+          console.log(
+            chalk.blue(`Removing migration files from ${this.migrationDir}`),
+          );
+          fs.rmSync(this.migrationDir, { recursive: true, force: true });
+          fs.mkdirSync(this.migrationDir, { recursive: true });
+          console.log(chalk.green('Migration files removed.'));
+        } else {
+          console.log(
+            chalk.yellow(
+              `Migration directory ${this.migrationDir} does not exist.`,
+            ),
+          );
+        }
+      }
+
+      if (options?.deleteSchema) {
+        if (fs.existsSync(this.schemaDir)) {
+          console.log(
+            chalk.blue(`Removing schema files from ${this.schemaDir}`),
+          );
+          fs.rmSync(this.schemaDir, { recursive: true, force: true });
+          fs.mkdirSync(this.schemaDir, { recursive: true });
+          console.log(chalk.green('Schema files removed.'));
+        } else {
+          console.log(
+            chalk.yellow(`Schema directory ${this.schemaDir} does not exist.`),
+          );
+        }
+      }
+
+      console.log(chalk.green('Database reset completed successfully.'));
+    } catch (error) {
+      console.log(error);
+      console.error(chalk.red(`Error resetting database: ${error}`));
+      throw error;
+    }
+  }
+
+  /**
    * Run drizzle-kit command interactively to allow for selection prompts
    */
   private runDrizzleKitInteractive(command: string): Promise<void> {
     return new Promise((resolve, reject) => {
-      console.log(chalk.blue(`Executing interactively: ${command}`));
-
       // Split the command into command and args
       const parts = command.split(' ');
       const cmd = parts[0];
@@ -170,7 +235,6 @@ export class PostgresAdapter extends BaseAdapter {
 
       process.on('close', (code) => {
         if (code === 0) {
-          console.log(chalk.green('Command completed successfully'));
           resolve();
         } else {
           console.error(chalk.red(`Command failed with code ${code}`));
@@ -204,37 +268,28 @@ export class PostgresAdapter extends BaseAdapter {
       let actualConfigPath = configPath;
 
       if (!fs.existsSync(configPath)) {
-        console.log(
-          chalk.yellow(
-            `Config file ${configPath} not found, creating temporary config...`,
-          ),
-        );
         actualConfigPath = 'drizzle.config.temp.ts';
         tempConfig = true;
 
-        // Create a TypeScript drizzle-kit config file
         const configContent = `
 import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
   dialect: "postgresql",
   schema: "${this.schemaDir}/schema.ts",
-  out: "../../${this.migrationDir}",
+  out: "${this.migrationDir}",
   dbCredentials: {
     url: "${
       this.connectionString ||
       'postgresql://postgres:postgres@localhost:5432/postgres'
     }"
   },
-  verbose: true,
+  verbose: false,
   strict: true,
 });
 `;
 
         fs.writeFileSync(actualConfigPath, configContent);
-        console.log(
-          chalk.blue(`Created temporary config file at ${actualConfigPath}`),
-        );
       }
 
       await this.runDrizzleKitInteractive(
@@ -256,8 +311,6 @@ export default defineConfig({
 
         // Run the command interactively to allow for selection prompts
         await this.runDrizzleKitInteractive(command);
-
-        console.log(chalk.green('Migration completed successfully'));
       } finally {
         // Clean up temp config if created
         if (tempConfig && fs.existsSync(actualConfigPath)) {

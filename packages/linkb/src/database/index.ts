@@ -7,7 +7,13 @@ import type { defineConfig } from '@linkbcms/core';
 import { loadModule } from '../utilities/loadModule';
 
 // Define valid actions for better validation
-const VALID_ACTIONS = ['gen-schema', 'migrate', 'status', 'test-connection'];
+const VALID_ACTIONS = [
+  'gen-schema',
+  'migrate',
+  'status',
+  'test-connection',
+  'reset',
+];
 
 export const execute = async (action: string): Promise<void> => {
   // Validate action
@@ -43,13 +49,10 @@ export const execute = async (action: string): Promise<void> => {
 
     // Get database configuration from environment variables
     const dbConfig = {
-      connectionString,
+      connectionString: connectionString,
       schema: process.env.DATABASE_SCHEMA,
-      schemaDir:
-        process.env.SCHEMA_DIR || `${workspaceRoot}/apps/web/database/schema`,
-      migrationDir: process.env.MIGRATION_DIR || 'apps/web/database/migration',
-      tableName: process.env.MIGRATION_TABLE || 'migrations',
-      ssl: process.env.DATABASE_SSL === 'true',
+      schemaDir: `${workspaceRoot}/database/schema`,
+      migrationDir: './database/migration',
     };
 
     // Check for common connection string format issues without exposing credentials
@@ -80,7 +83,13 @@ export const execute = async (action: string): Promise<void> => {
       typeof defineConfig
     >;
 
-    await adapter.initialize();
+    if (action !== 'gen-schema') {
+      try {
+        await adapter.initialize();
+      } catch (error) {
+        throw new Error('✗ Failed to connect to the database');
+      }
+    }
     switch (action) {
       case 'gen-schema':
         await adapter.generateSchema(cmsConfig);
@@ -89,17 +98,16 @@ export const execute = async (action: string): Promise<void> => {
       case 'migrate':
         console.log(chalk.blue('Database configuration:'));
         console.log(
-          chalk.blue(`  - Migration directory: ${dbConfig.schemaDir}`),
+          chalk.blue(`  - Migration directory: ${dbConfig.migrationDir}`),
         );
-        console.log(chalk.blue(`  - Table: ${dbConfig.tableName}`));
         if (dbConfig.schema)
           console.log(chalk.blue(`  - Schema: ${dbConfig.schema}`));
-        if (dbConfig.ssl) console.log(chalk.blue('  - SSL: enabled'));
         await adapter.migrate();
         await adapter.close();
         break;
       case 'test-connection':
         try {
+          await adapter.testConnection();
           console.log(chalk.blue('Testing database connection...'));
           console.log(chalk.green('✓ Successfully connected to the database'));
           await adapter.close();
@@ -107,6 +115,14 @@ export const execute = async (action: string): Promise<void> => {
           console.error(chalk.red('✗ Failed to connect to the database'));
           throw error;
         }
+        break;
+      case 'reset':
+        await adapter.resetDatabase({
+          deleteMigrations: process.env.DELETE_MIGRATIONS === 'true',
+          deleteSchema: process.env.DELETE_SCHEMA === 'true',
+        });
+        await adapter.close();
+
         break;
       default:
         // This should never be reached due to our validation above

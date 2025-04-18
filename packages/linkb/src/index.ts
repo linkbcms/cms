@@ -8,6 +8,7 @@ import path from 'node:path';
 import fs from 'node:fs';
 import { Api } from './api';
 import { createApp } from './app';
+import readline from 'node:readline';
 
 const version: string = RSLIB_VERSION;
 // Create a new Commander program
@@ -101,6 +102,7 @@ const dbCommand = program
     console.log(chalk.blue('  - migrate: Run database migrations'));
     console.log(chalk.blue('  - status: Check migration status'));
     console.log(chalk.blue('  - test-connection: Test database connectivity'));
+    console.log(chalk.blue('  - reset: Reset database by deleting all tables'));
     console.log();
     console.log(chalk.yellow('Example: linkb db migrate'));
     process.exit(1);
@@ -130,6 +132,64 @@ dbCommand
   .action(async () => {
     await databaseMiddleware('test-connection');
     process.exit(0);
+  });
+
+dbCommand
+  .command('reset')
+  .description('Reset database by deleting all tables and data')
+  .option('--delete-migrations', 'Delete migration files', false)
+  .option('--delete-schema', 'Delete schema files', false)
+  .action(async (options) => {
+    console.log(
+      chalk.red.bold(
+        'WARNING: This command will delete ALL tables and data in your database.',
+      ),
+    );
+    console.log(
+      chalk.red(
+        'This action is irreversible. Make sure you have a backup if needed.',
+      ),
+    );
+
+    // Set environment variables based on options
+    if (options.deleteMigrations) {
+      process.env.DELETE_MIGRATIONS = 'true';
+      console.log(chalk.yellow('Migration files will also be deleted.'));
+    }
+
+    if (options.deleteSchema) {
+      process.env.DELETE_SCHEMA = 'true';
+      console.log(chalk.yellow('Schema files will also be deleted.'));
+    }
+
+    // Ask for confirmation
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+
+    rl.question(
+      chalk.bold('Are you sure you want to continue? (yes/no): '),
+      async (answer: string) => {
+        if (answer.toLowerCase() === 'yes' || answer.toLowerCase() === 'y') {
+          rl.close();
+          console.log(chalk.blue('Proceeding with database reset...'));
+
+          try {
+            await databaseMiddleware('reset');
+            console.log(chalk.green('Database reset completed successfully.'));
+            process.exit(0);
+          } catch (error) {
+            console.error(chalk.red('Database reset failed:'), error);
+            process.exit(1);
+          }
+        } else {
+          console.log(chalk.blue('Database reset cancelled.'));
+          rl.close();
+          process.exit(0);
+        }
+      },
+    );
   });
 
 // Parse command line arguments
