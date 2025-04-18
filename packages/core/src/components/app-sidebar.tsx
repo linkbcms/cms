@@ -191,7 +191,7 @@ export function AppSidebar({
             <SidebarMenuButton size="lg" asChild>
               <Link to="/">
                 <Show
-                  if={!!config$?.ui?.logo}
+                  if={!!config$?.ui?.logo.get()}
                   else={() => (
                     <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                       <Command className="size-4" />
@@ -247,14 +247,16 @@ export function AppSidebar({
             icon: Bot,
           }))}
         />
-        <NavMain
-          title="Custom Collections"
-          items={customCollections.map(([key, value]) => ({
-            title: value.get().label || '',
-            url: `/custom-collections/${key}`,
-            icon: Bot,
-          }))}
-        />
+        {customCollections.length > 0 && (
+          <NavMain
+            title="Custom Collections"
+            items={customCollections.map(([key, value]) => ({
+              title: value.get().label || '',
+              url: `/custom-collections/${key}`,
+              icon: Bot,
+            }))}
+          />
+        )}
         {/* <NavProjects projects={data.projects} /> */}
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>

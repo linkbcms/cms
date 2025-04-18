@@ -12,17 +12,6 @@ import type { JSX } from 'react/jsx-runtime';
 import { Loader2 } from 'lucide-react';
 import { useMemo } from 'react';
 
-const extractValuesFromStore = (data: any) => {
-  return Object.entries(data).reduce((acc, [key, value]) => {
-    acc[key] = (value as any)?.value;
-    return acc;
-  }, {});
-};
-
-const isNotEmptyObject = (obj: any) => {
-  return obj && Object.keys(obj).length > 0;
-};
-
 export const SingletonsScreen = (): JSX.Element => {
   const { singleton: singletonId } = useParams();
   const queryClient = useQueryClient();
@@ -155,7 +144,7 @@ export const SingletonsScreen = (): JSX.Element => {
 };
 
 const SingletonForm = withForm({
-  render: ({ form, currentValue }) => {
+  render: ({ form }) => {
     const { singleton: singletonId } = useParams();
     const config = useConfig();
 

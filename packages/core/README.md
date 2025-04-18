@@ -1,4 +1,4 @@
-# Rsbuild project
+# Linkbcms Core
 
 ## Setup
 
@@ -22,8 +22,12 @@ Build the app for production:
 pnpm build
 ```
 
-Preview the production build locally:
+### Using tsdown
 
 ```bash
-pnpm preview
+pnpm dev:tsdown
+```
+
+```bash
+pnpm build:tsdown
 ```

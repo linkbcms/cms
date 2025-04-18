@@ -1,5 +1,5 @@
 {
-  "name": "borristw",
+  "name": "linkbcms",
   "version": "0.0.1",
   "private": true,
   "authors": [
@@ -12,10 +12,13 @@
     "lint": "turbo lint",
     "format-and-lint": "biome check .",
     "format-and-lint:fix": "biome check . --write",
-    "prepare-env": "cp apps/web/.env.example apps/web/.env"
+    "prepare-env": "cp apps/web/.env.example apps/web/.env",
+    "bump": "changeset version && pnpm install --no-frozen-lockfile",
+    "ci:publish": "changeset publish"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
+    "@changesets/cli": "^2.29.2",
     "@workspace/typescript-config": "workspace:*",
     "turbo": "^2.4.4",
     "typescript": "5.7.3"

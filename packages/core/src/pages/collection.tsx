@@ -147,7 +147,7 @@ export const CollectionScreen = (): JSX.Element => {
             throw new Error('Failed to save data.');
           }
         } else {
-          const result = await mutationUpdate.mutateAsync(updatedValue);
+          await mutationUpdate.mutateAsync(updatedValue);
 
           toast.success('Data saved.', {
             description: `value: ${JSON.stringify(updatedValue, null, 2)}`,
