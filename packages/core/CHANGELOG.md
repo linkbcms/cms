@@ -1,5 +1,11 @@
 # @linkbcms/core
 
+## 0.0.17
+
+### Patch Changes
+
+- dff50f5: update readme
+
 ## 0.0.16
 
 ### Patch Changes
