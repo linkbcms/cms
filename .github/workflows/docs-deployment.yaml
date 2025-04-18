@@ -1,0 +1,37 @@
+name: Deploy Docs to Vercel
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/docs/**'
+
+jobs:
+  deploy:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Pull Vercel Environment Information
+        run: pnpx vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: pnpx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Project Artifacts to Vercel
+        run: pnpx vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+
