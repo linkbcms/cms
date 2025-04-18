@@ -1,5 +1,11 @@
 # @linkbcms/core
 
+## 0.0.18
+
+### Patch Changes
+
+- 97cf1ee: update ci publish
+
 ## 0.0.17
 
 ### Patch Changes
