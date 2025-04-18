@@ -13,7 +13,7 @@
     "format-and-lint": "biome check .",
     "format-and-lint:fix": "biome check . --write",
     "prepare-env": "cp apps/web/.env.example apps/web/.env",
-    "version": "changeset version",
+    "bump": "changeset version",
     "ci:publish": "pnpm publish -r"
   },
   "devDependencies": {
