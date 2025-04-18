@@ -1,5 +1,12 @@
 # @linkbcms/cli
 
+## 0.1.29
+
+### Patch Changes
+
+- Updated dependencies [dff50f5]
+  - @linkbcms/core@0.0.17
+
 ## 0.1.28
 
 ### Patch Changes
