@@ -1,5 +1,7 @@
 name: Auto Empty Commit
 
+on: push
+
 permissions:
   contents: write
 
