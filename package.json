@@ -2,12 +2,17 @@
   "name": "borristw",
   "version": "0.0.1",
   "private": true,
+  "authors": [
+    "Borris <borris.wiria@gmail.com>",
+    "Vincent <sinceritymaiden@hotmail.com>"
+  ],
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format-and-lint": "biome check .",
-    "format-and-lint:fix": "biome check . --write"
+    "format-and-lint:fix": "biome check . --write",
+    "prepare-env": "cp apps/web/.env.example apps/web/.env"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

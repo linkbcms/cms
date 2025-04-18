@@ -107,6 +107,15 @@ export async function createApp(
     // Clean up temporary directory
     fs.rmSync(tempDir, { recursive: true, force: true });
 
+    // Copy .env.example to .env if it exists
+    const envExamplePath = path.join(targetDir, '.env.example');
+    const envPath = path.join(targetDir, '.env');
+    if (fs.existsSync(envExamplePath)) {
+      console.log(chalk.blue('Setting up environment file...'));
+      fs.copyFileSync(envExamplePath, envPath);
+      console.log(chalk.green('✅ Created .env file from .env.example'));
+    }
+
     console.log(chalk.green('✅ Successfully created app!'));
     console.log('');
     console.log(chalk.blue('Next steps:'));
