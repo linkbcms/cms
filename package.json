@@ -14,7 +14,7 @@
     "format-and-lint:fix": "biome check . --write",
     "prepare-env": "cp apps/web/.env.example apps/web/.env",
     "bump": "changeset version",
-    "ci:publish": "pnpm publish -r"
+    "ci:publish": "changeset publish"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
