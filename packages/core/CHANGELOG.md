@@ -1,5 +1,11 @@
 # @linkbcms/core
 
+## 0.0.16
+
+### Patch Changes
+
+- 0541e76: edit readme
+
 ## 0.0.15
 
 ### Patch Changes
