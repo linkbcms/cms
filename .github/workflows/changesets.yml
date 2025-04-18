@@ -26,7 +26,7 @@ jobs:
         uses: actions/setup-node@v4
 
       - name: Install dependencies
-        run: pnpm install --prod --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Create Release Pull Request or Publish to npm registry
         id: changesets
