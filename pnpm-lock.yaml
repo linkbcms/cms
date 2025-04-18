@@ -337,8 +337,8 @@ importers:
   packages/linkb:
     dependencies:
       '@linkbcms/core':
-        specifier: 0.0.14
-        version: 0.0.14(@types/react-dom@19.1.2(@types/react@19.1.1))(@types/react@19.1.1)(typescript@5.7.3)
+        specifier: 0.0.15
+        version: 0.0.15(@types/react-dom@19.1.2(@types/react@19.1.1))(@types/react@19.1.1)(typescript@5.7.3)
       chalk:
         specifier: ^4.1.2
         version: 4.1.2
@@ -1702,8 +1702,8 @@ packages:
       expo-sqlite:
         optional: true
 
-  '@linkbcms/core@0.0.14':
-    resolution: {integrity: sha512-pj5+eYx/dFlQH39PAz4rSX7m9ScNp+4kbZUGgCu3A4OdSBpwFNc1BFoHKhUKIpOEfrYqVlHDXd0JFbaFSBBTKQ==}
+  '@linkbcms/core@0.0.15':
+    resolution: {integrity: sha512-QW+2XxXNmaPKeZHYNGAeFrtv1Ul4tL1rsIqYjHVStTMbX06KINfS8erU+YkzhupdNj00FwXYYYWTebg5l0MLCw==}
 
   '@linkbcms/ui@0.0.4':
     resolution: {integrity: sha512-Wku6mXtPAZ5EFsEYBVJey1+L4tzW1n8miiXsCoWTQnK7xaU5G5jumaLz63C0C/M+GG81rNwu80jr4JGBeT4rMA==}
@@ -8730,7 +8730,7 @@ snapshots:
     transitivePeerDependencies:
       - react
 
-  '@linkbcms/core@0.0.14(@types/react-dom@19.1.2(@types/react@19.1.1))(@types/react@19.1.1)(typescript@5.7.3)':
+  '@linkbcms/core@0.0.15(@types/react-dom@19.1.2(@types/react@19.1.1))(@types/react@19.1.1)(typescript@5.7.3)':
     dependencies:
       '@inlang/paraglide-js': 2.0.0-beta.26(babel-plugin-macros@3.1.0)
       '@legendapp/state': 3.0.0-beta.30(react@19.1.0)

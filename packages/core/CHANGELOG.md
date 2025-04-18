@@ -1,5 +1,12 @@
 # @linkbcms/core
 
+## 0.0.15
+
+### Patch Changes
+
+- a1ede8e: update readme
+- 472526f: CI update
+
 ## 0.0.14
 
 ### Patch Changes

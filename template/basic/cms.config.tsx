@@ -2,15 +2,11 @@ import { defineConfig, fields } from '@linkbcms/core';
 
 export default defineConfig({
   ui: {
-    navigation: {
-      blogs: ['blogs'],
-    },
     logo: () => <img src="/logo.png" alt="logo" width={32} height={32} />,
   },
 
   collections: {
     custom: fields.customCollection({
-      // Component: createSafeComponent(BrokenImage),
       label: 'Custom',
       Component: () => <div className="p-10">test</div>,
     }),

@@ -78,7 +78,7 @@ export type CollectionsMap = {
 export type NavigationItem = {
   name: string;
   url: string;
-  icon: ReactElement;
+  icon?: ReactElement;
   children?: NavigationItem[];
 };
 

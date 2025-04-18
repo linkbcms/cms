@@ -1,6 +1,6 @@
 {
   "name": "@linkbcms/cli",
-  "version": "0.1.26",
+  "version": "0.1.27",
   "description": "A command line tool",
   "type": "module",
   "main": "dist/index.js",
@@ -27,7 +27,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@linkbcms/core": "0.0.14",
+    "@linkbcms/core": "0.0.15",
     "chalk": "^4.1.2",
     "commander": "^11.1.0",
     "dotenv": "^16.4.7",

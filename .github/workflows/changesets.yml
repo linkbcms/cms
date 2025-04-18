@@ -32,8 +32,8 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          commit: "chore: update versions"
-          title: "chore: update versions"
+          commit: 'chore: update versions'
+          title: 'chore: update versions'
           publish: pnpm ci:publish
           version: pnpm bump
         env:
