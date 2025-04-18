@@ -14,7 +14,7 @@
     "format-and-lint:fix": "biome check . --write",
     "prepare-env": "cp apps/web/.env.example apps/web/.env",
     "bump": "changeset version && pnpm install --no-frozen-lockfile",
-    "ci:publish": "changeset publish"
+    "ci:publish": "pnpm build && changeset publish"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
