@@ -21,3 +21,13 @@ Build the app for production:
 ```bash
 pnpm build
 ```
+
+### Using tsdown
+
+```bash
+pnpm dev:tsdown
+```
+
+```bash
+pnpm build:tsdown
+```
