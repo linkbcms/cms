@@ -22,7 +22,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@linkbcms/core": "0.0.5",
+    "@linkbcms/core": "workspace:*",
     "chalk": "^4.1.2",
     "commander": "^11.1.0",
     "dotenv": "^16.4.7",
