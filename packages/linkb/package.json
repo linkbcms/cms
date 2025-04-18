@@ -7,23 +7,17 @@
   "bin": {
     "linkb": "./dist/index.js"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build": "NODE_ENV=production rslib build",
     "dev": "NODE_ENV=development rslib build --watch",
     "lint": "biome check .",
-    "format": "biome format --write .",
-    "prepublishOnly": "npm run build"
+    "format": "biome format --write ."
   },
   "publishConfig": {
     "access": "public"
   },
-  "keywords": [
-    "cli",
-    "command-line"
-  ],
+  "keywords": ["cli", "command-line"],
   "author": "",
   "license": "MIT",
   "dependencies": {

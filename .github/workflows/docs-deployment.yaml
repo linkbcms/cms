@@ -7,6 +7,12 @@ on:
       - 'apps/docs/**'
   workflow_dispatch:
 
+env:
+  CI: true
+  TURBO_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+  TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+  FORCE_COLOR: true
+
 jobs:
   deploy:
     timeout-minutes: 15
@@ -14,6 +20,14 @@ jobs:
     steps:
       - name: Checkout code repository
         uses: actions/checkout@v4
+
+      - name: Cache turbo build setup
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4

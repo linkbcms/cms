@@ -10,8 +10,7 @@
     "dev:tsdown": "tsdown --watch",
     "dev": "rslib build --watch",
     "format": "biome format --write",
-    "machine-translate": "inlang machine translate --project project.inlang",
-    "prepublishOnly": "npm run build"
+    "machine-translate": "inlang machine translate --project project.inlang"
   },
   "exports": {
     ".": {
