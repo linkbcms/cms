@@ -1,6 +1,6 @@
 # Linkbcms Core
 
-This is the core package for LinkbCMS.
+This is the core package for LinkbCMS. It contains the core functionality and the shared types.
 
 ## Setup
 
