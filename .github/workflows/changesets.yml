@@ -16,17 +16,17 @@ jobs:
       - name: Checkout code repository
         uses: actions/checkout@v4
 
-       # Corepack makes sure to use correct Node.js version for your project, it requires having "engines" specified in package.json file
-      # Read more about Corepack and advanced dependencies caching at: https://infinum.com/handbook/frontend/node/managing-node-npm-versions
-      - name: 🗃️ Enable corepack
-        run: corepack enable
-        shell: bash
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
 
       - name: Setup node.js
         uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Create Release Pull Request or Publish to npm registry
         id: changesets
@@ -35,6 +35,7 @@ jobs:
           commit: "chore: update versions"
           title: "chore: update versions"
           publish: pnpm ci:publish
+          version: pnpm bump
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
