@@ -1,5 +1,7 @@
 # Linkbcms Core
 
+This is the core package for LinkbCMS.
+
 ## Setup
 
 Install the dependencies:
