@@ -75,6 +75,20 @@ export type CollectionsMap = {
     | CustomCollectionConfig;
 };
 
+export type NavigationItem = {
+  name: string;
+  url: string;
+  icon: ReactElement;
+  children?: NavigationItem[];
+};
+
+export type UIConfig = {
+  theme?: 'light' | 'dark' | 'system';
+  logo?: string | (() => ReactElement);
+  name?: string;
+  navigation?: NavigationItem[];
+};
+
 /**
  * Main configuration type for the CMS
  * @template Collections - Collections configuration mapping collection names to their configs
@@ -110,7 +124,7 @@ export type Config<Collections extends CollectionsMap> = {
     | CustomCollectionConfig
   )[];
   /** UI configuration options */
-  ui?: Record<string, any>;
+  ui?: UIConfig;
   /** Database configuration */
   db?: Record<string, any>;
   /** Internationalization configuration */
