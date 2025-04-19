@@ -35,8 +35,8 @@
   "dependencies": {
     "@linkbcms/core": "workspace:*",
     "chalk": "^4.1.2",
-    "drizzle-kit": "^0.20.14",
-    "drizzle-orm": "^0.29.3",
+    "drizzle-kit": "^0.31.0",
+    "drizzle-orm": "^0.42.0",
     "pg": "^8.11.3"
   },
   "devDependencies": {
