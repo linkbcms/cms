@@ -7,13 +7,17 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**"]
     },
-    "@linkbcms/cli#build": {
-      "dependsOn": ["^build", "@linkbcms/core#build"],
+    "@linkbcms/database#build": {
+      "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**"]
     },
-    "@linkbcms/database#build": {
-      "dependsOn": ["^build", "@linkbcms/cli#build"],
+    "@linkbcms/cli#build": {
+      "dependsOn": [
+        "^build",
+        "@linkbcms/core#build",
+        "@linkbcms/database#build"
+      ],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**"]
     },
