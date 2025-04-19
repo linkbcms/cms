@@ -1,5 +1,13 @@
 # @linkbcms/cli
 
+## 0.1.33
+
+### Patch Changes
+
+- db04e1f: update dependencies
+- Updated dependencies [db04e1f]
+  - @linkbcms/database@0.1.3
+
 ## 0.1.32
 
 ### Patch Changes
