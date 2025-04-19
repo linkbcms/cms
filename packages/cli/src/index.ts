@@ -21,7 +21,7 @@ program.name('linkb').description('linkb CMS core CLI').version(version);
 program
   .command('create-app <app-name>')
   .description('Create a new linkb application')
-  .option('-t, --template <name>', 'Template to use (default: basic)')
+  .option('-t, --template <n>', 'Template to use (default: basic)')
   .option('--use-npm', 'Use npm as the package manager')
   .option('--use-yarn', 'Use yarn as the package manager')
   .option('--use-pnpm', 'Use pnpm as the package manager')

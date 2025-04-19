@@ -7,11 +7,12 @@
     "outDir": "./dist",
     "strict": true,
     "declaration": true,
+    "declarationMap": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "jsx": "react-jsx"
   },
-  "include": ["src/**/*", "src/sample/cms.config.tsx", "cms.config.tsx"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }

@@ -35,4 +35,4 @@ export interface Schema {
 export interface SchemaDefinition {
   schema: Schema;
   [key: string]: any;
-} 
+}

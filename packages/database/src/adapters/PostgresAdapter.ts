@@ -20,9 +20,8 @@ export interface PostgresConfig {
  * Compatible with Supabase
  */
 export class PostgresAdapter extends BaseAdapter {
-  private db: NodePgDatabase<Record<string, never>> & {
-    $client: pg.Client;
-  };
+  private db: NodePgDatabase<Record<string, never>>;
+  private client: pg.Client;
   private schema: string;
 
   constructor(config: PostgresConfig) {
@@ -30,18 +29,18 @@ export class PostgresAdapter extends BaseAdapter {
     this.schema = config.schema;
 
     // Create PostgreSQL client
-    const client = new pg.Client({
+    this.client = new pg.Client({
       connectionString: config.connectionString,
     });
 
-    this.db = drizzle(client);
+    this.db = drizzle(this.client);
   }
 
   /**
    * Initialize the adapter
    */
   public async initialize(): Promise<void> {
-    await this.db.$client.connect();
+    await this.client.connect();
   }
 
   /**
@@ -125,7 +124,7 @@ export class PostgresAdapter extends BaseAdapter {
    */
   public async close(): Promise<void> {
     try {
-      await this.db.$client.end();
+      await this.client.end();
     } catch (error) {
       console.error(chalk.red(`Error closing database connection: ${error}`));
     }
@@ -152,9 +151,7 @@ export class PostgresAdapter extends BaseAdapter {
         WHERE schemaname = $1;
       `;
 
-      const tablesResult = await this.db.$client.query(tablesQuery, [
-        schemaName,
-      ]);
+      const tablesResult = await this.client.query(tablesQuery, [schemaName]);
       const tables = tablesResult.rows.map((row) => row.tablename);
 
       if (tables.length === 0) {
@@ -163,16 +160,16 @@ export class PostgresAdapter extends BaseAdapter {
         console.log(chalk.blue(`Dropping ${tables.length} tables...`));
 
         // Drop all tables in one transaction
-        await this.db.$client.query('BEGIN;');
+        await this.client.query('BEGIN;');
 
         for (const table of tables) {
           console.log(chalk.yellow(`Dropping table: ${schemaName}.${table}`));
-          await this.db.$client.query(
+          await this.client.query(
             `DROP TABLE IF EXISTS "${schemaName}"."${table}" CASCADE;`,
           );
         }
 
-        await this.db.$client.query('COMMIT;');
+        await this.client.query('COMMIT;');
         console.log(chalk.green('All tables have been dropped successfully.'));
       }
 

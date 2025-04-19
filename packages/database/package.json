@@ -1,0 +1,45 @@
+{
+  "name": "@linkbcms/database",
+  "version": "0.1.0",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./app": {
+      "types": "./dist/linkb-app.d.ts",
+      "import": "./dist/linkb-app.js"
+    },
+    "./styles": "./dist/styles.css"
+  },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "LICENSE",
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "scripts": {
+    "build": "NODE_ENV=production rslib build",
+    "dev": "NODE_ENV=development rslib build --watch",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@linkbcms/core": "workspace:*",
+    "chalk": "^4.1.2",
+    "drizzle-kit": "^0.20.14",
+    "drizzle-orm": "^0.29.3",
+    "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "@rslib/core": "^0.6.2",
+    "@types/node": "^20.10.6",
+    "@types/pg": "^8.10.9",
+    "typescript": "^5.3.3"
+  }
+}
