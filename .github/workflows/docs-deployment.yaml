@@ -1,26 +1,24 @@
-name: Changesets
-
+name: Deploy Docs to Vercel
 on:
   push:
     branches:
       - main
+    paths:
+      - 'apps/docs/**'
+  workflow_dispatch:
 
 env:
   CI: true
   TURBO_TOKEN: ${{ secrets.VERCEL_TOKEN }}
   TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
   FORCE_COLOR: true
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
 jobs:
-  version:
+  deploy:
     timeout-minutes: 15
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      packages: write
-      pull-requests: write
-      actions: write
-      id-token: write
     steps:
       - name: Checkout code repository
         uses: actions/checkout@v4
@@ -43,16 +41,13 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
-      - name: Create Release Pull Request or Publish to npm registry
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          commit: 'chore: update versions'
-          title: 'chore: update versions'
-          publish: pnpm ci:publish
-          version: pnpm bump
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Pull Vercel Environment Information
+        run: pnpx vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        run: pnpx vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy Project Artifacts to Vercel
+        run: pnpx vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
