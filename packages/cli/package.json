@@ -7,9 +7,7 @@
   "bin": {
     "linkb": "./dist/index.js"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build": "NODE_ENV=production rslib build",
     "dev": "NODE_ENV=development rslib build --watch",
@@ -19,10 +17,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "keywords": [
-    "cli",
-    "command-line"
-  ],
+  "keywords": ["cli", "command-line"],
   "author": "",
   "license": "MIT",
   "dependencies": {
@@ -31,10 +26,7 @@
     "chalk": "^4.1.2",
     "commander": "^11.1.0",
     "dotenv": "^16.4.7",
-    "drizzle-kit": "^0.30.6",
-    "drizzle-orm": "^0.41.0",
     "jiti": "^2.4.2",
-    "pg": "^8.14.1",
     "react": "^19.1.0",
     "tsx": "^4.19.3"
   },
@@ -42,7 +34,6 @@
     "@rsbuild/plugin-react": "^1.1.1",
     "@rslib/core": "^0.6.2",
     "@types/node": "^20.10.5",
-    "@types/pg": "^8.11.11",
     "@types/react": "19.1.1",
     "typescript": "^5.3.3"
   }
