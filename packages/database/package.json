@@ -29,6 +29,9 @@
     "format": "biome format --write .",
     "prepublishOnly": "npm run build"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@linkbcms/core": "workspace:*",
     "chalk": "^4.1.2",
