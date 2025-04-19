@@ -1,13 +1,15 @@
 {
   "name": "@linkbcms/cli",
-  "version": "0.1.31",
+  "version": "0.1.36",
   "description": "A command line tool",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
     "linkb": "./dist/index.js"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "NODE_ENV=production rslib build",
     "dev": "NODE_ENV=development rslib build --watch",
@@ -17,7 +19,10 @@
   "publishConfig": {
     "access": "public"
   },
-  "keywords": ["cli", "command-line"],
+  "keywords": [
+    "cli",
+    "command-line"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {

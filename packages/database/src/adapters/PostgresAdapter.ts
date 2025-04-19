@@ -234,7 +234,6 @@ export class PostgresAdapter extends BaseAdapter {
         if (code === 0) {
           resolve();
         } else {
-          console.error(chalk.red(`Command failed with code ${code}`));
           reject(new Error(`Command failed with code ${code}`));
         }
       });
@@ -285,7 +284,6 @@ export default defineConfig({
   strict: true,
 });
 `;
-
         fs.writeFileSync(actualConfigPath, configContent);
       }
 

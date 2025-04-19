@@ -1,18 +1,13 @@
 {
   "name": "@linkbcms/database",
-  "version": "0.1.1",
+  "version": "0.1.5",
   "license": "MIT",
   "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    },
-    "./app": {
-      "types": "./dist/linkb-app.d.ts",
-      "import": "./dist/linkb-app.js"
-    },
-    "./styles": "./dist/styles.css"
+    }
   },
   "files": [
     "dist",
@@ -35,8 +30,6 @@
   "dependencies": {
     "@linkbcms/core": "workspace:*",
     "chalk": "^4.1.2",
-    "drizzle-kit": "^0.31.0",
-    "drizzle-orm": "^0.42.0",
     "pg": "^8.11.3"
   },
   "devDependencies": {
