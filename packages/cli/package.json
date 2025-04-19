@@ -7,9 +7,7 @@
   "bin": {
     "linkb": "./dist/index.js"
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build": "NODE_ENV=production rslib build",
     "dev": "NODE_ENV=development rslib build --watch",
@@ -19,10 +17,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "keywords": [
-    "cli",
-    "command-line"
-  ],
+  "keywords": ["cli", "command-line"],
   "author": "",
   "license": "MIT",
   "dependencies": {

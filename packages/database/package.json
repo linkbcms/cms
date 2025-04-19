@@ -3,6 +3,9 @@
   "version": "0.1.5",
   "license": "MIT",
   "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -21,11 +24,7 @@
     "build": "NODE_ENV=production rslib build",
     "dev": "NODE_ENV=development rslib build --watch",
     "lint": "biome check .",
-    "format": "biome format --write .",
-    "prepublishOnly": "npm run build"
-  },
-  "publishConfig": {
-    "access": "public"
+    "format": "biome format --write ."
   },
   "dependencies": {
     "@linkbcms/core": "workspace:*",
