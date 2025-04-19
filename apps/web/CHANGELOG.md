@@ -1,5 +1,35 @@
 # web
 
+## 0.0.13
+
+### Patch Changes
+
+- Updated dependencies
+  - @linkbcms/database@0.1.5
+
+## 0.0.12
+
+### Patch Changes
+
+- Updated dependencies
+  - @linkbcms/database@0.1.5
+
+## 0.0.11
+
+### Patch Changes
+
+- bump
+- Updated dependencies
+  - @linkbcms/database@0.1.4
+
+## 0.0.10
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies [db04e1f]
+  - @linkbcms/database@0.1.2
+
 ## 0.0.9
 
 ### Patch Changes

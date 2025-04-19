@@ -1,16 +1,29 @@
 # @linkbcms/database
 
-## 0.1.3
+## 0.1.5
 
 ### Patch Changes
 
-- db04e1f: update dependencies
+- update logic
+
+## 0.1.5
+
+### Patch Changes
+
+- bump
+
+## 0.1.4
+
+### Patch Changes
+
+- bump
 
 ## 0.1.2
 
 ### Patch Changes
 
-- bump version
+- update
+- db04e1f: update dependencies
 
 ## 0.1.1
 

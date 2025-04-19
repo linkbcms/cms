@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "basic",
   "version": "0.0.1",
   "type": "module",
   "private": true,
@@ -10,9 +10,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@linkbcms/core": "^0.0.11",
-    "@linkbcms/database": "0.1.1",
+    "@linkbcms/core": "latest",
+    "@linkbcms/database": "latest",
     "@next/bundle-analyzer": "^15.2.4",
+    "drizzle-kit": "^0.31.0",
+    "drizzle-orm": "^0.42.0",
     "lucide-react": "0.476.0",
     "next": "^15.3.0",
     "next-themes": "^0.4.4",
