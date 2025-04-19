@@ -1,5 +1,12 @@
 # web
 
+## 0.0.9
+
+### Patch Changes
+
+- Updated dependencies [809cfe7]
+  - @linkbcms/core@0.0.19
+
 ## 0.0.8
 
 ### Patch Changes
