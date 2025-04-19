@@ -1,5 +1,11 @@
 # @linkbcms/core
 
+## 0.0.19
+
+### Patch Changes
+
+- 809cfe7: 1. Separate db from cli into new @linkbcms/database
+
 ## 0.0.18
 
 ### Patch Changes
