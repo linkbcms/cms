@@ -1,15 +1,39 @@
 import chalk from 'chalk';
-import { findWorkspaceRoot } from '../utilities/findWorkSpaceRoot';
+import path from 'node:path';
 import { AdapterFactory } from './adapters';
 import { SUPPORTED_DATABASES, type SupportedDatabase } from './adapters/types';
-import path from 'node:path';
 import type { defineConfig } from '@linkbcms/core';
-import { loadModule } from '../utilities/loadModule';
 
 // Define valid actions for better validation
-const VALID_ACTIONS = ['gen-schema', 'migrate', 'status', 'test-connection'];
+const VALID_ACTIONS = [
+  'gen-schema',
+  'migrate',
+  'status',
+  'test-connection',
+  'reset',
+];
 
-export const execute = async (action: string): Promise<void> => {
+export * from './adapters';
+export * from './schema';
+
+/**
+ * Execute a database action
+ * @param action The action to execute
+ * @param options Configuration options
+ */
+export const execute = async (
+  action: string,
+  options: {
+    workspaceRoot?: string;
+    databaseType?: string;
+    connectionString?: string;
+    schema?: string;
+    schemaDir?: string;
+    migrationDir?: string;
+    configPath?: string;
+    loadConfigFn?: (path: string) => Promise<any>;
+  },
+): Promise<void> => {
   // Validate action
   if (!action || !VALID_ACTIONS.includes(action)) {
     console.log(chalk.red(`Invalid or missing action: ${action || 'none'}`));
@@ -20,9 +44,10 @@ export const execute = async (action: string): Promise<void> => {
     return;
   }
 
-  const workspaceRoot = findWorkspaceRoot();
-  const databaseType = process.env.DATABASE_TYPE || '';
-  const connectionString = process.env.DATABASE_URL || '';
+  const workspaceRoot = options.workspaceRoot || process.cwd();
+  const databaseType = options.databaseType || process.env.DATABASE_TYPE || '';
+  const connectionString =
+    options.connectionString || process.env.DATABASE_URL || '';
 
   // Validate database type
   if (
@@ -41,15 +66,12 @@ export const execute = async (action: string): Promise<void> => {
   try {
     console.log(chalk.blue(`Using database type: ${databaseType}`));
 
-    // Get database configuration from environment variables
+    // Get database configuration
     const dbConfig = {
-      connectionString,
-      schema: process.env.DATABASE_SCHEMA,
-      schemaDir:
-        process.env.SCHEMA_DIR || `${workspaceRoot}/apps/web/database/schema`,
-      migrationDir: process.env.MIGRATION_DIR || 'apps/web/database/migration',
-      tableName: process.env.MIGRATION_TABLE || 'migrations',
-      ssl: process.env.DATABASE_SSL === 'true',
+      connectionString: connectionString,
+      schema: options.schema || process.env.DATABASE_SCHEMA,
+      schemaDir: options.schemaDir || `${workspaceRoot}/database/schema`,
+      migrationDir: options.migrationDir || './database/migration',
     };
 
     // Check for common connection string format issues without exposing credentials
@@ -75,31 +97,53 @@ export const execute = async (action: string): Promise<void> => {
     const adapterFactory = new AdapterFactory();
     const adapter = adapterFactory.createAdapter(dbType, dbConfig);
 
-    const filePath = path.resolve('cms.config.tsx');
-    const cmsConfig = (await loadModule(filePath)) as ReturnType<
-      typeof defineConfig
-    >;
+    // Load CMS config if needed
+    let cmsConfig: ReturnType<typeof defineConfig> | undefined;
 
-    await adapter.initialize();
+    if (action === 'gen-schema') {
+      const filePath = options.configPath || path.resolve('cms.config.tsx');
+
+      if (options.loadConfigFn) {
+        cmsConfig = await options.loadConfigFn(filePath);
+      } else {
+        // Default fallback if no load function is provided
+        try {
+          cmsConfig = require(filePath);
+        } catch (error) {
+          throw new Error(`Failed to load config from ${filePath}`);
+        }
+      }
+    }
+
+    if (action !== 'gen-schema') {
+      try {
+        await adapter.initialize();
+      } catch (error) {
+        throw new Error('✗ Failed to connect to the database');
+      }
+    }
+
     switch (action) {
       case 'gen-schema':
+        if (!cmsConfig) {
+          throw new Error('CMS config is required for schema generation');
+        }
         await adapter.generateSchema(cmsConfig);
         await adapter.close();
         break;
       case 'migrate':
         console.log(chalk.blue('Database configuration:'));
         console.log(
-          chalk.blue(`  - Migration directory: ${dbConfig.schemaDir}`),
+          chalk.blue(`  - Migration directory: ${dbConfig.migrationDir}`),
         );
-        console.log(chalk.blue(`  - Table: ${dbConfig.tableName}`));
         if (dbConfig.schema)
           console.log(chalk.blue(`  - Schema: ${dbConfig.schema}`));
-        if (dbConfig.ssl) console.log(chalk.blue('  - SSL: enabled'));
         await adapter.migrate();
         await adapter.close();
         break;
       case 'test-connection':
         try {
+          await adapter.testConnection();
           console.log(chalk.blue('Testing database connection...'));
           console.log(chalk.green('✓ Successfully connected to the database'));
           await adapter.close();
@@ -107,6 +151,13 @@ export const execute = async (action: string): Promise<void> => {
           console.error(chalk.red('✗ Failed to connect to the database'));
           throw error;
         }
+        break;
+      case 'reset':
+        await adapter.resetDatabase({
+          deleteMigrations: process.env.DELETE_MIGRATIONS === 'true',
+          deleteSchema: process.env.DELETE_SCHEMA === 'true',
+        });
+        await adapter.close();
         break;
       default:
         // This should never be reached due to our validation above
@@ -124,6 +175,6 @@ export const execute = async (action: string): Promise<void> => {
     if (error instanceof Error && error.stack) {
       console.error(chalk.red(error.stack));
     }
-    throw error; // Rethrow to let the middleware handle it
+    throw error; // Rethrow to let the caller handle it
   }
 };

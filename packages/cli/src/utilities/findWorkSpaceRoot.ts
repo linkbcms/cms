@@ -1,19 +1,20 @@
-import path from "path";
-import fs from 'fs';
-import chalk from "chalk";
+import path from 'node:path';
+import fs from 'node:fs';
+import chalk from 'chalk';
 
-export const findWorkspaceRoot = (location: string = ""): string => {
-  // Ensure location starts with / but doesn't end with /
-  location = location.startsWith('/') ? location : `/${location}`;
+export const findWorkspaceRoot = (locationPath = ''): string => {
+  let location = locationPath.startsWith('/')
+    ? locationPath
+    : `/${locationPath}`;
   location = location.endsWith('/') ? location.slice(0, -1) : location;
-  
+
   let currentDir = process.cwd();
 
   // Traverse up until we find pnpm-workspace.yaml
   while (currentDir !== path.parse(currentDir).root) {
-    const pnpmWorkspacePath = path.join(currentDir, "pnpm-workspace.yaml");
+    const cmsConfigPath = path.join(currentDir, 'cms.config.tsx');
 
-    if (fs.existsSync(pnpmWorkspacePath)) {
+    if (fs.existsSync(cmsConfigPath)) {
       return path.join(currentDir, location);
     }
 
@@ -23,9 +24,11 @@ export const findWorkspaceRoot = (location: string = ""): string => {
 
   // If we can't find a workspace root, return the current directory
   console.warn(
-    chalk.yellow("Could not find pnpm-workspace.yaml. Using current directory.")
+    chalk.yellow(
+      'Could not find pnpm-workspace.yaml. Using current directory.',
+    ),
   );
-  
+
   // Join paths and ensure no trailing slash
   const finalPath = path.join(process.cwd(), location);
   return finalPath.endsWith('/') ? finalPath.slice(0, -1) : finalPath;

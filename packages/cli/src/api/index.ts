@@ -14,11 +14,8 @@ export class Api {
   private schemaPath: string;
   constructor() {
     const workspaceRoot = findWorkspaceRoot();
-    this.apiPath = path.join(workspaceRoot, 'apps/web/app/api/linkb');
-    this.schemaPath = path.join(
-      workspaceRoot,
-      'apps/web/database/schema/schema.ts',
-    );
+    this.apiPath = path.join(workspaceRoot, 'app/api/linkb');
+    this.schemaPath = path.join(workspaceRoot, 'database/schema/schema.ts');
   }
 
   async execute() {

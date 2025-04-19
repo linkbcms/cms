@@ -5,3 +5,4 @@ node_modules/
 *.log
 .DS_Store 
 cms.config.tsx
+tmp/ 

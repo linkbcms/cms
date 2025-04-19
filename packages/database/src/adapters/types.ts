@@ -1,4 +1,5 @@
 import type { defineConfig } from '@linkbcms/core';
+import { DB_TYPE_MAPPING } from './AdapterFactory';
 
 /**
  * Database migration options
@@ -13,15 +14,9 @@ export interface MigrationOptions {
 /**
  * List of supported database providers
  */
-export const SUPPORTED_DATABASES = [
-  'postgres', // Standard PostgreSQL
-  'postgresql', // Alternative spelling
-  'supabase', // Supabase (PostgreSQL)
-  'vercelpostgres', // Vercel Postgres
-  'neon', // Neon PostgreSQL
-  'mysql', // MySQL (not implemented yet)
-  'sqlite', // SQLite (not implemented yet)
-] as const;
+export const SUPPORTED_DATABASES = Object.keys(
+  DB_TYPE_MAPPING,
+) as readonly string[];
 
 /**
  * Database provider type
@@ -35,7 +30,7 @@ export interface DatabaseAdapter {
   /**
    * Initialize the adapter
    */
-  initialize(): Promise<void>;
+  initialize(): Promise<unknown>;
 
   /**
    * Test database connection
@@ -52,6 +47,15 @@ export interface DatabaseAdapter {
    * Run migrations
    */
   migrate(options?: MigrationOptions): Promise<void>;
+
+  /**
+   * Reset database by dropping all tables
+   * @param options Options for resetting the database
+   */
+  resetDatabase(options?: {
+    deleteMigrations?: boolean;
+    deleteSchema?: boolean;
+  }): Promise<void>;
 
   /**
    * Close the database connection
