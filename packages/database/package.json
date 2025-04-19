@@ -1,8 +1,11 @@
 {
   "name": "@linkbcms/database",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -26,8 +29,7 @@
     "build": "NODE_ENV=production rslib build",
     "dev": "NODE_ENV=development rslib build --watch",
     "lint": "biome check .",
-    "format": "biome format --write .",
-    "prepublishOnly": "npm run build"
+    "format": "biome format --write ."
   },
   "dependencies": {
     "@linkbcms/core": "workspace:*",
