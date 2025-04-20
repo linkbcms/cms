@@ -1,5 +1,11 @@
 # @linkbcms/ui
 
+## 0.0.9
+
+### Patch Changes
+
+- 61fbcd4: update exports
+
 ## 0.0.8
 
 ### Patch Changes
