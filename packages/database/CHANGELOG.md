@@ -1,5 +1,11 @@
 # @linkbcms/database
 
+## 0.1.11
+
+### Patch Changes
+
+- @linkbcms/core@0.0.24
+
 ## 0.1.10
 
 ### Patch Changes

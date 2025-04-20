@@ -1,5 +1,12 @@
 # web
 
+## 0.0.19
+
+### Patch Changes
+
+- @linkbcms/core@0.0.24
+- @linkbcms/database@0.1.11
+
 ## 0.0.18
 
 ### Patch Changes

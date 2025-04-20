@@ -1,5 +1,12 @@
 # app-storybook
 
+## 0.0.5
+
+### Patch Changes
+
+- Updated dependencies [61fbcd4]
+  - @linkbcms/ui@0.0.9
+
 ## 0.0.4
 
 ### Patch Changes
