@@ -35,6 +35,9 @@ importers:
       '@statsig/session-replay':
         specifier: ^3.15.4
         version: 3.15.4
+      '@statsig/statsig-node-core':
+        specifier: ^0.2.0
+        version: 0.2.0
       '@statsig/web-analytics':
         specifier: ^3.15.4
         version: 3.15.4
@@ -2986,6 +2989,58 @@ packages:
   '@statsig/session-replay@3.15.4':
     resolution: {integrity: sha512-PDj50EgFB8ceSI1x+IHZz2mtFjQzx9Pdk+MQMyp2+Fy0wwMEmuT6+Sedt1MfJ0/xfXdnEgkdZ0ArkxMV+X289Q==}
 
+  '@statsig/statsig-node-core-darwin-arm64@0.2.0':
+    resolution: {integrity: sha512-r1TweU63KgB4qPMYp2I4izFlIVUMprYA9kGHIVmKmWIMjE8u4LE1C1mx05wuuNupYhY+YRfScVWarfvyODMTJw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@statsig/statsig-node-core-darwin-x64@0.2.0':
+    resolution: {integrity: sha512-K3n3CsUrlHdKL00DSmSWY/k6XDhk3S07UZu3JW61/6K4uFku4TKrsqyvqEtrMjaUWhGTFosL/1dtlQXrduFRuA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@statsig/statsig-node-core-linux-arm64-gnu@0.2.0':
+    resolution: {integrity: sha512-s4pbNaK2msy2dwoSyedmdiH8zdTlm2Rps5QFkdHSYJBlCCykEQyR1zckChYpsVPDdoEXr/rUAW6j7fLnQ5/2Dg==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@statsig/statsig-node-core-linux-arm64-musl@0.2.0':
+    resolution: {integrity: sha512-RnP1czq0oDS9e106COKY7BGklFD9cQ4dCKf4mJTbC0Vyh7C/FUvPJll2spTh9Hqi/HiQRaxgAgG64DOy2vK9+w==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@statsig/statsig-node-core-linux-x64-gnu@0.2.0':
+    resolution: {integrity: sha512-mko0zV08w7fo/T/fGvfI1eDRJpx0KMED4aYMYmZG+SndLUHAAt5gh6H6wExUcoVfEh/7WS8vwDNcexQBNkkuJA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+
+  '@statsig/statsig-node-core-linux-x64-musl@0.2.0':
+    resolution: {integrity: sha512-nNB5WmHPGSfs7oScTM/r2EoGWCz/2hfA+PxzwpfojoHXA7tnz45xXUsaoCjmfdKtbA4HRvX52gy/WjwlE6t9YA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+
+  '@statsig/statsig-node-core-win32-ia32-msvc@0.2.0':
+    resolution: {integrity: sha512-UPisZLhSjWGd+iqRio/U3RCUgNskumkf2TQizJqh7MaGh3mMAO7O2JmpuR5uDFiKlYG3ljvjubZOshQYZ+3gRg==}
+    engines: {node: '>= 10'}
+    cpu: [ia32]
+    os: [win32]
+
+  '@statsig/statsig-node-core-win32-x64-msvc@0.2.0':
+    resolution: {integrity: sha512-IoTc9sk2fmWwN+gxRqNq/viFZg6Y8GZsG90CWbA16ELC537k0ikVf9fU5A1/i3a/P8Nf+XL7Dnd+oqN4/sw1fA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+
+  '@statsig/statsig-node-core@0.2.0':
+    resolution: {integrity: sha512-cYN1/ahyTxpzGRaN2IUwjXLsms89xxVymr8ypnqqVUz73ieNPgRXnuSHYkMA3NJcGAml9xRoxNpxZklJKYvelw==}
+    engines: {node: '>= 6.14.2 < 7 || >= 8.11.2 < 9 || >= 9.11.0 < 10 || >= 10.0.0'}
+
   '@statsig/web-analytics@3.15.4':
     resolution: {integrity: sha512-lxTmYpvx8En5o9PKL4DfrqfzV5bWlVbCaCdMc3fR2/iaF+HG7X0SCmsvBUDL/b/4FsVP7YZhTcJkNevzmsFxzg==}
 
@@ -5836,6 +5891,15 @@ packages:
   no-case@2.3.2:
     resolution: {integrity: sha512-rmTZ9kz+f3rCvK2TD1Ue/oZlns7OGoIWP4fc3llxxRXlOkHKoWPPWJOfFYpITabSow43QJbRIoHQXtt10VldyQ==}
 
+  node-fetch@2.7.0:
+    resolution: {integrity: sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==}
+    engines: {node: 4.x || >=6.0.0}
+    peerDependencies:
+      encoding: ^0.1.0
+    peerDependenciesMeta:
+      encoding:
+        optional: true
+
   node-plop@0.26.3:
     resolution: {integrity: sha512-Cov028YhBZ5aB7MdMWJEmwyBig43aGL5WT4vdoB28Oitau1zZAcHUn8Sgfk9HM33TqhtLJ9PlM/O0Mv+QpV/4Q==}
     engines: {node: '>=8.9.4'}
@@ -7152,6 +7216,9 @@ packages:
     resolution: {integrity: sha512-Loo5UUvLD9ScZ6jh8beX1T6sO1w2/MpCRpEP7V280GKMVUQ0Jzar2U3UJPsrdbziLEMMhu3Ujnq//rhiFuIeag==}
     engines: {node: '>=6'}
 
+  tr46@0.0.3:
+    resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
+
   trim-lines@3.0.1:
     resolution: {integrity: sha512-kRj8B+YHZCc9kQYdWfJB2/oUl9rA99qbowYYBtr4ui4mZyAQ2JpvVBd/6U2YloATfqBhBTSMhTpgBHtU0Mf3Rg==}
 
@@ -7543,6 +7610,9 @@ packages:
     resolution: {integrity: sha512-d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==}
     engines: {node: '>= 8'}
 
+  webidl-conversions@3.0.1:
+    resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
+
   webpack-bundle-analyzer@4.10.1:
     resolution: {integrity: sha512-s3P7pgexgT/HTUSYgxJyn28A+99mmLq4HsJepMPzu0R8ImJc52QNqaFYW1Z2z2uIb1/J3eYgaAWVpaC+v/1aAQ==}
     engines: {node: '>= 10.13.0'}
@@ -7550,6 +7620,9 @@ packages:
 
   webpack-virtual-modules@0.6.2:
     resolution: {integrity: sha512-66/V2i5hQanC51vBQKPH4aI8NMAcBW59FVBs+rC7eGHupMyfn34q7rZIE+ETlJ+XTevqfUhVVBgSUNSW2flEUQ==}
+
+  whatwg-url@5.0.0:
+    resolution: {integrity: sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==}
 
   which-typed-array@1.1.18:
     resolution: {integrity: sha512-qEcY+KJYlWyLH9vNbsr6/5j59AXk5ni5aakf8ldzBvGde6Iz4sxZGkJyWSAueTG7QhOvNRYb1lDdFmL5Td0QKA==}
@@ -9877,6 +9950,45 @@ snapshots:
     dependencies:
       '@statsig/client-core': 3.15.4
       rrweb: 2.0.0-alpha.14
+
+  '@statsig/statsig-node-core-darwin-arm64@0.2.0':
+    optional: true
+
+  '@statsig/statsig-node-core-darwin-x64@0.2.0':
+    optional: true
+
+  '@statsig/statsig-node-core-linux-arm64-gnu@0.2.0':
+    optional: true
+
+  '@statsig/statsig-node-core-linux-arm64-musl@0.2.0':
+    optional: true
+
+  '@statsig/statsig-node-core-linux-x64-gnu@0.2.0':
+    optional: true
+
+  '@statsig/statsig-node-core-linux-x64-musl@0.2.0':
+    optional: true
+
+  '@statsig/statsig-node-core-win32-ia32-msvc@0.2.0':
+    optional: true
+
+  '@statsig/statsig-node-core-win32-x64-msvc@0.2.0':
+    optional: true
+
+  '@statsig/statsig-node-core@0.2.0':
+    dependencies:
+      node-fetch: 2.7.0
+    optionalDependencies:
+      '@statsig/statsig-node-core-darwin-arm64': 0.2.0
+      '@statsig/statsig-node-core-darwin-x64': 0.2.0
+      '@statsig/statsig-node-core-linux-arm64-gnu': 0.2.0
+      '@statsig/statsig-node-core-linux-arm64-musl': 0.2.0
+      '@statsig/statsig-node-core-linux-x64-gnu': 0.2.0
+      '@statsig/statsig-node-core-linux-x64-musl': 0.2.0
+      '@statsig/statsig-node-core-win32-ia32-msvc': 0.2.0
+      '@statsig/statsig-node-core-win32-x64-msvc': 0.2.0
+    transitivePeerDependencies:
+      - encoding
 
   '@statsig/web-analytics@3.15.4':
     dependencies:
@@ -13181,6 +13293,10 @@ snapshots:
     dependencies:
       lower-case: 1.1.4
 
+  node-fetch@2.7.0:
+    dependencies:
+      whatwg-url: 5.0.0
+
   node-plop@0.26.3:
     dependencies:
       '@babel/runtime-corejs3': 7.26.0
@@ -14671,6 +14787,8 @@ snapshots:
       universalify: 0.2.0
       url-parse: 1.5.10
 
+  tr46@0.0.3: {}
+
   trim-lines@3.0.1: {}
 
   trough@2.2.0: {}
@@ -15100,6 +15218,8 @@ snapshots:
 
   web-streams-polyfill@3.3.3: {}
 
+  webidl-conversions@3.0.1: {}
+
   webpack-bundle-analyzer@4.10.1:
     dependencies:
       '@discoveryjs/json-ext': 0.5.7
@@ -15120,6 +15240,11 @@ snapshots:
       - utf-8-validate
 
   webpack-virtual-modules@0.6.2: {}
+
+  whatwg-url@5.0.0:
+    dependencies:
+      tr46: 0.0.3
+      webidl-conversions: 3.0.1
 
   which-typed-array@1.1.18:
     dependencies:
