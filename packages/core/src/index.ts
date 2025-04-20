@@ -1,6 +1,4 @@
-// import { defineConfig, fields } from 'cms';
-
-import type { ReactElement } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 
 /**
  * Collection configuration type that defines the schema and structure of a collection
@@ -82,12 +80,17 @@ export type NavigationItem = {
   children?: NavigationItem[];
 };
 
-export type UIConfig = {
-  theme?: 'light' | 'dark' | 'system';
-  logo?: string | (() => ReactElement);
+export type Theme = 'light' | 'dark' | 'system';
+
+export interface UIConfig {
   name?: string;
+  logo?: () => ReactNode; // Remove string from the type, only allow function
+  theme?: {
+    defaultTheme?: Theme;
+    storageKey?: string;
+  };
   navigation?: NavigationItem[];
-};
+}
 
 /**
  * Main configuration type for the CMS

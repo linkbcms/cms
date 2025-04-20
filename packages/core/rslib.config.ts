@@ -12,10 +12,6 @@ export default defineConfig({
         abortOnError: false,
         build: true,
       },
-      // dts: {
-      //   bundle: false,
-      //   // distPath: './dist-types',
-      // },
       format: 'esm',
     },
   ],
