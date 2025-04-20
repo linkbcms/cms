@@ -1,5 +1,13 @@
 # @linkbcms/core
 
+## 0.0.20
+
+### Patch Changes
+
+- b6edf26: update package and core type
+- Updated dependencies [b6edf26]
+  - @linkbcms/ui@0.0.5
+
 ## 0.0.19
 
 ### Patch Changes
