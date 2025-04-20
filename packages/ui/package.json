@@ -68,8 +68,17 @@
   "exports": {
     "./globals.css": "./dist/styles/globals.css",
     "./postcss.config": "./postcss.config.mjs",
-    "./lib/*": "./dist/lib/*.ts",
-    "./components/*": "./dist/components/*.tsx",
-    "./hooks/*": "./dist/hooks/*.ts"
+    "./lib/*": {
+      "import": "./dist/lib/*.js",
+      "types": "./dist/lib/*.d.ts"
+    },
+    "./components/*": {
+      "import": "./dist/components/*.js",
+      "types": "./dist/components/*.d.ts"
+    },
+    "./hooks/*": {
+      "import": "./dist/hooks/*.js",
+      "types": "./dist/hooks/*.d.ts"
+    }
   }
 }
