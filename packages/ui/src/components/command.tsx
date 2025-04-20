@@ -10,13 +10,14 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@linkbcms/ui/components/dialog';
-import { cn } from '@linkbcms/ui/lib/utils';
+} from '@/components/dialog';
+import { cn } from '@/lib/utils';
+import type { JSX } from 'react/jsx-runtime';
 
 function Command({
   className,
   ...props
-}: React.ComponentProps<typeof CommandPrimitive>) {
+}: React.ComponentProps<typeof CommandPrimitive>): JSX.Element {
   return (
     <CommandPrimitive
       data-slot="command"
@@ -37,7 +38,7 @@ function CommandDialog({
 }: React.ComponentProps<typeof Dialog> & {
   title?: string;
   description?: string;
-}) {
+}): JSX.Element {
   return (
     <Dialog {...props}>
       <DialogHeader className="sr-only">
@@ -56,7 +57,7 @@ function CommandDialog({
 function CommandInput({
   className,
   ...props
-}: React.ComponentProps<typeof CommandPrimitive.Input>) {
+}: React.ComponentProps<typeof CommandPrimitive.Input>): JSX.Element {
   return (
     <div
       data-slot="command-input-wrapper"
@@ -78,7 +79,7 @@ function CommandInput({
 function CommandList({
   className,
   ...props
-}: React.ComponentProps<typeof CommandPrimitive.List>) {
+}: React.ComponentProps<typeof CommandPrimitive.List>): JSX.Element {
   return (
     <CommandPrimitive.List
       data-slot="command-list"
@@ -93,7 +94,7 @@ function CommandList({
 
 function CommandEmpty({
   ...props
-}: React.ComponentProps<typeof CommandPrimitive.Empty>) {
+}: React.ComponentProps<typeof CommandPrimitive.Empty>): JSX.Element {
   return (
     <CommandPrimitive.Empty
       data-slot="command-empty"
@@ -106,7 +107,7 @@ function CommandEmpty({
 function CommandGroup({
   className,
   ...props
-}: React.ComponentProps<typeof CommandPrimitive.Group>) {
+}: React.ComponentProps<typeof CommandPrimitive.Group>): JSX.Element {
   return (
     <CommandPrimitive.Group
       data-slot="command-group"
@@ -122,7 +123,7 @@ function CommandGroup({
 function CommandSeparator({
   className,
   ...props
-}: React.ComponentProps<typeof CommandPrimitive.Separator>) {
+}: React.ComponentProps<typeof CommandPrimitive.Separator>): JSX.Element {
   return (
     <CommandPrimitive.Separator
       data-slot="command-separator"
@@ -135,7 +136,7 @@ function CommandSeparator({
 function CommandItem({
   className,
   ...props
-}: React.ComponentProps<typeof CommandPrimitive.Item>) {
+}: React.ComponentProps<typeof CommandPrimitive.Item>): JSX.Element {
   return (
     <CommandPrimitive.Item
       data-slot="command-item"
@@ -151,7 +152,7 @@ function CommandItem({
 function CommandShortcut({
   className,
   ...props
-}: React.ComponentProps<'span'>) {
+}: React.ComponentProps<'span'>): JSX.Element {
   return (
     <span
       data-slot="command-shortcut"

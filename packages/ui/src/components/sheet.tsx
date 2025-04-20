@@ -5,20 +5,23 @@ import { XIcon } from 'lucide-react';
 import type * as React from 'react';
 
 import { cn } from '@linkbcms/ui/lib/utils';
+import type { JSX } from 'react/jsx-runtime';
 
-function Sheet({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
+function Sheet({
+  ...props
+}: React.ComponentProps<typeof SheetPrimitive.Root>): JSX.Element {
   return <SheetPrimitive.Root data-slot="sheet" {...props} />;
 }
 
 function SheetTrigger({
   ...props
-}: React.ComponentProps<typeof SheetPrimitive.Trigger>) {
+}: React.ComponentProps<typeof SheetPrimitive.Trigger>): JSX.Element {
   return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />;
 }
 
 function SheetClose({
   ...props
-}: React.ComponentProps<typeof SheetPrimitive.Close>) {
+}: React.ComponentProps<typeof SheetPrimitive.Close>): JSX.Element {
   return <SheetPrimitive.Close data-slot="sheet-close" {...props} />;
 }
 
@@ -51,7 +54,7 @@ function SheetContent({
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Content> & {
   side?: 'top' | 'right' | 'bottom' | 'left';
-}) {
+}): JSX.Element {
   return (
     <SheetPortal>
       <SheetOverlay />
@@ -81,7 +84,10 @@ function SheetContent({
   );
 }
 
-function SheetHeader({ className, ...props }: React.ComponentProps<'div'>) {
+function SheetHeader({
+  className,
+  ...props
+}: React.ComponentProps<'div'>): JSX.Element {
   return (
     <div
       data-slot="sheet-header"
@@ -91,7 +97,10 @@ function SheetHeader({ className, ...props }: React.ComponentProps<'div'>) {
   );
 }
 
-function SheetFooter({ className, ...props }: React.ComponentProps<'div'>) {
+function SheetFooter({
+  className,
+  ...props
+}: React.ComponentProps<'div'>): JSX.Element {
   return (
     <div
       data-slot="sheet-footer"
@@ -104,7 +113,7 @@ function SheetFooter({ className, ...props }: React.ComponentProps<'div'>) {
 function SheetTitle({
   className,
   ...props
-}: React.ComponentProps<typeof SheetPrimitive.Title>) {
+}: React.ComponentProps<typeof SheetPrimitive.Title>): JSX.Element {
   return (
     <SheetPrimitive.Title
       data-slot="sheet-title"
@@ -117,7 +126,7 @@ function SheetTitle({
 function SheetDescription({
   className,
   ...props
-}: React.ComponentProps<typeof SheetPrimitive.Description>) {
+}: React.ComponentProps<typeof SheetPrimitive.Description>): JSX.Element {
   return (
     <SheetPrimitive.Description
       data-slot="sheet-description"

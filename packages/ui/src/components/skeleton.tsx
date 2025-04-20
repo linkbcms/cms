@@ -1,6 +1,10 @@
-import { cn } from '@linkbcms/ui/lib/utils';
+import { cn } from '@/lib/utils';
+import type { JSX } from 'react/jsx-runtime';
 
-function Skeleton({ className, ...props }: React.ComponentProps<'div'>) {
+function Skeleton({
+  className,
+  ...props
+}: React.ComponentProps<'div'>): JSX.Element {
   return (
     <div
       data-slot="skeleton"
