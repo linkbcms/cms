@@ -3,15 +3,7 @@
   "version": "0.0.6",
   "type": "module",
   "publishConfig": {
-    "access": "public",
-    "exports": {
-      "./globals.css": "./dist/styles/globals.css",
-      "./postcss.config": "./postcss.config.mjs",
-      "./tailwind.config": "./tailwind.config.ts",
-      "./lib/*": "./dist/lib/*.ts",
-      "./components/*": "./dist/components/*.tsx",
-      "./hooks/*": "./dist/hooks/*.ts"
-    }
+    "access": "public"
   },
   "files": [
     "dist",
@@ -74,11 +66,10 @@
     "typescript": "^5.8.3"
   },
   "exports": {
-    "./globals.css": "./src/styles/globals.css",
+    "./globals.css": "./dist/styles/globals.css",
     "./postcss.config": "./postcss.config.mjs",
-    "./tailwind.config": "./tailwind.config.ts",
-    "./lib/*": "./src/lib/*.ts",
-    "./components/*": "./src/components/*.tsx",
-    "./hooks/*": "./src/hooks/*.ts"
+    "./lib/*": "./dist/lib/*.ts",
+    "./components/*": "./dist/components/*.tsx",
+    "./hooks/*": "./dist/hooks/*.ts"
   }
 }

@@ -1,6 +1,5 @@
 // import { reader } from '@linkbcms/core/reader';
 
-import { Button } from '@linkbcms/ui/components/button';
 import Link from 'next/link';
 import type { JSX } from 'react';
 

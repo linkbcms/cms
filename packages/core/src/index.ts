@@ -118,7 +118,7 @@ export interface UIConfig {
  * }
  * ```
  */
-export type Config<Collections extends CollectionsMap> = {
+export type Config<Collections extends CollectionsMap = CollectionsMap> = {
   /** Collection configurations */
   collections?: Collections;
   collectionsArray?: (

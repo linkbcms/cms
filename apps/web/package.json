@@ -7,11 +7,12 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate": "pnpx @linkbcms/cli@latest db gen-schema",
+    "migrate": "pnpx @linkbcms/cli@latest db migrate"
   },
   "dependencies": {
     "@linkbcms/core": "workspace:*",
-    "@linkbcms/ui": "workspace:*",
     "@linkbcms/database": "workspace:*",
     "@next/bundle-analyzer": "^15.2.4",
     "drizzle-kit": "^0.31.0",

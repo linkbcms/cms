@@ -1,4 +1,6 @@
-import { type Config, ConfigProvider } from '@/components/config-provider';
+import { ConfigProvider } from '@/components/config-provider';
+import type { Config } from '@/index';
+
 import { Toaster } from '@/components/toaster';
 import Layout from '@/layout';
 import { CollectionScreen } from '@/pages/collection';

@@ -181,9 +181,6 @@ importers:
       '@linkbcms/database':
         specifier: workspace:*
         version: link:../../packages/database
-      '@linkbcms/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
       '@next/bundle-analyzer':
         specifier: ^15.2.4
         version: 15.2.4

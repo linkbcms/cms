@@ -14,7 +14,7 @@
     "components": "@/components",
     "hooks": "@/hooks",
     "lib": "@/lib",
-    "utils": "@linkbcms/ui/lib/utils",
-    "ui": "@linkbcms/ui/components"
+    "utils": "@/lib/utils",
+    "ui": "@/components"
   }
 }

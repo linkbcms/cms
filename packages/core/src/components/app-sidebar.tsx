@@ -161,7 +161,11 @@ export function AppSidebar({
   const fullCollections = Object.entries(config$.collections);
 
   const collections = fullCollections.filter(([, value]) => {
-    if ('fieldSlug' in value.get()) {
+    const v = value.get();
+
+    if (!v) return false;
+
+    if ('fieldSlug' in v) {
       return true;
     }
 
@@ -169,7 +173,11 @@ export function AppSidebar({
   });
 
   const singletons = fullCollections.filter(([, value]) => {
-    if ('fieldSlug' in value.get() || 'Component' in value.get()) {
+    const v = value.get();
+
+    if (!v) return false;
+
+    if ('fieldSlug' in v || 'Component' in v) {
       return false;
     }
 
@@ -177,7 +185,11 @@ export function AppSidebar({
   });
 
   const customCollections = fullCollections.filter(([, value]) => {
-    if ('Component' in value.get()) {
+    const v = value.get();
+
+    if (!v) return false;
+
+    if ('Component' in v) {
       return true;
     }
     return false;
@@ -234,7 +246,7 @@ export function AppSidebar({
         <NavMain
           title="Collections"
           items={collections.map(([key, value]) => ({
-            title: value.get().label || '',
+            title: value.get()?.label || '',
             url: `/collections/${key}`,
             icon: Bot,
           }))}
@@ -242,7 +254,7 @@ export function AppSidebar({
         <NavMain
           title="Singletons"
           items={singletons.map(([key, value]) => ({
-            title: value.get().label || '',
+            title: value.get()?.label || '',
             url: `/singletons/${key}`,
             icon: Bot,
           }))}
@@ -251,7 +263,7 @@ export function AppSidebar({
           <NavMain
             title="Custom Collections"
             items={customCollections.map(([key, value]) => ({
-              title: value.get().label || '',
+              title: value.get()?.label || '',
               url: `/custom-collections/${key}`,
               icon: Bot,
             }))}

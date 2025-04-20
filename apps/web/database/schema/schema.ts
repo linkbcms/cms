@@ -2,7 +2,8 @@
 import { pgTable as table } from "drizzle-orm/pg-core";
 import * as t from "drizzle-orm/pg-core";
 
-export const blogs = table(
+export const defaultSchema = table
+export const blogs = defaultSchema(
   "blogs",
   {
     id: t.bigserial({ mode: 'number' }).primaryKey(),
@@ -18,7 +19,7 @@ export const blogs = table(
   }
 );
 
-export const blogsid = table(
+export const blogsid = defaultSchema(
   "blogs_id",
   {
     id: t.bigserial({ mode: 'number' }).primaryKey(),
@@ -34,7 +35,7 @@ export const blogsid = table(
   }
 );
 
-export const authors = table(
+export const authors = defaultSchema(
   "authors",
   {
     id: t.bigserial({ mode: 'number' }).primaryKey(),
@@ -42,7 +43,7 @@ export const authors = table(
   }
 );
 
-export const settings = table(
+export const settings = defaultSchema(
   "settings",
   {
     id: t.bigserial({ mode: 'number' }).primaryKey(),
@@ -54,7 +55,7 @@ export const settings = table(
   }
 );
 
-export const settings2 = table(
+export const settings2 = defaultSchema(
   "settings2",
   {
     id: t.bigserial({ mode: 'number' }).primaryKey(),
