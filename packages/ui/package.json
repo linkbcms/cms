@@ -13,6 +13,16 @@
       "./hooks/*": "./dist/hooks/*.ts"
     }
   },
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "CHANGELOG.md",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.css",
+    "postcss.config.mjs"
+  ],
   "scripts": {
     "build": "rslib build",
     "dev": "rslib build --watch"
