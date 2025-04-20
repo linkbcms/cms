@@ -1,5 +1,11 @@
 # @linkbcms/ui
 
+## 0.0.8
+
+### Patch Changes
+
+- eb9ba6f: update ts
+
 ## 0.0.7
 
 ### Patch Changes

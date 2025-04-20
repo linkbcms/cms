@@ -1,5 +1,13 @@
 # @linkbcms/core
 
+## 0.0.23
+
+### Patch Changes
+
+- eb9ba6f: update ts
+- Updated dependencies [eb9ba6f]
+  - @linkbcms/ui@0.0.8
+
 ## 0.0.22
 
 ### Patch Changes
