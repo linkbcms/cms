@@ -210,7 +210,7 @@ export const ${functionName}Validation = ${validation});
  
 }
 
-export const ${functionName}Validation = ${validation});
+const ${functionName}Validation = ${validation});
 `;
     return {
       code,

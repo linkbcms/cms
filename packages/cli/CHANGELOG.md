@@ -1,5 +1,13 @@
 # @linkbcms/cli
 
+## 0.1.37
+
+### Patch Changes
+
+- Add orm dependencies
+- Updated dependencies
+  - @linkbcms/database@0.1.6
+
 ## 0.1.36
 
 ### Patch Changes
