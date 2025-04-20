@@ -10,8 +10,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@linkbcms/core": "latest",
-    "@linkbcms/database": "latest",
+    "@linkbcms/core": "^0.0.21",
+    "@linkbcms/database": "^0.1.8",
     "@next/bundle-analyzer": "^15.2.4",
     "drizzle-kit": "^0.31.0",
     "drizzle-orm": "^0.42.0",
