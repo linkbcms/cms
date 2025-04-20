@@ -1,5 +1,13 @@
 # @linkbcms/core
 
+## 0.0.22
+
+### Patch Changes
+
+- e2c251c: fix type and package json
+- Updated dependencies [e2c251c]
+  - @linkbcms/ui@0.0.7
+
 ## 0.0.21
 
 ### Patch Changes
