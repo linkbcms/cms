@@ -1,5 +1,14 @@
 # web
 
+## 0.0.16
+
+### Patch Changes
+
+- Updated dependencies [92714ab]
+  - @linkbcms/ui@0.0.6
+  - @linkbcms/core@0.0.21
+  - @linkbcms/database@0.1.8
+
 ## 0.0.15
 
 ### Patch Changes
