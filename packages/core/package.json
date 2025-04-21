@@ -21,7 +21,8 @@
       "types": "./dist/linkb-app.d.ts",
       "import": "./dist/linkb-app.js"
     },
-    "./styles": "./dist/styles.css"
+    "./styles": "./dist/styles.css",
+    "./styles/non-compiled": "./src/styles.css"
   },
   "files": [
     "dist",
