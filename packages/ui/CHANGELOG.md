@@ -1,5 +1,11 @@
 # @linkbcms/ui
 
+## 0.0.10
+
+### Patch Changes
+
+- fda6c69: export compiled and non compiled css
+
 ## 0.0.9
 
 ### Patch Changes

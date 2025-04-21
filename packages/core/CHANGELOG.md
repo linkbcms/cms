@@ -1,5 +1,13 @@
 # @linkbcms/core
 
+## 0.0.25
+
+### Patch Changes
+
+- fda6c69: export compiled and non compiled css
+- Updated dependencies [fda6c69]
+  - @linkbcms/ui@0.0.10
+
 ## 0.0.24
 
 ### Patch Changes
