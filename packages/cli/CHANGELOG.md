@@ -1,5 +1,11 @@
 # @linkbcms/cli
 
+## 0.1.43
+
+### Patch Changes
+
+- b7c8226: update bug
+
 ## 0.1.42
 
 ### Patch Changes
