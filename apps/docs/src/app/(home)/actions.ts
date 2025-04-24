@@ -1,12 +1,8 @@
 'use server';
 
+import { cookies } from 'next/headers';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-
-// CREATE TABLE todos (
-//   id SERIAL PRIMARY KEY,
-//   text TEXT NOT NULL
-// );
 
 export async function addToWaitlist(
   prevState: {
@@ -31,9 +27,12 @@ export async function addToWaitlist(
     };
   }
 
+  const wRef = (await cookies()).get('w_ref')?.value;
+
   const data = {
     ...parse.data,
     waitlist_id: process.env.WAITLIST_ID,
+    referral_link: wRef ? `https://getwaitlist.com?ref_id=${wRef}` : undefined,
   };
 
   try {
