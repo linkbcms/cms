@@ -2,7 +2,7 @@ import React from 'react';
 
 export const Feature = () => {
   return (
-    <section className="rounded-3xl bg-[#f6f7fa] px-8 py-20">
+    <section id="features" className="rounded-3xl bg-[#f6f7fa] px-8 py-20">
       <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-16">
         <h2 className="text-center font-semibold text-5xl tracking-tighter">
           Securize your

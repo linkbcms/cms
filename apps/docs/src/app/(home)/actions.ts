@@ -49,7 +49,8 @@ export async function addToWaitlist(
 
     if (!res.ok) {
       const response = await res.json();
-      throw new Error(response?.message || 'Failed to add to waitlist');
+      console.log('response error', response);
+      throw new Error(response?.error_string || 'Failed to add to waitlist');
     }
     const response = await res.json();
 

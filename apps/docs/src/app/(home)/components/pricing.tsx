@@ -2,7 +2,7 @@ import React from 'react';
 
 export const Pricing = () => {
   return (
-    <section className="px-8 py-20">
+    <section id="pricing" className="px-8 py-20">
       <div className="mx-auto h-full max-w-5xl">
         <div className="mx-auto max-w-7xl px-4l pb-10 sm:px-6 lg:px-8 lg:text-center">
           <div className="mx-auto max-w-3xl lg:max-w-none">

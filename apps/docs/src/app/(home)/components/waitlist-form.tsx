@@ -12,14 +12,16 @@ export const WaitlistForm = () => {
   console.log(state);
 
   return (
-    <form action={formAction} className="flex items-center gap-4">
-      <input
-        name="email"
-        type="email"
-        placeholder="Enter your email"
-        className="rounded-xl border border-gray-700 bg-[#ebebeb]/5 px-4 py-1 focus:outline-none"
-      />
-      <SubmitButton />
+    <form action={formAction} className="flex flex-col items-center gap-4">
+      <div className="flex items-center gap-4">
+        <input
+          name="email"
+          type="email"
+          placeholder="Enter your email"
+          className="rounded-xl border border-gray-700 bg-[#ebebeb]/5 px-4 py-1 focus:outline-none"
+        />
+        <SubmitButton />
+      </div>
       <p aria-live="polite">{state?.message}</p>
     </form>
   );

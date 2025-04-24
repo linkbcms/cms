@@ -24,11 +24,7 @@ export const Hero = () => {
         </strong>
         <WaitlistForm />
         <small className="px-2 text-center text-xs">
-          By clicking Join Waitlist you're confirming that you agree with our{' '}
-          <a href="/pages/terms" className="underline">
-            Terms and Conditions
-          </a>
-          .
+          By joining the waitlist, you'd like to receive updates from us.
         </small>
         <div className="mt-20">
           <img

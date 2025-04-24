@@ -2,7 +2,7 @@ import React from 'react';
 
 export const Faq = () => {
   return (
-    <section className="rounded-3xl bg-[#f6f7fa] py-20">
+    <section id="faq" className="rounded-3xl bg-[#f6f7fa] py-20">
       <div className="mx-auto h-full max-w-5xl">
         <div className="flex flex-col gap-12">
           <div>
