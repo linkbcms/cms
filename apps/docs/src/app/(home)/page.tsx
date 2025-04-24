@@ -1,19 +1,21 @@
-import Link from 'next/link';
+import { Faq } from '@/app/(home)/components/faq';
+import { Feature } from '@/app/(home)/components/feature';
+import { Footer } from '@/app/(home)/components/footer';
+import { Hero } from '@/app/(home)/components/hero';
+import { Logos } from '@/app/(home)/components/logos';
+import { Pricing } from '@/app/(home)/components/pricing';
+import { Tools } from '@/app/(home)/components/tools';
 
 export default function HomePage() {
   return (
-    <main className="flex flex-1 flex-col justify-center text-center">
-      <h1 className="mb-4 font-bold text-2xl">Hello World</h1>
-      <p className="text-fd-muted-foreground">
-        You can open{' '}
-        <Link
-          href="/docs"
-          className="font-semibold text-fd-foreground underline"
-        >
-          /docs
-        </Link>{' '}
-        and see the documentation.
-      </p>
+    <main className="bg-[#0d0e11] text-[#0d0e11]">
+      <Hero />
+      <Feature />
+      <Tools />
+      <Logos />
+      <Pricing />
+      <Faq />
+      <Footer />
     </main>
   );
 }
