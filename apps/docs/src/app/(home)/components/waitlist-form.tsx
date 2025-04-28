@@ -11,6 +11,8 @@ export const WaitlistForm = () => {
 
   console.log(state);
 
+  const data = state?.data;
+
   return (
     <form action={formAction} className="flex flex-col items-center gap-4">
       <div className="flex items-center gap-4">
@@ -23,12 +25,24 @@ export const WaitlistForm = () => {
         <SubmitButton />
       </div>
       <p aria-live="polite">{state?.message}</p>
+
+      {data && (
+        <p aria-live="polite">
+          Here is your referral link:
+          <span>
+            linkbcms.com?w_ref=$
+            {data.referral_token}`
+          </span>
+        </p>
+      )}
     </form>
   );
 };
 
 const initialState = {
   message: '',
+  data: undefined,
+  error: undefined,
 };
 
 function SubmitButton() {

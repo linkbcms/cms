@@ -1,5 +1,3 @@
-import { m } from './paraglide/messages';
-import { getLocale, locales, setLocale } from './paraglide/runtime';
 import type { JSX } from 'react/jsx-runtime';
 
 export const App = (): JSX.Element => {

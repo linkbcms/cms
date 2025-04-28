@@ -61,6 +61,6 @@ export async function addToWaitlist(
     };
   } catch (e) {
     console.error('error adding to waitlist', e);
-    return { message: 'Failed to add to waitlist', error: e };
+    return { message: 'Failed to add to waitlist', error: e, data: undefined };
   }
 }
