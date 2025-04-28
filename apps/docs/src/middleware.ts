@@ -3,14 +3,14 @@ import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
-  const wRef = searchParams.get('w_ref');
+  const refId = searchParams.get('ref_id');
 
-  if (wRef) {
-    console.log('wRef', wRef);
+  if (refId) {
+    console.log('refId', refId);
     const response = NextResponse.next();
     response.cookies.set({
-      name: 'w_ref',
-      value: wRef,
+      name: 'ref_id',
+      value: refId,
       // 30 days
       maxAge: 60 * 60 * 24 * 30,
     });

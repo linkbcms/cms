@@ -27,13 +27,15 @@ export async function addToWaitlist(
     };
   }
 
-  const wRef = (await cookies()).get('w_ref')?.value;
-
+  const refId = (await cookies()).get('ref_id')?.value;
+  const waitlistId = process.env.WAITLIST_ID;
   const data = {
     ...parse.data,
-    waitlist_id: process.env.WAITLIST_ID,
-    referral_link: wRef ? `https://getwaitlist.com?ref_id=${wRef}` : undefined,
+    waitlist_id: waitlistId ? Number(waitlistId) : undefined,
+    referral_link: refId ? `https://linkbcms.com?ref_id=${refId}` : undefined,
   };
+
+  console.log('data', data);
 
   try {
     const res = await fetch('https://api.getwaitlist.com/api/v1/signup', {
@@ -43,6 +45,8 @@ export async function addToWaitlist(
       },
       body: JSON.stringify(data),
     });
+
+    console.log('res', res);
 
     if (!res.ok) {
       const response = await res.json();
@@ -61,6 +65,6 @@ export async function addToWaitlist(
     };
   } catch (e) {
     console.error('error adding to waitlist', e);
-    return { message: 'Failed to add to waitlist', error: e };
+    return { message: 'Failed to add to waitlist', error: e, data: undefined };
   }
 }

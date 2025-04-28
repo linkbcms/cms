@@ -17,6 +17,10 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./beta": {
+      "types": "./dist/beta.d.ts",
+      "import": "./dist/beta.js"
+    },
     "./app": {
       "types": "./dist/linkb-app.d.ts",
       "import": "./dist/linkb-app.js"
