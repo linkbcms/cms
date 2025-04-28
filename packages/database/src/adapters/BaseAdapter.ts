@@ -1,6 +1,14 @@
 import type { DatabaseAdapter, MigrationOptions } from './types';
 import type { defineConfig } from '@linkbcms/core';
-import type { PostgresConfig } from './PostgresAdapter';
+
+/**
+ * Base configuration for all database adapters
+ */
+export interface BaseAdapterConfig {
+  connectionString: string;
+  schemaDir?: string;
+  migrationDir?: string;
+}
 
 /**
  * Base adapter implementation with common functionality
@@ -10,7 +18,7 @@ export abstract class BaseAdapter implements DatabaseAdapter {
   protected migrationDir: string;
   protected connectionString: string;
 
-  constructor(config: PostgresConfig) {
+  constructor(config: BaseAdapterConfig) {
     this.connectionString = config.connectionString || '';
     this.schemaDir = config.schemaDir || 'schema';
     this.migrationDir = config.migrationDir || 'migration';

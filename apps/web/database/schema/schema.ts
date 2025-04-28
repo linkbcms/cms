@@ -1,6 +1,6 @@
 // Generated schema file
-import { pgTable as table } from "drizzle-orm/pg-core";
-import * as t from "drizzle-orm/pg-core";
+import { pgTable as table } from "@linkbcms/database";
+import * as t from "@linkbcms/database";
 
 export const defaultSchema = table
 export const blogs = defaultSchema(

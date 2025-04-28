@@ -1,5 +1,5 @@
 {
-  "id": "aa23b856-618f-419b-b4bc-75e8dd806bc0",
+  "id": "1b953376-cf72-4e7e-b85b-8acb0b2ea70e",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -206,6 +206,12 @@
         "number": {
           "name": "number",
           "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "select": {
+          "name": "select",
+          "type": "text",
           "primaryKey": false,
           "notNull": false
         }
