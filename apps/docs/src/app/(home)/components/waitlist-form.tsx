@@ -26,13 +26,16 @@ export const WaitlistForm = () => {
       </div>
       <p aria-live="polite">{state?.message}</p>
 
-      {data && (
-        <p aria-live="polite">
+      {data?.referral_token && (
+        <p aria-live="polite" className="text-center">
           Here is your referral link:
-          <span>
-            linkbcms.com?w_ref=$
-            {data.referral_token}`
-          </span>
+          <br />
+          <a
+            className="text-blue-500 underline"
+            href={`https://linkbcms.com?ref_id=${data.referral_token}`}
+          >
+            linkbcms.com?ref_id={data.referral_token}
+          </a>
         </p>
       )}
     </form>
