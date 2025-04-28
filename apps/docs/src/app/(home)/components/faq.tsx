@@ -16,57 +16,61 @@ export const Faq = () => {
           <div className="mx-auto flex w-full max-w-2xl flex-col gap-6 px-4 text-base text-gray-400">
             <details>
               <summary className="cursor-pointer font-medium text-base text-gray-900 tracking-tight">
-                What does SendIt?
+                What is LinkbCMS?
               </summary>
               <p className="pt-4 text-gray-500 text-sm">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Omnis
-                quae distinctio nemo natus, accusantium magni, nam eveniet sint
-                iusto odio assumenda laborum. Nobis vero quas consequatur
-                aspernatur blanditiis maiores expedita?
+                LinkbCMS is a powerful open-source content management system
+                that helps developers build and manage websites more
+                efficiently. It provides a flexible and intuitive interface for
+                creating, organizing, and publishing content while maintaining
+                full control over your codebase.
               </p>
             </details>
             <details>
               <summary className="cursor-pointer font-medium text-base text-gray-900 tracking-tight">
-                What coding languages ?
+                Which programming languages are supported?
               </summary>
               <p className="pt-4 text-gray-500 text-sm">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Omnis
-                quae distinctio nemo natus, accusantium magni, nam eveniet sint
-                iusto odio assumenda laborum. Nobis vero quas consequatur
-                aspernatur blanditiis maiores expedita?
+                LinkbCMS is built with modern web technologies and supports
+                development in JavaScript/TypeScript, React, and Next.js. The
+                system is designed to be extensible, allowing you to integrate
+                with various programming languages and frameworks through its
+                API.
               </p>
             </details>
             <details>
               <summary className="cursor-pointer font-medium text-base text-gray-900 tracking-tight">
-                How fast will I get my coded website?
+                Is LinkbCMS free to use?
               </summary>
               <p className="pt-4 text-gray-500 text-sm">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Omnis
-                quae distinctio nemo natus, accusantium magni, nam eveniet sint
-                iusto odio assumenda laborum. Nobis vero quas consequatur
-                aspernatur blanditiis maiores expedita?
+                Yes! LinkbCMS is completely free and open source. You can use
+                all core features without any cost. We're committed to
+                maintaining an open-source model while developing additional
+                premium features for enterprise users in the future.
               </p>
             </details>
             <details>
               <summary className="cursor-pointer font-medium text-base text-gray-900 tracking-tight">
-                How can I check the progress of my website?
+                How do I get started with LinkbCMS?
               </summary>
               <p className="pt-4 text-gray-500 text-sm">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Omnis
-                quae distinctio nemo natus, accusantium magni, nam eveniet sint
-                iusto odio assumenda laborum. Nobis vero quas consequatur
-                aspernatur blanditiis maiores expedita?
+                Getting started with LinkbCMS is straightforward. You can clone
+                our repository from GitHub, follow our comprehensive
+                documentation, and have your first project up and running in
+                minutes. We also provide starter templates to help you begin
+                quickly.
               </p>
             </details>
             <details>
               <summary className="cursor-pointer font-medium text-base text-gray-900 tracking-tight">
-                If I have a blog, do you count each post as a separate page?
+                Can I self-host LinkbCMS?
               </summary>
               <p className="pt-4 text-gray-500 text-sm">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Omnis
-                quae distinctio nemo natus, accusantium magni, nam eveniet sint
-                iusto odio assumenda laborum. Nobis vero quas consequatur
-                aspernatur blanditiis maiores expedita?
+                Yes, LinkbCMS is designed to be self-hosted! You have complete
+                control over your deployment and data. You can host it on your
+                own servers or choose from various cloud hosting providers. We
+                provide detailed deployment guides for different hosting
+                scenarios.
               </p>
             </details>
           </div>

@@ -9,6 +9,14 @@ const inter = Inter({
   subsets: ['latin'],
 });
 
+export const metadata = {
+  title: {
+    template: '%s | LinkbCMS',
+    default: 'LinkbCMS',
+  },
+  description: 'The open source CMS for modern teams.',
+};
+
 const isStatsigEnabled = process.env.STATSIG_SERVER_KEY !== undefined;
 
 export default async function Layout({ children }: { children: ReactNode }) {

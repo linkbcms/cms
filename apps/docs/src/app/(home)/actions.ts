@@ -44,8 +44,6 @@ export async function addToWaitlist(
       body: JSON.stringify(data),
     });
 
-    console.log(res);
-
     if (!res.ok) {
       const response = await res.json();
       console.log('response error', response);
