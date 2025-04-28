@@ -1,5 +1,13 @@
 # @linkbcms/cli
 
+## 0.1.45
+
+### Patch Changes
+
+- ab5b21c: separate database
+- Updated dependencies [ab5b21c]
+  - @linkbcms/database@0.1.13
+
 ## 0.1.44
 
 ### Patch Changes

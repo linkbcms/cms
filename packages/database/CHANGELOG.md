@@ -1,5 +1,11 @@
 # @linkbcms/database
 
+## 0.1.13
+
+### Patch Changes
+
+- ab5b21c: separate database
+
 ## 0.1.12
 
 ### Patch Changes

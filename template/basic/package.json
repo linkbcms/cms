@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@linkbcms/core": "^0.0.25",
-    "@linkbcms/database": "^0.1.12",
+    "@linkbcms/database": "^0.1.13",
     "@next/bundle-analyzer": "^15.2.4",
     "drizzle-kit": "^0.31.0",
     "lucide-react": "0.476.0",

@@ -1,6 +1,6 @@
 {
   "name": "@linkbcms/cli",
-  "version": "0.1.44",
+  "version": "0.1.45",
   "description": "A command line tool",
   "type": "module",
   "main": "dist/index.js",
