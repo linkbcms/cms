@@ -1,5 +1,13 @@
 # web
 
+## 0.0.21
+
+### Patch Changes
+
+- ab5b21c: separate database
+- Updated dependencies [ab5b21c]
+  - @linkbcms/database@0.1.13
+
 ## 0.0.20
 
 ### Patch Changes
