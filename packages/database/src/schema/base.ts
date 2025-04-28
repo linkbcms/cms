@@ -92,8 +92,8 @@ export abstract class BaseSchemaGenerator {
 
       // Start with imports
       let schemaFileContent = `// Generated schema file
-import { pgTable as table } from "drizzle-orm/pg-core";
-import * as t from "drizzle-orm/pg-core";
+import { pgTable as table } from "@linkbcms/database";
+import * as t from "@linkbcms/database";
 
 export const defaultSchema = ${this.schema ? `t.pgSchema("${this.schema}").table` : 'table'}
 `;

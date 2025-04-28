@@ -275,9 +275,8 @@ const ${functionName}Validation = ${validation});
   defaultHeader() {
     return `import { z } from "zod";
 import { NextResponse, type NextRequest } from 'next/server';
-import { drizzle } from 'drizzle-orm/node-postgres';
-import { desc, eq } from "drizzle-orm";
-const db = drizzle(process.env.DATABASE_URL ?? '');`;
+import { desc, eq, linkbDb } from "@linkbcms/database";
+const db = linkbDb();`;
   }
 
   generateValidation(schema: Record<string, Record<string, unknown>>): string {

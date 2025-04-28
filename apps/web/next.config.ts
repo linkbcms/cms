@@ -6,6 +6,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // transpilePackages: ['@linkbcms/core'],
+  serverExternalPackages: ['pg', 'drizzle-orm'],
 };
 
 export default nextConfig;

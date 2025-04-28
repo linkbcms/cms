@@ -34,7 +34,8 @@ CREATE TABLE "settings" (
 	"title" varchar,
 	"navigation" varchar,
 	"description" varchar,
-	"number" integer
+	"number" integer,
+	"select" text
 );
 --> statement-breakpoint
 CREATE TABLE "settings2" (

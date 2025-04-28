@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { BaseAdapter } from './BaseAdapter';
+import { BaseAdapter, type BaseAdapterConfig } from './BaseAdapter';
 import type { MigrationOptions } from './types';
 import { drizzle, type NodePgDatabase } from 'drizzle-orm/node-postgres';
 import pg from 'pg';
@@ -8,10 +8,10 @@ import type { defineConfig } from '@linkbcms/core';
 import { DatabaseSchema } from '../schema';
 import { spawn } from 'node:child_process';
 
-export interface PostgresConfig {
-  connectionString: string;
-  schemaDir?: string;
-  migrationDir?: string;
+/**
+ * PostgreSQL database adapter configuration
+ */
+export interface PostgresConfig extends BaseAdapterConfig {
   schema: string;
 }
 
@@ -49,6 +49,8 @@ export class PostgresAdapter extends BaseAdapter {
    */
   public async testConnection(): Promise<boolean> {
     try {
+      // Execute a simple query to test the connection
+      await this.client.query('SELECT 1');
       console.log(chalk.green('PostgreSQL connection test successful'));
       return true;
     } catch (error) {
