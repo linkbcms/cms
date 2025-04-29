@@ -9,6 +9,11 @@ export default defineConfig({
       dts: true,
       format: 'esm',
     },
+    {
+      bundle: false,
+      dts: true,
+      format: 'cjs',
+    },
   ],
   output: {
     target: 'node',
