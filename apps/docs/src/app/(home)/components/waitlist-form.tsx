@@ -36,6 +36,9 @@ export const WaitlistForm = () => {
           >
             linkbcms.com?ref_id={data.referral_token}
           </a>
+          <br />
+          <br />
+          Refer to your other <b>3 friends</b>, to move up the waitlist.
         </p>
       )}
     </form>
