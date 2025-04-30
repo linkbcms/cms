@@ -15,7 +15,7 @@ export const WaitlistForm = () => {
 
   return (
     <form action={formAction} className="flex flex-col items-center gap-4">
-      <div className="flex items-center gap-4">
+      <div className="flex flex-col items-center gap-x-4 gap-y-2 sm:flex-row">
         <input
           name="email"
           type="email"
@@ -55,7 +55,7 @@ function SubmitButton() {
     <button
       type="submit"
       aria-disabled={pending}
-      className="relative cursor-pointer rounded-xl bg-[#cff245] px-4 py-1 text-black aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
+      className="relative w-full cursor-pointer rounded-xl bg-[#cff245] px-4 py-1 text-black aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
     >
       <span className={pending ? 'opacity-0' : ''}>Join Waitlist</span>
       {pending && (
