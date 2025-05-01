@@ -1,5 +1,11 @@
 # @linkbcms/core
 
+## 0.0.26
+
+### Patch Changes
+
+- a136f88: remove type and update type in core
+
 ## 0.0.25
 
 ### Patch Changes

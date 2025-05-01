@@ -1,5 +1,14 @@
 # @linkbcms/cli
 
+## 0.1.47
+
+### Patch Changes
+
+- a136f88: remove type and update type in core
+- Updated dependencies [a136f88]
+  - @linkbcms/core@0.0.26
+  - @linkbcms/database@0.1.15
+
 ## 0.1.46
 
 ### Patch Changes
