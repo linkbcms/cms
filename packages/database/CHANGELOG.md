@@ -1,5 +1,12 @@
 # @linkbcms/database
 
+## 0.1.15
+
+### Patch Changes
+
+- Updated dependencies [a136f88]
+  - @linkbcms/core@0.0.26
+
 ## 0.1.14
 
 ### Patch Changes
