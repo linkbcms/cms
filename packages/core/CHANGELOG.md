@@ -1,5 +1,11 @@
 # @linkbcms/core
 
+## 0.0.27
+
+### Patch Changes
+
+- c692d16: remove diff-continued for now till better support included
+
 ## 0.0.26
 
 ### Patch Changes
