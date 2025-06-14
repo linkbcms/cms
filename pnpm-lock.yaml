@@ -292,8 +292,8 @@ importers:
   packages/core:
     dependencies:
       '@inlang/paraglide-js':
-        specifier: 2.0.0-beta.26
-        version: 2.0.0-beta.26(babel-plugin-macros@3.1.0)
+        specifier: 2.1.0
+        version: 2.1.0(babel-plugin-macros@3.1.0)
       '@legendapp/state':
         specifier: 3.0.0-beta.30
         version: 3.0.0-beta.30(react@19.1.0)
@@ -1480,9 +1480,8 @@ packages:
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  '@inlang/paraglide-js@2.0.0-beta.26':
-    resolution: {integrity: sha512-D7WGs9j1beK32xrEDQ9GY/+QqBrqaakwLqUZCZ3r0wJVVk6j5PjEODxjJrlWTrs/33tQWGA/YK5d3MUkksCDNQ==}
-    deprecated: v2 has been released. please upgrade.
+  '@inlang/paraglide-js@2.1.0':
+    resolution: {integrity: sha512-hpj5AglQphR91IH2qXPRp78fTkRVdhlNl09rZZBTtB18fcmJpCScDFckUEaR0UhOARySd4SiH/7/GbVenFcrbQ==}
     hasBin: true
 
   '@inlang/recommend-sherlock@0.2.1':
@@ -1490,6 +1489,10 @@ packages:
 
   '@inlang/sdk@2.4.1':
     resolution: {integrity: sha512-JKsbFs/z2rv/2vPR6ZWDC3PWLX9COQPRYADNlbFl2omqkM2Dl5g7X/jIPDkTV85NccOimSf6Y/d1zqK5p5K4zA==}
+    engines: {node: '>=18.0.0'}
+
+  '@inlang/sdk@2.4.9':
+    resolution: {integrity: sha512-cvz/C1rF5WBxzHbEoiBoI6Sz6q6M+TdxfWkEGBYTD77opY8i8WN01prUWXEM87GPF4SZcyIySez9U0Ccm12oFQ==}
     engines: {node: '>=18.0.0'}
 
   '@inquirer/confirm@5.1.6':
@@ -1576,8 +1579,15 @@ packages:
     resolution: {integrity: sha512-8v9gkLuEa/VXLkDwuXLr+wjZY1D7dPXVhez97jJULYoKurLVuhh2SH/Sv4jF43biV0wee44PGADrFPuU00lnsQ==}
     engines: {node: '>=21'}
 
+  '@lix-js/sdk@0.4.7':
+    resolution: {integrity: sha512-pRbW+joG12L0ULfMiWYosIW0plmW4AsUdiPCp+Z8rAsElJ+wJ6in58zhD3UwUcd4BNcpldEGjg6PdA7e0RgsDQ==}
+    engines: {node: '>=18'}
+
   '@lix-js/server-api-schema@0.1.1':
     resolution: {integrity: sha512-W1Z7KKOxAQ4Dag9V2wrDevHPh5rPk+icBUsxNfNCNB2tlPrKpba99562vcTCPoT03KXpihEbWutZNujCRtMA+g==}
+
+  '@lix-js/server-protocol-schema@0.1.1':
+    resolution: {integrity: sha512-jBeALB6prAbtr5q4vTuxnRZZv1M2rKe8iNqRQhFJ4Tv7150unEa0vKyz0hs8Gl3fUGsWaNJBh3J8++fpbrpRBQ==}
 
   '@manypkg/find-root@1.1.0':
     resolution: {integrity: sha512-mki5uBvhHzO8kYYix/WRy2WX8S3B5wdVSc9D6KcU5lQNglP2yt58/VfLuAK49glRXChosY8ap2oJ1qgma3GUVA==}
@@ -7356,10 +7366,6 @@ packages:
     resolution: {integrity: sha512-4/u/j4FrCKdi17jaxuJA0jClGxB1AvU2hw/IuayPc4ay1XGaJs/rbb4v5WKwAjNifjmXK9PIFyuPiaK8azyR9w==}
     engines: {node: '>=14.0.0'}
 
-  unplugin@2.2.0:
-    resolution: {integrity: sha512-m1ekpSwuOT5hxkJeZGRxO7gXbXT3gF26NjQ7GdVHoLoF8/nopLcd/QfPigpCy7i51oFHiRJg/CyHhj4vs2+KGw==}
-    engines: {node: '>=18.12.0'}
-
   unplugin@2.3.2:
     resolution: {integrity: sha512-3n7YA46rROb3zSj8fFxtxC/PqoyvYQ0llwz9wtUPUutr9ig09C8gGo5CWCwHrUzlqC1LLR43kxp5vEIyH1ac1w==}
     engines: {node: '>=18.12.0'}
@@ -8439,14 +8445,14 @@ snapshots:
     transitivePeerDependencies:
       - babel-plugin-macros
 
-  '@inlang/paraglide-js@2.0.0-beta.26(babel-plugin-macros@3.1.0)':
+  '@inlang/paraglide-js@2.1.0(babel-plugin-macros@3.1.0)':
     dependencies:
       '@inlang/recommend-sherlock': 0.2.1
-      '@inlang/sdk': 2.4.1(babel-plugin-macros@3.1.0)
+      '@inlang/sdk': 2.4.9(babel-plugin-macros@3.1.0)
       commander: 11.1.0
       consola: 3.4.0
       json5: 2.2.3
-      unplugin: 2.2.0
+      unplugin: 2.3.2
       urlpattern-polyfill: 10.0.0
     transitivePeerDependencies:
       - babel-plugin-macros
@@ -8458,6 +8464,16 @@ snapshots:
   '@inlang/sdk@2.4.1(babel-plugin-macros@3.1.0)':
     dependencies:
       '@lix-js/sdk': 0.4.1(babel-plugin-macros@3.1.0)
+      '@sinclair/typebox': 0.31.28
+      kysely: 0.27.6
+      sqlite-wasm-kysely: 0.3.0(kysely@0.27.6)
+      uuid: 10.0.0
+    transitivePeerDependencies:
+      - babel-plugin-macros
+
+  '@inlang/sdk@2.4.9(babel-plugin-macros@3.1.0)':
+    dependencies:
+      '@lix-js/sdk': 0.4.7(babel-plugin-macros@3.1.0)
       '@sinclair/typebox': 0.31.28
       kysely: 0.27.6
       sqlite-wasm-kysely: 0.3.0(kysely@0.27.6)
@@ -8557,7 +8573,21 @@ snapshots:
     transitivePeerDependencies:
       - babel-plugin-macros
 
+  '@lix-js/sdk@0.4.7(babel-plugin-macros@3.1.0)':
+    dependencies:
+      '@lix-js/server-protocol-schema': 0.1.1
+      dedent: 1.5.1(babel-plugin-macros@3.1.0)
+      human-id: 4.1.1
+      js-sha256: 0.11.0
+      kysely: 0.27.6
+      sqlite-wasm-kysely: 0.3.0(kysely@0.27.6)
+      uuid: 10.0.0
+    transitivePeerDependencies:
+      - babel-plugin-macros
+
   '@lix-js/server-api-schema@0.1.1': {}
+
+  '@lix-js/server-protocol-schema@0.1.1': {}
 
   '@manypkg/find-root@1.1.0':
     dependencies:
@@ -14849,12 +14879,7 @@ snapshots:
 
   unplugin@1.16.1:
     dependencies:
-      acorn: 8.14.0
-      webpack-virtual-modules: 0.6.2
-
-  unplugin@2.2.0:
-    dependencies:
-      acorn: 8.14.0
+      acorn: 8.14.1
       webpack-virtual-modules: 0.6.2
 
   unplugin@2.3.2:
