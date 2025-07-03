@@ -37,7 +37,7 @@
     "src/**/*.tsx"
   ],
   "dependencies": {
-    "@inlang/paraglide-js": "2.1.0",
+    "@inlang/paraglide-js": "2.2.0",
     "@legendapp/state": "3.0.0-beta.30",
     "@linkbcms/ui": "workspace:*",
     "@tabler/icons-react": "^3.31.0",
