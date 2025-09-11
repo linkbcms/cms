@@ -1,4 +1,5 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@source '../../node_modules/@linkbcms/core-tsdown';
 
 :root {
   --background: #ffffff;

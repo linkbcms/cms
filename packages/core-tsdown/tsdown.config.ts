@@ -6,43 +6,37 @@ import tailwindcss from '@tailwindcss/postcss';
 
 export default defineConfig({
   entry: ['src/index.ts'],
-
-  // clean: true,
+  platform: 'neutral',
   dts: true,
+  minify: false,
 
-  sourcemap: true,
-
-  format: ['cjs', 'esm'],
+  clean: false,
+  sourcemap: false,
+  format: ['esm'],
   treeshake: true,
-
   outDir: './dist',
-  platform: 'browser',
-
   alias: {
     '@': path.resolve(__dirname, './src'),
   },
 
-  external: ['react', 'react-dom'],
+  external: ['wouter'],
+
+  // https://github.com/shuding/react-wrap-balancer/blob/main/tsup.config.ts#L10-L13
+  banner: {
+    js: '"use client"',
+  },
 
   plugins: [
-    // postcss({
-    //   extract: true,
-    //   plugins: [tailwindcss],
-    // }) as any,
+    // @ts-expect-error
+    postcss({
+      // Or with custom file name, it will generate file relative to bundle.js in v3
+      extract: 'styles.css',
+      plugins: [tailwindcss],
+    }),
     paraglideRolldownPlugin({
       project: './project.inlang',
       outdir: './src/paraglide',
-      strategy: ['url', 'cookie'],
-      urlPatterns: [
-        {
-          pattern: '/:path(.*)?',
-          localized: [
-            ['de', '/de/:path(.*)?'],
-            // ✅ make sure to match the least specific path last
-            ['en', '/:path(.*)?'],
-          ],
-        },
-      ],
-    }) as any,
+      strategy: ['cookie', 'preferredLanguage', 'baseLocale'],
+    }),
   ],
 });

@@ -1,5 +1,5 @@
-import { ClientRouter } from '@/app/(client-router)/cms/[[...slug]]/users';
+import { CMSPage } from '@linkbcms/core-tsdown';
 
 export default function Page() {
-  return <ClientRouter />;
+  return <CMSPage />;
 }

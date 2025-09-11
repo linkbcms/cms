@@ -10,18 +10,15 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@tanstack/react-router": "^1.130.2",
     "lodash": "^4.17.21",
     "next": "15.4.4",
     "react": "19.1.1",
-    "react-dom": "19.1.1",
-    "wouter": "^3.7.1"
+    "react-dom": "19.1.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@linkbcms/core-tsdown": "workspace:*",
     "@tailwindcss/postcss": "^4",
-    "@tanstack/router-cli": "^1.130.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

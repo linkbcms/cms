@@ -10,22 +10,20 @@
     "machine-translate": "inlang machine translate --project project.inlang"
   },
   "type": "module",
-  "main": "./dist/index.cjs",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
   "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "sideEffects": false,
   "exports": {
-    ".": {
-      "require": "./dist/index.cjs",
-      "default": "./dist/index.cjs",
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    },
-    "./package.json": "./package.json",
-    "./styles": "./dist/styles.css",
-    "./styles/non-compiled": "./src/styles.css"
+    ".": "./dist/index.js",
+    "./package.json": "./package.json"
   },
-  "files": ["dist", "package.json", "README.md", "LICENSE"],
+  "files": [
+    "dist",
+    "package.json",
+    "README.md",
+    "LICENSE"
+  ],
   "peerDependencies": {
     "react": "19.1.1",
     "react-dom": "19.1.1"
@@ -33,18 +31,12 @@
   "devDependencies": {
     "@inlang/cli": "^3.0.12",
     "@inlang/paraglide-js": "2.2.0",
-    "@legendapp/state": "3.0.0-beta.30",
+    "@linkbcms/core-config": "workspace:*",
     "@linkbcms/ui": "workspace:*",
     "@tabler/icons-react": "^3.34.1",
     "@tailwindcss/postcss": "^4.1.11",
     "@tailwindcss/vite": "^4.1.11",
-    "@tanstack/react-form": "^1.15.0",
-    "@tanstack/react-query": "^5.83.0",
-    "@tanstack/react-router": "^1.130.2",
-    "@tanstack/react-router-devtools": "^1.130.2",
-    "@tanstack/react-table": "^8.21.3",
-    "@tanstack/router-cli": "^1.130.2",
-    "@tanstack/router-plugin": "^1.130.2",
+    "@tanstack/react-query": "^5.72.2",
     "@types/node": "^22.16.5",
     "@types/pluralize": "^0.0.33",
     "@types/react": "19.1.1",

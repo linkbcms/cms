@@ -16,6 +16,7 @@
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
 
+    "allowJs": true,
     /* type checking */
     "noUnusedLocals": true,
     "noImplicitAny": false,
