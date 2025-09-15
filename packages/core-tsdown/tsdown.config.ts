@@ -10,7 +10,7 @@ export default defineConfig({
   dts: true,
   minify: false,
 
-  clean: false,
+  // clean: false,
   sourcemap: false,
   format: ['esm'],
   treeshake: true,

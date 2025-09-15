@@ -1,5 +1,5 @@
 import { CMSPage } from '@linkbcms/core-tsdown';
 
-export default function Page() {
+export default async function Page() {
   return <CMSPage />;
 }
