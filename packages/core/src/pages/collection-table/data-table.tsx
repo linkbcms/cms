@@ -1,13 +1,6 @@
 'use client';
 
 import {
-  type ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
-
-import {
   Table,
   TableBody,
   TableCell,
@@ -15,13 +8,19 @@ import {
   TableHeader,
   TableRow,
 } from '@linkbcms/ui/components/table';
+import {
+  type ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 import type { JSX } from 'react/jsx-runtime';
 
-interface DataTableProps<TData, TValue> {
+type DataTableProps<TData, TValue> = {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   onRowClick?: (row: TData) => void;
-}
+};
 
 export function DataTable<TData, TValue>({
   columns,
@@ -47,7 +46,7 @@ export function DataTable<TData, TValue>({
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
-                          header.getContext(),
+                          header.getContext()
                         )}
                   </TableHead>
                 );
@@ -59,8 +58,8 @@ export function DataTable<TData, TValue>({
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
-                key={row.id}
                 data-state={row.getIsSelected() && 'selected'}
+                key={row.id}
                 onClick={() => {
                   onRowClick?.(row.original);
                 }}
@@ -74,7 +73,7 @@ export function DataTable<TData, TValue>({
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
+              <TableCell className="h-24 text-center" colSpan={columns.length}>
                 No results.
               </TableCell>
             </TableRow>

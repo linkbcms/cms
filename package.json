@@ -10,24 +10,29 @@
     "build": "turbo build",
     "build:packages": "turbo build --filter=\"@linkbcms/*\"",
     "dev": "turbo dev",
-    "lint": "turbo lint",
     "format-and-lint": "biome check .",
     "format-and-lint:fix": "biome check . --write",
+    "check": "ultracite check",
+    "fix": "ultracite fix",
     "prepare-env": "cp apps/web/.env.example apps/web/.env",
     "bump": "changeset version && node script/update-package.mjs && pnpm install --no-frozen-lockfile",
     "ci:publish": "turbo build --filter=\"@linkbcms/*\" && changeset publish"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
+    "@biomejs/biome": "2.2.4",
     "@changesets/cli": "^2.29.2",
     "@workspace/typescript-config": "workspace:*",
     "tinyglobby": "^0.2.13",
-    "turbo": "^2.4.4",
-    "typescript": "5.7.3"
+    "turbo": "^2.5.6",
+    "typescript": "5.9.2",
+    "ultracite": "^5.3.9"
   },
   "packageManager": "pnpm@10.15.1",
   "engines": {
     "node": ">=22"
   },
-  "workspaces": ["packages/*", "apps/*"]
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ]
 }

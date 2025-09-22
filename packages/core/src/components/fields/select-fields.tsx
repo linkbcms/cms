@@ -1,9 +1,4 @@
-import { useStore } from '@tanstack/react-form';
-import { useFieldContext } from '@/hooks/form-context.tsx';
 import { Label } from '@linkbcms/ui/components/label';
-
-import type { JSX } from 'react/jsx-runtime';
-
 import {
   Select,
   SelectContent,
@@ -11,6 +6,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@linkbcms/ui/components/select';
+import { useStore } from '@tanstack/react-form';
+
+import type { JSX } from 'react/jsx-runtime';
+import { useFieldContext } from '@/hooks/form-context.tsx';
 
 export default function SelectField({
   label,
@@ -32,10 +31,10 @@ export default function SelectField({
           <div>{label}</div>
 
           <Select
-            value={field.state.value}
             onValueChange={(values) => {
               values && field.handleChange(values);
             }}
+            value={field.state.value}
           >
             <SelectTrigger>
               <SelectValue placeholder={placeholder || 'Select an option'} />
@@ -50,7 +49,7 @@ export default function SelectField({
           </Select>
         </Label>
         {errors.map((error: string) => (
-          <div key={error} className="text-destructive text-sm">
+          <div className="text-destructive text-sm" key={error}>
             {error}
           </div>
         ))}

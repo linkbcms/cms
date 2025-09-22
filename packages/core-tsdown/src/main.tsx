@@ -1,17 +1,11 @@
-import { Link, Route, Router, Switch } from 'wouter';
-
 import type { Config } from '@linkbcms/core-config';
-
-import { Layout } from '@/layout';
-
+import { Link, Route, Router, Switch } from 'wouter';
 import { ClientOnly } from '@/client-only';
+import { Layout } from '@/layout';
+import { m } from '@/paraglide/messages';
 import { ConfigProvider } from '@/store/config.provider';
 
-export function CMSPage({
-  config,
-}: {
-  config?: Config;
-}) {
+export function CMSPage({ config }: { config?: Config }) {
   const baseUrl = config?.baseUrl || '/cms';
 
   return (
@@ -23,29 +17,39 @@ export function CMSPage({
               <Route path="/">
                 <div className="bg-blue-500 p-5">Home</div>
               </Route>
-              <Route path="/collections" nest>
+              <Route nest path="/collections">
                 <div className="bg-green-500 p-5">
-                  <div>Collections</div>
+                  <div>{m.helpful_minor_mink_tap()}</div>
 
-                  <Link to={'/posts'} className={'underline'}>
-                    <div>Go To Posts Collection</div>
+                  <Link className={'underline'} to={'/posts'}>
+                    <div>
+                      {m.basic_chunky_alpaca_learn({
+                        collectionName: 'Posts',
+                      })}
+                    </div>
                   </Link>
-                  <Link to={'/blogs'} className={'underline'}>
-                    <div>Go To Blogs Collection</div>
+                  <Link className={'underline'} to={'/blogs'}>
+                    <div>
+                      {m.basic_chunky_alpaca_learn({
+                        collectionName: 'Blogs',
+                      })}
+                    </div>
                   </Link>
 
-                  <Route path="/:collection" nest>
+                  <Route nest path="/:collection">
                     {(collectionParams) => (
                       <div className="bg-yellow-500 p-5 capitalize">
-                        Collection Page {collectionParams.collection}
+                        {m.giant_fine_capybara_flip({
+                          collection: collectionParams.collection,
+                        })}
                         <div className="flex flex-wrap gap-2 p-5">
-                          <Link to={'/add/new'} className={'underline'}>
-                            Add New Collection Item
+                          <Link className={'underline'} to={'/add/new'}>
+                            {m.such_crisp_lizard_succeed()}
                           </Link>
-                          <Link to={'/1'} className={'underline'}>
+                          <Link className={'underline'} to={'/1'}>
                             Collection Item 1
                           </Link>
-                          <Link to={'/2'} className={'underline'}>
+                          <Link className={'underline'} to={'/2'}>
                             Collection Item 2
                           </Link>
                         </div>
@@ -53,8 +57,8 @@ export function CMSPage({
                           <div className="bg-amber-950 p-5">
                             Add New Collection Item
                             <Link
-                              to={`~${baseUrl}/collections/${collectionParams.collection}`}
                               className={'underline'}
+                              to={`~${baseUrl}/collections/${collectionParams.collection}`}
                             >
                               <div>
                                 Back To Collection {collectionParams.collection}
@@ -67,8 +71,8 @@ export function CMSPage({
                             <div className="bg-purple-500 p-5 capitalize">
                               Collection Item {params.item}
                               <Link
-                                to={`~${baseUrl}/collections/${collectionParams.collection}`}
                                 className={'underline'}
+                                to={`~${baseUrl}/collections/${collectionParams.collection}`}
                               >
                                 <div>
                                   Back To Collection{' '}
@@ -79,8 +83,8 @@ export function CMSPage({
                           )}
                         </Route>
                         <Link
-                          to={`~${baseUrl}/collections`}
                           className={'underline'}
+                          to={`~${baseUrl}/collections`}
                         >
                           <div>Back To Collections</div>
                         </Link>
@@ -88,7 +92,7 @@ export function CMSPage({
                     )}
                   </Route>
 
-                  <Link to={`~${baseUrl}`} className={'underline'}>
+                  <Link className={'underline'} to={`~${baseUrl}`}>
                     <div>Back To Home</div>
                   </Link>
                 </div>

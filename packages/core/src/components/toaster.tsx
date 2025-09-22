@@ -1,6 +1,5 @@
 'use client';
 
-import { useConfig } from '@/components/config-provider';
 import { reactive } from '@legendapp/state/react';
 import {
   Sonner,
@@ -8,6 +7,7 @@ import {
   toast,
 } from '@linkbcms/ui/components/sonner';
 import type { JSX } from 'react/jsx-runtime';
+import { useConfig } from '@/components/config-provider';
 
 const ReactiveSonner = reactive(Sonner);
 

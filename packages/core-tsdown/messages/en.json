@@ -1,5 +1,1 @@
-{
-  "$schema": "https://inlang.com/schema/inlang-message-format",
-  "example_message": "Hello world {username}",
-  "example_message_2": "Hello world {username}"
-}
+{"$schema":"https://inlang.com/schema/inlang-message-format","example_message":"Hello world {username}","example_message_2":"Hello world {username}","helpful_minor_mink_tap":"Collections","basic_chunky_alpaca_learn":"Go To {collectionName} Collection","giant_fine_capybara_flip":"Collection Page {collection}","such_crisp_lizard_succeed":"Add New Collection Item"}

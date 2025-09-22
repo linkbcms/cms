@@ -22,7 +22,7 @@ const isStatsigEnabled = process.env.STATSIG_SERVER_KEY !== undefined;
 export default async function Layout({ children }: { children: ReactNode }) {
   const values = isStatsigEnabled ? await generateBootstrapValues() : null;
   return (
-    <html lang="en" className={inter.className} suppressHydrationWarning>
+    <html className={inter.className} lang="en" suppressHydrationWarning>
       <body className="flex min-h-screen flex-col">
         {isStatsigEnabled && values && (
           <Statsig values={values}>

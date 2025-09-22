@@ -1,6 +1,4 @@
-import type { LucideIcon } from 'lucide-react';
-import type * as React from 'react';
-
+import { reactive } from '@legendapp/state/react';
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -8,12 +6,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@linkbcms/ui/components/sidebar';
-import { IconBrightness } from '@tabler/icons-react';
 import { Switch } from '@linkbcms/ui/components/switch';
-import { useConfig } from '@/components/config-provider';
-import { reactive } from '@legendapp/state/react';
-import { Link } from 'react-router';
+import { IconBrightness } from '@tabler/icons-react';
+import type { LucideIcon } from 'lucide-react';
+import type * as React from 'react';
 import type { JSX } from 'react/jsx-runtime';
+import { Link } from 'react-router';
+import { useConfig } from '@/components/config-provider';
 
 const ReactiveSwitch = reactive(Switch);
 
@@ -51,14 +50,14 @@ export function NavSecondary({
                 </span>
 
                 <ReactiveSwitch
-                  id="dark-mode-toggle"
-                  className="ml-auto group-data-[collapsible=icon]:hidden"
                   $checked={() =>
                     config$.ui.theme.defaultTheme.get() !== 'light'
                   }
+                  className="ml-auto group-data-[collapsible=icon]:hidden"
+                  id="dark-mode-toggle"
                   onCheckedChange={() =>
                     config$.ui.theme.defaultTheme.set((v) =>
-                      v === 'light' ? 'dark' : 'light',
+                      v === 'light' ? 'dark' : 'light'
                     )
                   }
                 />

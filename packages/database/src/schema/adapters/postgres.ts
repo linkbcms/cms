@@ -1,25 +1,20 @@
-import chalk from 'chalk';
 import type { defineConfig } from '@linkbcms/core';
 import {
   BaseSchemaGenerator,
   type SchemaDefinition,
   type TableDefinition,
-  type SchemaGeneratorOptions,
 } from '../base';
 
 export class PostgresSchemaGenerator extends BaseSchemaGenerator {
-  constructor(options: SchemaGeneratorOptions) {
-    super(options);
-    console.log(chalk.blue(`Schema will be stored in: ${this.schemaDir}`));
-  }
-
   /**
    * Safely get i18n config from collection
    */
   private getI18nConfig(
-    collection: any,
+    collection: any
   ): { locales: string[]; defaultLocale?: string } | null {
-    if (!collection || typeof collection !== 'object') return null;
+    if (!collection || typeof collection !== 'object') {
+      return null;
+    }
 
     // Try to access i18n property safely
     if (collection.i18n && Array.isArray(collection.i18n.locales)) {
@@ -36,7 +31,7 @@ export class PostgresSchemaGenerator extends BaseSchemaGenerator {
    * Generate new schema based on config
    */
   protected async generateNewSchema(
-    config: ReturnType<typeof defineConfig>,
+    config: ReturnType<typeof defineConfig>
   ): Promise<SchemaDefinition> {
     const schema: SchemaDefinition = {};
 
@@ -46,11 +41,13 @@ export class PostgresSchemaGenerator extends BaseSchemaGenerator {
 
     // Process each collection
     for (const [collectionName, collection] of Object.entries(
-      config.collections,
+      config.collections
     )) {
       // Check if collection has a schema
       const collectionSchema = this.getCollectionSchema(collection);
-      if (!collectionSchema) continue;
+      if (!collectionSchema) {
+        continue;
+      }
 
       // Handle i18n collections
       const i18nConfig = this.getI18nConfig(collection);
@@ -62,7 +59,7 @@ export class PostgresSchemaGenerator extends BaseSchemaGenerator {
       if (i18nConfig?.locales && i18nConfig.defaultLocale) {
         // Only create locale-specific tables for non-default locales
         const nonDefaultLocales = i18nConfig.locales.filter(
-          (locale) => locale !== i18nConfig.defaultLocale,
+          (locale) => locale !== i18nConfig.defaultLocale
         );
 
         for (const locale of nonDefaultLocales) {
@@ -79,7 +76,9 @@ export class PostgresSchemaGenerator extends BaseSchemaGenerator {
    * Safely get collection schema regardless of collection type
    */
   private getCollectionSchema(collection: any): Record<string, any> | null {
-    if (!collection) return null;
+    if (!collection) {
+      return null;
+    }
 
     // Try to access schema property safely
     if (typeof collection === 'object' && collection.schema) {
@@ -102,17 +101,25 @@ export class PostgresSchemaGenerator extends BaseSchemaGenerator {
     };
 
     for (const [fieldName, field] of Object.entries(schema)) {
-      if (!field.type) field.type = 'text';
+      if (!field.type) {
+        field.type = 'text';
+      }
 
       // Skip Component fields
-      if (field.type === 'Component') continue;
+      if (field.type === 'Component') {
+        continue;
+      }
 
       // Skip fields marked with db: false
-      if (field.db === false) continue;
+      if (field.db === false) {
+        continue;
+      }
 
       // Map field types to PostgreSQL types
       const pgType = this.mapFieldTypeToPostgres(field.type);
-      if (!pgType) continue;
+      if (!pgType) {
+        continue;
+      }
 
       tableSchema[fieldName] = {
         type: pgType,

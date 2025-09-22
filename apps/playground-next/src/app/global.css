@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 @source '../../../../packages/core-tsdown/src/**/*.{js,ts,jsx,tsx}';
 
 :root {

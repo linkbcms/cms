@@ -1,13 +1,12 @@
-import { useConfig } from '@/components/config-provider';
 import { use$ } from '@legendapp/state/react';
-import { useNavigate, useParams } from 'react-router';
-
 import { useQuery } from '@tanstack/react-query';
-import { DataTable } from '@/pages/collection-table/data-table';
-import { columns, type Payment } from '@/pages/collection-table/columns';
-import type { CollectionConfig } from '@/index';
 import { Loader2 } from 'lucide-react';
 import type { JSX } from 'react/jsx-runtime';
+import { useNavigate, useParams } from 'react-router';
+import { useConfig } from '@/components/config-provider';
+import type { CollectionConfig } from '@/index';
+import { columns, type Payment } from '@/pages/collection-table/columns';
+import { DataTable } from '@/pages/collection-table/data-table';
 
 export const CollectionsScreen = (): JSX.Element => {
   const { collection: collectionId } = useParams();
@@ -16,7 +15,7 @@ export const CollectionsScreen = (): JSX.Element => {
   const config = useConfig();
 
   const collection = use$(
-    () => collectionId && config.collections?.[collectionId]?.get(),
+    () => collectionId && config.collections?.[collectionId]?.get()
   );
 
   const query = useQuery({

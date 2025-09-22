@@ -1,16 +1,15 @@
-import { useConfig } from '@/components/config-provider';
-import { useAppForm, withForm } from '@/hooks/form';
 import { use$, useEffectOnce } from '@legendapp/state/react';
 import { toast } from '@linkbcms/ui/components/sonner';
-import { useParams } from 'react-router';
-
-import { type V2, formData } from '@/hooks/form-data';
-import { formatDistanceToNowStrict } from 'date-fns';
-import type { SingletonConfig } from '@/index';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import type { JSX } from 'react/jsx-runtime';
+import { formatDistanceToNowStrict } from 'date-fns';
 import { Loader2 } from 'lucide-react';
 import { useMemo } from 'react';
+import type { JSX } from 'react/jsx-runtime';
+import { useParams } from 'react-router';
+import { useConfig } from '@/components/config-provider';
+import { useAppForm, withForm } from '@/hooks/form';
+import { formData, type V2 } from '@/hooks/form-data';
+import type { SingletonConfig } from '@/index';
 
 export const SingletonsScreen = (): JSX.Element => {
   const { singleton: singletonId } = useParams();
@@ -41,7 +40,7 @@ export const SingletonsScreen = (): JSX.Element => {
         {
           method: hasData ? 'PATCH' : 'POST',
           body: JSON.stringify(value),
-        },
+        }
       );
 
       if (res.ok) {
@@ -91,7 +90,7 @@ export const SingletonsScreen = (): JSX.Element => {
             return acc;
           }, {})
         : undefined,
-    [query.data?.result, singletonId],
+    [query.data?.result, singletonId]
   );
 
   const form = useAppForm({
@@ -134,9 +133,9 @@ export const SingletonsScreen = (): JSX.Element => {
         </div>
       ) : (
         <SingletonForm
+          currentValue={updatedValue}
           form={form}
           key={singletonId}
-          currentValue={updatedValue}
         />
       )}
     </>
@@ -149,7 +148,7 @@ const SingletonForm = withForm({
     const config = useConfig();
 
     const singleton = use$(
-      () => singletonId && config.collections?.[singletonId]?.get(),
+      () => singletonId && config.collections?.[singletonId]?.get()
     );
 
     const store = use$<V2>(formData);
@@ -160,7 +159,7 @@ const SingletonForm = withForm({
           new Date(store.data[`/singletons/${singletonId}`].__updatedAt),
           {
             addSuffix: true,
-          },
+          }
         );
 
         requestAnimationFrame(() => {
@@ -220,7 +219,7 @@ const SingletonForm = withForm({
                 >
                   {(field) => <field.TextField label={_field.label} />}
                 </form.AppField>
-              ),
+              )
             )}
           </div>
 

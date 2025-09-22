@@ -1,17 +1,15 @@
-import { useConfig } from '@/components/config-provider';
-import { useAppForm, withForm } from '@/hooks/form';
 import { Memo, use$ } from '@legendapp/state/react';
 import { toast } from '@linkbcms/ui/components/sonner';
-import pluralize from 'pluralize';
-import { useLocation, useNavigate, useParams } from 'react-router';
-
-import { formData } from '@/hooks/form-data';
-
-import type { CollectionConfig } from '@/index';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
-import type { JSX } from 'react/jsx-runtime';
+import pluralize from 'pluralize';
 import { useMemo } from 'react';
+import type { JSX } from 'react/jsx-runtime';
+import { useLocation, useNavigate, useParams } from 'react-router';
+import { useConfig } from '@/components/config-provider';
+import { useAppForm, withForm } from '@/hooks/form';
+import { formData } from '@/hooks/form-data';
+import type { CollectionConfig } from '@/index';
 
 export const CollectionScreen = (): JSX.Element => {
   const { collection: collectionId, item: itemId } = useParams();
@@ -78,7 +76,7 @@ export const CollectionScreen = (): JSX.Element => {
               ...newPost,
             },
           };
-        },
+        }
       );
 
       return previousPosts;
@@ -114,7 +112,7 @@ export const CollectionScreen = (): JSX.Element => {
             return acc;
           }, {})
         : undefined,
-    [result, itemId],
+    [result, itemId]
   );
 
   const form = useAppForm({
@@ -153,7 +151,7 @@ export const CollectionScreen = (): JSX.Element => {
             description: `value: ${JSON.stringify(updatedValue, null, 2)}`,
             action: {
               label: 'Test',
-              onClick: () => console.log('action: props.action.onClick'),
+              onClick: () => {},
             },
           });
           // Reset the form to start-over with a clean state
@@ -189,7 +187,7 @@ const CollectionForm = withForm({
     const config = useConfig();
 
     const collection = use$(
-      () => collectionId && config.collections?.[collectionId]?.get(),
+      () => collectionId && config.collections?.[collectionId]?.get()
     );
 
     if (!collection) {
@@ -248,7 +246,7 @@ const CollectionForm = withForm({
                 <form.AppField key={key + itemId} name={`${key}/${itemId}`}>
                   {(field) => <field.TextField label={_field.label} />}
                 </form.AppField>
-              ),
+              )
             )}
           </div>
 

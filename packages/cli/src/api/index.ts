@@ -1,17 +1,16 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import type {
   Collection,
   CollectionConfig,
   defineConfig,
 } from '@linkbcms/core';
-import fs from 'node:fs';
-import path from 'node:path';
 import { findWorkspaceRoot } from '../utilities/findWorkSpaceRoot';
 import { loadModule } from '../utilities/loadModule';
 
 export class Api {
   private cmsConfig: ReturnType<typeof defineConfig> | undefined;
-  private apiPath: string;
-  private schemaPath: string;
+  private readonly apiPath: string;
   constructor() {
     const workspaceRoot = findWorkspaceRoot();
     this.apiPath = path.join(workspaceRoot, 'app/api/linkb');
@@ -26,15 +25,17 @@ export class Api {
 
     if (this.cmsConfig.collections) {
       for (const [collectionName, collectionConfig] of Object.entries(
-        this.cmsConfig.collections,
+        this.cmsConfig.collections
       )) {
-        if ('Component' in collectionConfig) continue;
+        if ('Component' in collectionConfig) {
+          continue;
+        }
         this.generateDefaultCrud(
           collectionName,
           collectionConfig as Collection<
             Record<string, CollectionConfig>,
             string
-          >,
+          >
         );
       }
     }
@@ -59,17 +60,17 @@ export class Api {
 
   generateDefaultCrud(
     collectionName: string,
-    collectionConfig: Collection<Record<string, CollectionConfig>, string>,
+    collectionConfig: Collection<Record<string, CollectionConfig>, string>
   ) {
     const collectionPath = this.createFolder(`${collectionName}/[[...slug]]`);
     const listCode = this.generateList(collectionName, collectionConfig);
     const createCode = this.generateCreate(
       collectionName,
-      collectionConfig as Collection<Record<string, CollectionConfig>, string>,
+      collectionConfig as Collection<Record<string, CollectionConfig>, string>
     );
     const patchCode = this.generatePatch(
       collectionName,
-      collectionConfig as Collection<Record<string, CollectionConfig>, string>,
+      collectionConfig as Collection<Record<string, CollectionConfig>, string>
     );
     const getCode = this.generateGet(collectionName, collectionConfig);
     const deleteCode = this.generateDelete(collectionName, collectionConfig);
@@ -125,7 +126,7 @@ ${deleteCode.code}
 
   generateList(
     collectionName: string,
-    collectionConfig: Collection<Record<string, CollectionConfig>, string>,
+    _collectionConfig: Collection<Record<string, CollectionConfig>, string>
   ): {
     code: string;
     functionName: string;
@@ -146,7 +147,7 @@ async function ${functionName}() {
 
   generateCreate(
     collectionName: string,
-    collectionConfig: Collection<Record<string, CollectionConfig>, string>,
+    collectionConfig: Collection<Record<string, CollectionConfig>, string>
   ): {
     code: string;
     functionName: string;
@@ -182,7 +183,7 @@ const ${functionName}Validation = ${validation});
 
   generatePatch(
     collectionName: string,
-    collectionConfig: Collection<Record<string, CollectionConfig>, string>,
+    collectionConfig: Collection<Record<string, CollectionConfig>, string>
   ): {
     code: string;
     functionName: string;
@@ -220,7 +221,7 @@ const ${functionName}Validation = ${validation});
 
   generateGet(
     collectionName: string,
-    collectionConfig: Collection<Record<string, CollectionConfig>, string>,
+    _collectionConfig: Collection<Record<string, CollectionConfig>, string>
   ): {
     code: string;
     functionName: string;
@@ -247,7 +248,7 @@ const ${functionName}Validation = ${validation});
 
   generateDelete(
     collectionName: string,
-    collectionConfig: Collection<Record<string, CollectionConfig>, string>,
+    _collectionConfig: Collection<Record<string, CollectionConfig>, string>
   ): {
     code: string;
     functionName: string;
@@ -288,22 +289,30 @@ const db = linkbDb();`;
       >;
 
       validation[key] = 'z.string()';
-      if (schema[key]?.type === 'number') validation[key] = 'z.number()';
+      if (schema[key]?.type === 'number') {
+        validation[key] = 'z.number()';
+      }
       if (schema[key]?.type === 'select') {
         validation[key] =
           `z.enum([${(schema[key]?.options as { value: string; label: string }[]).map((option) => `"${option.value}"`).join(', ')}])`;
       }
 
-      if (validationObject?.required !== true)
+      if (validationObject?.required !== true) {
         validation[key] += '.optional().nullable()';
-      if (validationObject?.minLength)
+      }
+      if (validationObject?.minLength) {
         validation[key] += `.min(${validationObject.minLength})`;
-      if (validationObject?.maxLength)
+      }
+      if (validationObject?.maxLength) {
         validation[key] += `.max(${validationObject.maxLength})`;
-      if (validationObject?.pattern)
+      }
+      if (validationObject?.pattern) {
         validation[key] += `.regex(${validationObject.pattern})`;
+      }
     }
-    if (Object.keys(validation).length === 0) return '';
+    if (Object.keys(validation).length === 0) {
+      return '';
+    }
     return `z.object({
     ${Object.entries(validation)
       .map(([key, value]) => `${key}: ${value}`)

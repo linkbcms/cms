@@ -28,7 +28,7 @@ export function ThemeProvider({
   ...props
 }: ThemeProviderProps): JSX.Element {
   const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme,
+    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
   );
 
   useEffect(() => {
@@ -67,8 +67,9 @@ export function ThemeProvider({
 export const useTheme = (): ThemeProviderState => {
   const context = useContext(ThemeProviderContext);
 
-  if (context === undefined)
+  if (context === undefined) {
     throw new Error('useTheme must be used within a ThemeProvider');
+  }
 
   return context;
 };

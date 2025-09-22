@@ -15,7 +15,7 @@
     "verbatimModuleSyntax": true,
     "sourceMap": true,
     "declarationMap": true,
-    "erasableSyntaxOnly": true, // TS 5.8+
+    "erasableSyntaxOnly": true,
     "isolatedDeclarations": true,
     "declaration": true,
     "noFallthroughCasesInSwitch": true,

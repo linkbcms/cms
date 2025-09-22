@@ -1,9 +1,8 @@
-import { useStore } from '@tanstack/react-form';
-import { useFieldContext } from '../../hooks/form-context.tsx';
-import { Label } from '@linkbcms/ui/components/label';
 import { Input } from '@linkbcms/ui/components/input';
-
+import { Label } from '@linkbcms/ui/components/label';
+import { useStore } from '@tanstack/react-form';
 import type { JSX } from 'react/jsx-runtime';
+import { useFieldContext } from '../../hooks/form-context.tsx';
 
 export default function TextField({
   label,
@@ -44,12 +43,12 @@ export default function TextField({
         <Label className="flex w-full flex-col items-start gap-2">
           <div>{label}</div>
           <Input
-            value={field.state.value}
             onChange={(e) => field.handleChange(e.target.value)}
+            value={field.state.value}
           />
         </Label>
         {errors.map((error: string) => (
-          <div key={error} className="text-destructive text-sm">
+          <div className="text-destructive text-sm" key={error}>
             {error}
           </div>
         ))}

@@ -1,5 +1,5 @@
-import path from 'node:path';
 import fs from 'node:fs';
+import path from 'node:path';
 import chalk from 'chalk';
 
 export const findWorkspaceRoot = (locationPath = ''): string => {
@@ -24,9 +24,7 @@ export const findWorkspaceRoot = (locationPath = ''): string => {
 
   // If we can't find a workspace root, return the current directory
   console.warn(
-    chalk.yellow(
-      'Could not find pnpm-workspace.yaml. Using current directory.',
-    ),
+    chalk.yellow('Could not find pnpm-workspace.yaml. Using current directory.')
   );
 
   // Join paths and ensure no trailing slash

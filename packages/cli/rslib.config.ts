@@ -1,5 +1,5 @@
-import { defineConfig } from '@rslib/core';
 import { pluginReact } from '@rsbuild/plugin-react';
+import { defineConfig } from '@rslib/core';
 
 const isProduction = process.env.NODE_ENV === 'production';
 

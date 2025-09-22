@@ -1,14 +1,14 @@
-export interface I18nField {
+export type I18nField = {
   id: string;
   [key: string]: string;
-}
+};
 
-export interface BaseFieldDefinition {
+export type BaseFieldDefinition = {
   name?: string;
   label: string;
   required?: boolean;
   i18n?: I18nField;
-}
+};
 
 export interface TextField extends BaseFieldDefinition {
   type?: 'text'; // default type
@@ -28,11 +28,11 @@ export interface SchemaField extends BaseFieldDefinition {
   [key: string]: any;
 }
 
-export interface Schema {
+export type Schema = {
   [fieldKey: string]: SchemaField;
-}
+};
 
-export interface SchemaDefinition {
+export type SchemaDefinition = {
   schema: Schema;
   [key: string]: any;
-}
+};

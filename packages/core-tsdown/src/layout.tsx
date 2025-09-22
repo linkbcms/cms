@@ -1,7 +1,7 @@
-import { m } from '@/paraglide/messages';
-import { getLocale, setLocale } from '@/paraglide/runtime';
 import type React from 'react';
 import { Link } from 'wouter';
+import { m } from '@/paraglide/messages';
+import { getLocale, setLocale } from '@/paraglide/runtime';
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -11,28 +11,28 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       <div className="flex flex-wrap gap-2 bg-red-500">
         {m.example_message({ username: 'John Doe' })}
 
-        <Link to="/" className={'underline'}>
+        <Link className={'underline'} to="/">
           Home
         </Link>
-        <Link to="/collections" className={'underline'}>
+        <Link className={'underline'} to="/collections">
           Collections
         </Link>
-        <Link to="/collections/posts" className={'underline'}>
+        <Link className={'underline'} to="/collections/posts">
           Posts
         </Link>
-        <Link to="/collections/posts/add/new" className={'underline'}>
+        <Link className={'underline'} to="/collections/posts/add/new">
           Add New Post
         </Link>
-        <Link to="/collections/posts/1" className={'underline'}>
+        <Link className={'underline'} to="/collections/posts/1">
           Post 1
         </Link>
 
         <div className="flex gap-2">
           Current Locale: {getLocale()}
-          <button type="button" onClick={() => setLocale('id')}>
+          <button onClick={() => setLocale('id')} type="button">
             Go to ID
           </button>
-          <button type="button" onClick={() => setLocale('en')}>
+          <button onClick={() => setLocale('en')} type="button">
             Go to EN
           </button>
         </div>

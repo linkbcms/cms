@@ -12,7 +12,7 @@ export default function Page(): JSX.Element {
           manage your content.
         </p>
 
-        <Link href="/cms" className="underline">
+        <Link className="underline" href="/cms">
           Enter CMS
         </Link>
       </div>

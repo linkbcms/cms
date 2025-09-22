@@ -1,6 +1,6 @@
 // import { defineConfig, fields } from 'cms';
 
-import type { ReactElement, ReactNode } from 'react';
+import type { ReactElement } from 'react';
 
 /**
  * Collection configuration type that defines the schema and structure of a collection
@@ -152,10 +152,10 @@ export type Config<Collections extends CollectionsMap> = {
  * ```
  */
 export const defineConfig = <Collections extends CollectionsMap>(
-  config: Config<Collections>,
+  config: Config<Collections>
 ) => {
   // Recursively sanitize an object to make it serializable
-  const sanitizeValue = (value: any): any => {
+  const _sanitizeValue = (value: any): any => {
     if (value === null || value === undefined) {
       return value;
     }
@@ -167,13 +167,13 @@ export const defineConfig = <Collections extends CollectionsMap>(
 
     // Handle arrays
     if (Array.isArray(value)) {
-      return value.map(sanitizeValue);
+      return value.map(_sanitizeValue);
     }
 
     // Handle objects
     if (typeof value === 'object') {
       return Object.fromEntries(
-        Object.entries(value).map(([key, val]) => [key, sanitizeValue(val)]),
+        Object.entries(value).map(([key, val]) => [key, _sanitizeValue(val)])
       );
     }
 
@@ -202,7 +202,7 @@ export const defineConfig = <Collections extends CollectionsMap>(
  * }
  * ```
  */
-interface TextField {
+type TextField = {
   /** Display label for the field */
   label: string;
   /** Field name */
@@ -217,7 +217,7 @@ interface TextField {
   i18n?: Record<string, string>;
   /** Whether the field is stored in the database */
   db?: boolean;
-}
+};
 
 /**
  * Interface for image field configuration
@@ -229,12 +229,12 @@ interface TextField {
  * }
  * ```
  */
-interface ImageField {
+type ImageField = {
   /** Display label for the field */
   label: string;
   /** Field name */
   name?: string;
-}
+};
 
 /**
  * Interface for reference field configuration
@@ -247,14 +247,14 @@ interface ImageField {
  * }
  * ```
  */
-interface ReferenceField {
+type ReferenceField = {
   /** Display label for the field */
   label: string;
   /** Field name */
   name?: string;
   /** Referenced collection name */
   collection: string;
-}
+};
 
 /**
  * Interface for custom field configuration
@@ -267,10 +267,10 @@ interface ReferenceField {
  * }
  * ```
  */
-interface CustomField {
+type CustomField = {
   /** React component to render the custom field */
   Component: () => ReactElement;
-}
+};
 
 /**
  * Configuration interface for collections
@@ -292,7 +292,7 @@ interface CustomField {
  * }
  * ```
  */
-export interface CollectionConfig {
+export type CollectionConfig = {
   /** Display label for the collection */
   label: string;
   /** Field to use as the slug/identifier */
@@ -314,7 +314,7 @@ export interface CollectionConfig {
   canRead?: boolean;
   /** Schema definition for the collection */
   schema: Record<string, any>;
-}
+};
 
 /**
  * Configuration interface for singleton collections
@@ -329,12 +329,12 @@ export interface CollectionConfig {
  * }
  * ```
  */
-export interface SingletonConfig {
+export type SingletonConfig = {
   /** Display label for the singleton */
   label: string;
   /** Schema definition for the singleton */
   schema: Record<string, any>;
-}
+};
 
 /**
  * Configuration interface for custom collections
@@ -347,10 +347,10 @@ export interface SingletonConfig {
  * }
  * ```
  */
-export interface CustomCollectionConfig {
+export type CustomCollectionConfig = {
   /** React component to render the custom collection */
   Component: () => ReactElement;
-}
+};
 
 /**
  * Field configuration helpers

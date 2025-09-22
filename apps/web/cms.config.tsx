@@ -2,7 +2,7 @@ import { defineConfig, fields } from '@linkbcms/core';
 
 export default defineConfig({
   ui: {
-    logo: () => <img src="/logo.png" alt="logo" width={32} height={32} />,
+    logo: () => <img alt="logo" height={32} src="/logo.png" width={32} />,
   },
 
   collections: {

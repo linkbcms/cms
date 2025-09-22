@@ -1,18 +1,18 @@
-import type { BaseSchemaGenerator, SchemaGeneratorOptions } from './base';
 import { PostgresSchemaGenerator } from './adapters';
+import type { BaseSchemaGenerator, SchemaGeneratorOptions } from './base';
 
 /**
  * Database schema manager for schema generation and migrations
  * This class uses the appropriate schema generator for the database type
  */
 export class DatabaseSchema {
-  private schemaGenerator: BaseSchemaGenerator;
+  private readonly schemaGenerator: BaseSchemaGenerator;
 
   /**
    * Create a schema manager for a PostgreSQL database
    */
   static forPostgres(
-    options: Omit<SchemaGeneratorOptions, 'type'>,
+    options: Omit<SchemaGeneratorOptions, 'type'>
   ): DatabaseSchema {
     const pgOptions: SchemaGeneratorOptions = {
       ...options,

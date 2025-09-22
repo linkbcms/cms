@@ -1,4 +1,5 @@
 import { createJiti } from 'jiti';
+
 const jiti = createJiti(import.meta.url, {
   // Transpilation cache, can be safely enabled
   cache: true,
@@ -16,8 +17,7 @@ export async function loadModule(modulePath: string): Promise<unknown> {
 
     const load = await jiti.import(modulePath);
     return load;
-  } catch (error) {
-    console.log(error);
+  } catch (_error) {
     throw new Error('Failed to load module');
   }
 }

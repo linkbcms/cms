@@ -8,7 +8,7 @@ export const customQueryParamsStrategy = () => {
   defineCustomClientStrategy('custom-queryParam', {
     getLocale: () => {
       if (typeof window === 'undefined') {
-        return undefined;
+        return;
       }
 
       const urlParams = new URLSearchParams(window.location.search);
@@ -27,9 +27,8 @@ export const customQueryParamsStrategy = () => {
 
   defineCustomServerStrategy('custom-queryParam', {
     getLocale: (request) => {
-      console.log('request', request);
       if (typeof request === 'undefined') {
-        return undefined;
+        return;
       }
 
       const url = new URL(request.url);

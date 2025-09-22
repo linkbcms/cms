@@ -1,5 +1,5 @@
-import type { DatabaseAdapter, SupportedDatabase } from './types';
 import { PostgresAdapter, type PostgresConfig } from './PostgresAdapter';
+import type { DatabaseAdapter, SupportedDatabase } from './types';
 
 // Database type mapping to standardized types
 export const DB_TYPE_MAPPING: Record<string, string> = {
@@ -20,7 +20,7 @@ export const DB_TYPE_MAPPING: Record<string, string> = {
 export class AdapterFactory {
   createAdapter(
     type: SupportedDatabase,
-    config: Record<string, unknown>,
+    config: Record<string, unknown>
   ): DatabaseAdapter {
     // Normalize the database type
     const normalizedType =

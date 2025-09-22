@@ -1,5 +1,3 @@
-import type { Meta, StoryObj } from '@storybook/react';
-
 import {
   Drawer,
   DrawerClose,
@@ -10,6 +8,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@linkbcms/ui/components/drawer';
+import type { Meta, StoryObj } from '@storybook/react';
 
 /**
  * A drawer component for React.

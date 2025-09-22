@@ -1,8 +1,6 @@
-import React from 'react';
-
 export const Pricing = () => {
   return (
-    <section id="pricing" className="px-8 py-20">
+    <section className="px-8 py-20" id="pricing">
       <div className="mx-auto h-full max-w-2xl">
         <div className="mx-auto max-w-7xl px-4l pb-10 sm:px-6 lg:px-8 lg:text-center">
           <div className="mx-auto max-w-3xl lg:max-w-none">
@@ -28,22 +26,22 @@ export const Pricing = () => {
                 <li className="flex items-start gap-3">
                   <div className="flex-shrink-0">
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
                       className="icon icon-tabler icon-tabler-circle-check-filled"
-                      width={20}
-                      height={20}
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
                       fill="none"
+                      height={20}
+                      stroke="currentColor"
                       strokeLinecap="round"
                       strokeLinejoin="round"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                      width={20}
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M0 0h24v24H0z" fill="none" stroke="none" />
                       <path
                         d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
-                        strokeWidth={0}
                         fill="currentColor"
+                        strokeWidth={0}
                       />
                     </svg>
                   </div>
@@ -52,22 +50,22 @@ export const Pricing = () => {
                 <li className="flex items-start gap-3">
                   <div className="flex-shrink-0">
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
                       className="icon icon-tabler icon-tabler-circle-check-filled"
-                      width={20}
-                      height={20}
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
                       fill="none"
+                      height={20}
+                      stroke="currentColor"
                       strokeLinecap="round"
                       strokeLinejoin="round"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                      width={20}
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M0 0h24v24H0z" fill="none" stroke="none" />
                       <path
                         d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
-                        strokeWidth={0}
                         fill="currentColor"
+                        strokeWidth={0}
                       />
                     </svg>
                   </div>
@@ -76,22 +74,22 @@ export const Pricing = () => {
                 <li className="flex items-start gap-3">
                   <div className="flex-shrink-0">
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
                       className="icon icon-tabler icon-tabler-circle-check-filled"
-                      width={20}
-                      height={20}
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
                       fill="none"
+                      height={20}
+                      stroke="currentColor"
                       strokeLinecap="round"
                       strokeLinejoin="round"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                      width={20}
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M0 0h24v24H0z" fill="none" stroke="none" />
                       <path
                         d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
-                        strokeWidth={0}
                         fill="currentColor"
+                        strokeWidth={0}
                       />
                     </svg>
                   </div>
@@ -100,22 +98,22 @@ export const Pricing = () => {
                 <li className="flex items-start gap-3">
                   <div className="flex-shrink-0">
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
                       className="icon icon-tabler icon-tabler-circle-check-filled"
-                      width={20}
-                      height={20}
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
                       fill="none"
+                      height={20}
+                      stroke="currentColor"
                       strokeLinecap="round"
                       strokeLinejoin="round"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                      width={20}
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M0 0h24v24H0z" fill="none" stroke="none" />
                       <path
                         d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
-                        strokeWidth={0}
                         fill="currentColor"
+                        strokeWidth={0}
                       />
                     </svg>
                   </div>
@@ -124,22 +122,22 @@ export const Pricing = () => {
                 <li className="flex items-start gap-3">
                   <div className="flex-shrink-0">
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
                       className="icon icon-tabler icon-tabler-circle-check-filled"
-                      width={20}
-                      height={20}
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
                       fill="none"
+                      height={20}
+                      stroke="currentColor"
                       strokeLinecap="round"
                       strokeLinejoin="round"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                      width={20}
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M0 0h24v24H0z" fill="none" stroke="none" />
                       <path
                         d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
-                        strokeWidth={0}
                         fill="currentColor"
+                        strokeWidth={0}
                       />
                     </svg>
                   </div>
@@ -148,22 +146,22 @@ export const Pricing = () => {
                 <li className="flex items-start gap-3">
                   <div className="flex-shrink-0">
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
                       className="icon icon-tabler icon-tabler-circle-check-filled"
-                      width={20}
-                      height={20}
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
                       fill="none"
+                      height={20}
+                      stroke="currentColor"
                       strokeLinecap="round"
                       strokeLinejoin="round"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                      width={20}
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M0 0h24v24H0z" fill="none" stroke="none" />
                       <path
                         d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
-                        strokeWidth={0}
                         fill="currentColor"
+                        strokeWidth={0}
                       />
                     </svg>
                   </div>
@@ -173,8 +171,8 @@ export const Pricing = () => {
             </div>
             <div className="mt-8">
               <a
-                href="#waitlist"
                 className="flex h-10 w-full items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 font-semibold text-gray-600 text-sm transition-all"
+                href="#waitlist"
               >
                 Get Started
               </a>
@@ -195,22 +193,22 @@ export const Pricing = () => {
                 <li className="flex items-start gap-3">
                   <div className="flex-shrink-0">
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
                       className="icon icon-tabler icon-tabler-circle-check-filled"
-                      width={20}
-                      height={20}
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
                       fill="none"
+                      height={20}
+                      stroke="currentColor"
                       strokeLinecap="round"
                       strokeLinejoin="round"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                      width={20}
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M0 0h24v24H0z" fill="none" stroke="none" />
                       <path
                         d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
-                        strokeWidth={0}
                         fill="currentColor"
+                        strokeWidth={0}
                       />
                     </svg>
                   </div>
@@ -219,22 +217,22 @@ export const Pricing = () => {
                 <li className="flex items-start gap-3">
                   <div className="flex-shrink-0">
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
                       className="icon icon-tabler icon-tabler-circle-check-filled"
-                      width={20}
-                      height={20}
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
                       fill="none"
+                      height={20}
+                      stroke="currentColor"
                       strokeLinecap="round"
                       strokeLinejoin="round"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                      width={20}
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M0 0h24v24H0z" fill="none" stroke="none" />
                       <path
                         d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
-                        strokeWidth={0}
                         fill="currentColor"
+                        strokeWidth={0}
                       />
                     </svg>
                   </div>
@@ -243,22 +241,22 @@ export const Pricing = () => {
                 <li className="flex items-start gap-3">
                   <div className="flex-shrink-0">
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
                       className="icon icon-tabler icon-tabler-circle-check-filled"
-                      width={20}
-                      height={20}
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
                       fill="none"
+                      height={20}
+                      stroke="currentColor"
                       strokeLinecap="round"
                       strokeLinejoin="round"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                      width={20}
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M0 0h24v24H0z" fill="none" stroke="none" />
                       <path
                         d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
-                        strokeWidth={0}
                         fill="currentColor"
+                        strokeWidth={0}
                       />
                     </svg>
                   </div>
@@ -267,22 +265,22 @@ export const Pricing = () => {
                 <li className="flex items-start gap-3">
                   <div className="flex-shrink-0">
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
                       className="icon icon-tabler icon-tabler-circle-check-filled"
-                      width={20}
-                      height={20}
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
                       fill="none"
+                      height={20}
+                      stroke="currentColor"
                       strokeLinecap="round"
                       strokeLinejoin="round"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                      width={20}
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M0 0h24v24H0z" fill="none" stroke="none" />
                       <path
                         d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
-                        strokeWidth={0}
                         fill="currentColor"
+                        strokeWidth={0}
                       />
                     </svg>
                   </div>
@@ -291,22 +289,22 @@ export const Pricing = () => {
                 <li className="flex items-start gap-3">
                   <div className="flex-shrink-0">
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
                       className="icon icon-tabler icon-tabler-circle-check-filled"
-                      width={20}
-                      height={20}
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
                       fill="none"
+                      height={20}
+                      stroke="currentColor"
                       strokeLinecap="round"
                       strokeLinejoin="round"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                      width={20}
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M0 0h24v24H0z" fill="none" stroke="none" />
                       <path
                         d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
-                        strokeWidth={0}
                         fill="currentColor"
+                        strokeWidth={0}
                       />
                     </svg>
                   </div>
@@ -315,22 +313,22 @@ export const Pricing = () => {
                 <li className="flex items-start gap-3">
                   <div className="flex-shrink-0">
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
                       className="icon icon-tabler icon-tabler-circle-check-filled"
-                      width={20}
-                      height={20}
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
                       fill="none"
+                      height={20}
+                      stroke="currentColor"
                       strokeLinecap="round"
                       strokeLinejoin="round"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                      width={20}
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M0 0h24v24H0z" fill="none" stroke="none" />
                       <path
                         d="M17 3.34a10 10 0 1 1 -14.995 8.984l-.005 -.324l.005 -.324a10 10 0 0 1 14.995 -8.336zm-1.293 5.953a1 1 0 0 0 -1.32 -.083l-.094 .083l-3.293 3.292l-1.293 -1.292l-.094 -.083a1 1 0 0 0 -1.403 1.403l.083 .094l2 2l.094 .083a1 1 0 0 0 1.226 0l.094 -.083l4 -4l.083 -.094a1 1 0 0 0 -.083 -1.32z"
-                        strokeWidth={0}
                         fill="currentColor"
+                        strokeWidth={0}
                       />
                     </svg>
                   </div>
@@ -340,8 +338,8 @@ export const Pricing = () => {
             </div>
             <div className="mt-8">
               <button
-                disabled
                 className="flex h-10 w-full cursor-not-allowed items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 font-semibold text-gray-400 text-sm transition-all"
+                disabled
               >
                 Coming Soon
               </button>

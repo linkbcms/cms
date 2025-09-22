@@ -1,5 +1,4 @@
 import { Logo } from '@/app/icons/logo';
-import React from 'react';
 
 export const Footer = () => {
   return (

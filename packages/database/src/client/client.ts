@@ -1,6 +1,6 @@
+import type { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { AdapterFactory, DB_TYPE_MAPPING } from '../adapters/AdapterFactory';
 import type { DatabaseAdapter, SupportedDatabase } from '../adapters/types';
-import type { NodePgDatabase } from 'drizzle-orm/node-postgres';
 
 /**
  * Union type for all supported database instance types
@@ -12,30 +12,30 @@ export type DatabaseInstance = NodePgDatabase<Record<string, never>>;
 // | SqliteDatabase<Record<string, never>>
 
 // Configuration interface for LinkbDb
-export interface LinkbDbConfig {
+export type LinkbDbConfig = {
   dbType?: string;
   dbUrl?: string;
   schema?: string;
   [key: string]: unknown;
-}
+};
 
 /**
  * Interface to access the internal db property of adapters
  * This is needed because the DatabaseAdapter interface doesn't expose the db property
  */
-interface AdapterWithDb {
+type AdapterWithDb = {
   db: DatabaseInstance;
-}
+};
 
 /**
  * Main database class for Linkb CMS
  */
 export class LinkbDb {
-  private adapter: DatabaseAdapter | null = null;
-  private _db: DatabaseInstance | null = null;
-  private dbType: string;
-  private adapterFactory: AdapterFactory;
-  private initializationPromise: Promise<void>;
+  private readonly adapter: DatabaseAdapter | null = null;
+  private readonly _db: DatabaseInstance | null = null;
+  private readonly dbType: string;
+  private readonly adapterFactory: AdapterFactory;
+  private readonly initializationPromise: Promise<void>;
 
   /**
    * Create a new LinkbDb instance
@@ -47,13 +47,13 @@ export class LinkbDb {
 
     if (!dbUrl) {
       throw new Error(
-        'Database URL is required. Either provide it in the config or set DATABASE_URL environment variable.',
+        'Database URL is required. Either provide it in the config or set DATABASE_URL environment variable.'
       );
     }
 
     if (!dbType) {
       throw new Error(
-        'Database type is required. Either provide it in the config or set DATABASE_TYPE environment variable.',
+        'Database type is required. Either provide it in the config or set DATABASE_TYPE environment variable.'
       );
     }
 
@@ -71,7 +71,7 @@ export class LinkbDb {
       // Use the factory to create the appropriate adapter
       this.adapter = this.adapterFactory.createAdapter(
         dbType as SupportedDatabase,
-        adapterConfig,
+        adapterConfig
       );
 
       // Cast to unknown first to avoid TypeScript errors when accessing a property

@@ -1,5 +1,14 @@
 'use client';
 
+import { Memo, Show } from '@legendapp/state/react';
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from '@linkbcms/ui/components/sidebar';
 import {
   BookOpen,
   Bot,
@@ -13,21 +22,11 @@ import {
   SquareTerminal,
 } from 'lucide-react';
 import type * as React from 'react';
-
+import type { JSX } from 'react/jsx-runtime';
+import { Link } from 'react-router';
 import { useConfig } from '@/components/config-provider';
 import { NavMain } from '@/components/nav-main';
 import { NavSecondary } from '@/components/nav-secondary';
-import { Memo, Show } from '@legendapp/state/react';
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from '@linkbcms/ui/components/sidebar';
-import { Link } from 'react-router';
-import type { JSX } from 'react/jsx-runtime';
 
 const data = {
   user: {
@@ -163,7 +162,9 @@ export function AppSidebar({
   const collections = fullCollections.filter(([, value]) => {
     const v = value.get();
 
-    if (!v) return false;
+    if (!v) {
+      return false;
+    }
 
     if ('fieldSlug' in v) {
       return true;
@@ -175,7 +176,9 @@ export function AppSidebar({
   const singletons = fullCollections.filter(([, value]) => {
     const v = value.get();
 
-    if (!v) return false;
+    if (!v) {
+      return false;
+    }
 
     if ('fieldSlug' in v || 'Component' in v) {
       return false;
@@ -187,7 +190,9 @@ export function AppSidebar({
   const customCollections = fullCollections.filter(([, value]) => {
     const v = value.get();
 
-    if (!v) return false;
+    if (!v) {
+      return false;
+    }
 
     if ('Component' in v) {
       return true;
@@ -200,15 +205,15 @@ export function AppSidebar({
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem className="w-full">
-            <SidebarMenuButton size="lg" asChild>
+            <SidebarMenuButton asChild size="lg">
               <Link to="/">
                 <Show
-                  if={!!config$?.ui?.logo.get()}
                   else={() => (
                     <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                       <Command className="size-4" />
                     </div>
                   )}
+                  if={!!config$?.ui?.logo.get()}
                 >
                   <div className="flex aspect-square size-8 items-center justify-center">
                     {config$?.ui?.logo?.get()}
@@ -244,33 +249,33 @@ export function AppSidebar({
       </SidebarHeader>
       <SidebarContent>
         <NavMain
-          title="Collections"
           items={collections.map(([key, value]) => ({
             title: value.get()?.label || '',
             url: `/collections/${key}`,
             icon: Bot,
           }))}
+          title="Collections"
         />
         <NavMain
-          title="Singletons"
           items={singletons.map(([key, value]) => ({
             title: value.get()?.label || '',
             url: `/singletons/${key}`,
             icon: Bot,
           }))}
+          title="Singletons"
         />
         {customCollections.length > 0 && (
           <NavMain
-            title="Custom Collections"
             items={customCollections.map(([key, value]) => ({
               title: value.get()?.label || '',
               url: `/custom-collections/${key}`,
               icon: Bot,
             }))}
+            title="Custom Collections"
           />
         )}
         {/* <NavProjects projects={data.projects} /> */}
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <NavSecondary className="mt-auto" items={data.navSecondary} />
       </SidebarContent>
       {/* <SidebarFooter>
         <NavUser user={data.user} />

@@ -17,11 +17,11 @@
     "skipLibCheck": true,
 
     "allowJs": true,
-    /* type checking */
+
     "noUnusedLocals": true,
     "noImplicitAny": false,
     "noUnusedParameters": true,
-    // "exactOptionalPropertyTypes": true,
+
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
     "noImplicitReturns": true,

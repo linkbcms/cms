@@ -1,10 +1,9 @@
 import { WaitlistForm } from '@/app/(home)/components/waitlist-form';
-import React from 'react';
 export const Hero = () => {
   return (
     <section
-      id="waitlist"
       className="relative max-h-[900px] scroll-mt-20 items-center overflow-hidden bg-[#0d0e11] px-8 py-20"
+      id="waitlist"
     >
       <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-6 text-white">
         <div className="flex items-center gap-4">
@@ -30,9 +29,11 @@ export const Hero = () => {
         </small>
         <div className="mt-20">
           <img
-            src="/imgs/hero-black.png"
-            className="mx-auto w-full max-w-[1000px] rounded shadow-2xl"
             alt=""
+            className="mx-auto w-full max-w-[1000px] rounded shadow-2xl"
+            height={1000}
+            src="/imgs/hero-black.png"
+            width={1000}
           />
         </div>
       </div>

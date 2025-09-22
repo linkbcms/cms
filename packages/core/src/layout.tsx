@@ -1,6 +1,3 @@
-import { AppSidebar } from '@/components/app-sidebar';
-import { useConfig } from '@/components/config-provider';
-import { useObserveTheme } from '@/components/use-observe-theme';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -17,11 +14,14 @@ import {
   SidebarTrigger,
 } from '@linkbcms/ui/components/sidebar';
 import { Plus } from 'lucide-react';
-import { useMemo } from 'react';
-import { Link, Outlet, useLocation } from 'react-router';
 import pluralize from 'pluralize';
-import { DeleteCollection } from '@/pages/delete-collection';
+import { useMemo } from 'react';
 import type { JSX } from 'react/jsx-runtime';
+import { Link, Outlet, useLocation } from 'react-router';
+import { AppSidebar } from '@/components/app-sidebar';
+import { useConfig } from '@/components/config-provider';
+import { useObserveTheme } from '@/components/use-observe-theme';
+import { DeleteCollection } from '@/pages/delete-collection';
 
 const breadcrumbTextsMap = {
   collections: 'Collections',
@@ -69,7 +69,7 @@ export default function Layout(): JSX.Element {
           <div className="flex h-full w-full items-center justify-between gap-2 bg-background px-4 md:rounded-t-xl">
             <div className="flex items-center gap-2">
               <SidebarTrigger className="-ml-1" />
-              <Separator orientation="vertical" className="mr-2 h-4 max-h-4" />
+              <Separator className="mr-2 h-4 max-h-4" orientation="vertical" />
               <Breadcrumb>
                 <BreadcrumbList>
                   {breadcrumbFirst?.[0] && (
@@ -119,7 +119,7 @@ export default function Layout(): JSX.Element {
             {breadcrumbFirst?.[0]?.path === 'collections' &&
               !breadcrumbFirst?.[2]?.path && (
                 <div className="flex items-center gap-2">
-                  <Button variant="outline" asChild>
+                  <Button asChild variant="outline">
                     <Link to={`${pathname}/add/new`}>
                       <Plus className="h-4 w-4" />
                       Add new{' '}
@@ -132,7 +132,7 @@ export default function Layout(): JSX.Element {
             {breadcrumbFirst?.[0]?.path === 'collections' &&
               breadcrumbFirst?.[2]?.path && (
                 <div className="flex items-center gap-2">
-                  <Button variant="outline" asChild>
+                  <Button asChild variant="outline">
                     <Link
                       to={`${breadcrumbFirst?.[0]?.path}/${breadcrumbFirst?.[1]?.path}/add/new`}
                     >

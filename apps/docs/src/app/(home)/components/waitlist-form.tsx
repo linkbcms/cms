@@ -1,15 +1,13 @@
 'use client';
 
-import { addToWaitlist } from '@/app/(home)/actions';
 import { Loader2 } from 'lucide-react';
-import React, { useActionState } from 'react';
+import { useActionState } from 'react';
 import { useFormStatus } from 'react-dom';
+import { addToWaitlist } from '@/app/(home)/actions';
 
 export const WaitlistForm = () => {
   // useActionState is available with React 19 (Next.js App Router)
   const [state, formAction] = useActionState(addToWaitlist, initialState);
-
-  console.log(state);
 
   const data = state?.data;
 
@@ -17,10 +15,10 @@ export const WaitlistForm = () => {
     <form action={formAction} className="flex flex-col items-center gap-4">
       <div className="flex flex-col items-center gap-x-4 gap-y-2 sm:flex-row">
         <input
-          name="email"
-          type="email"
-          placeholder="Enter your email"
           className="rounded-xl border border-gray-700 bg-[#ebebeb]/5 px-4 py-1 focus:outline-none"
+          name="email"
+          placeholder="Enter your email"
+          type="email"
         />
         <SubmitButton />
       </div>
@@ -56,9 +54,9 @@ function SubmitButton() {
 
   return (
     <button
-      type="submit"
       aria-disabled={pending}
       className="relative w-full cursor-pointer rounded-xl bg-[#cff245] px-4 py-1 text-black aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
+      type="submit"
     >
       <span className={pending ? 'opacity-0' : ''}>Join Waitlist</span>
       {pending && (

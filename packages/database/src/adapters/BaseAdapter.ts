@@ -1,14 +1,14 @@
-import type { DatabaseAdapter, MigrationOptions } from './types';
 import type { defineConfig } from '@linkbcms/core';
+import type { DatabaseAdapter, MigrationOptions } from './types';
 
 /**
  * Base configuration for all database adapters
  */
-export interface BaseAdapterConfig {
+export type BaseAdapterConfig = {
   connectionString: string;
   schemaDir?: string;
   migrationDir?: string;
-}
+};
 
 /**
  * Base adapter implementation with common functionality
@@ -39,7 +39,7 @@ export abstract class BaseAdapter implements DatabaseAdapter {
    * Generate schema
    */
   public abstract generateSchema(
-    config: ReturnType<typeof defineConfig>,
+    config: ReturnType<typeof defineConfig>
   ): Promise<void>;
 
   /**

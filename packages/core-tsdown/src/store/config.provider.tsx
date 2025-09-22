@@ -1,11 +1,12 @@
 // Provider wrapper
+
+import { useRef } from 'react';
 import {
-  createConfigStore,
   type ConfigProps,
   type ConfigStore,
+  createConfigStore,
 } from '@/store/config';
 import { ConfigContext } from '@/store/config.context';
-import { useRef } from 'react';
 
 type ConfigProviderProps = React.PropsWithChildren<ConfigProps>;
 

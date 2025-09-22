@@ -1,8 +1,8 @@
-import fs from 'node:fs';
-import path from 'node:path';
 import { execSync } from 'node:child_process';
-import chalk from 'chalk';
+import fs from 'node:fs';
 import os from 'node:os';
+import path from 'node:path';
+import chalk from 'chalk';
 
 /**
  * Creates a new linkb application by cloning the template repository
@@ -16,7 +16,7 @@ export async function createApp(
   options: {
     template?: string;
     packageManager?: 'npm' | 'yarn' | 'pnpm';
-  } = {},
+  } = {}
 ) {
   const { template = 'basic', packageManager = detectPackageManager() } =
     options;
@@ -37,16 +37,9 @@ export async function createApp(
     process.exit(1);
   }
 
-  console.log(
-    chalk.blue(
-      `Creating a new linkb app in ${chalk.bold(targetDir)} using ${chalk.bold(template)} template`,
-    ),
-  );
-
   try {
     // Clone the repository
     const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'linkb-clone-'));
-    console.log(chalk.blue('Cloning repository...'));
     execSync(`git clone --depth=1 ${repositoryUrl} ${tempDir}`, {
       stdio: 'inherit',
     });
@@ -62,9 +55,6 @@ export async function createApp(
     // Create the target directory
     fs.mkdirSync(targetDir, { recursive: true });
 
-    // Copy template files to the target directory
-    console.log(chalk.blue(`Copying ${template} template files...`));
-
     // Use a cross-platform way to copy directory contents
     fs.cpSync(templateDir, targetDir, { recursive: true });
 
@@ -75,9 +65,6 @@ export async function createApp(
       packageJson.name = appName;
       fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
     }
-
-    // Initialize git repository
-    console.log(chalk.blue('Initializing git repository...'));
     execSync('git init', {
       cwd: targetDir,
       stdio: 'inherit',
@@ -90,19 +77,12 @@ export async function createApp(
       cwd: targetDir,
       stdio: 'inherit',
     });
-
-    // Install dependencies
-    console.log(
-      chalk.blue(`Installing dependencies using ${packageManager}...`),
-    );
     const installCmd = getInstallCommand(packageManager);
 
     execSync(installCmd, {
       cwd: targetDir,
       stdio: 'inherit',
     });
-
-    console.log(chalk.green('✅ Dependencies installed successfully!'));
 
     // Clean up temporary directory
     fs.rmSync(tempDir, { recursive: true, force: true });
@@ -111,16 +91,8 @@ export async function createApp(
     const envExamplePath = path.join(targetDir, '.env.example');
     const envPath = path.join(targetDir, '.env');
     if (fs.existsSync(envExamplePath)) {
-      console.log(chalk.blue('Setting up environment file...'));
       fs.copyFileSync(envExamplePath, envPath);
-      console.log(chalk.green('✅ Created .env file from .env.example'));
     }
-
-    console.log(chalk.green('✅ Successfully created app!'));
-    console.log('');
-    console.log(chalk.blue('Next steps:'));
-    console.log(`  cd ${appName}`);
-    console.log(`  ${getDevCommand(packageManager)}`);
   } catch (error) {
     console.error(chalk.red('Failed to create app:'), error);
 
@@ -141,19 +113,23 @@ function detectPackageManager(): 'npm' | 'yarn' | 'pnpm' {
   const userAgent = process.env.npm_config_user_agent;
 
   if (userAgent) {
-    if (userAgent.includes('pnpm')) return 'pnpm';
-    if (userAgent.includes('yarn')) return 'yarn';
+    if (userAgent.includes('pnpm')) {
+      return 'pnpm';
+    }
+    if (userAgent.includes('yarn')) {
+      return 'yarn';
+    }
   }
 
   // Check if package managers are installed
   try {
     execSync('pnpm --version', { stdio: 'ignore' });
     return 'pnpm';
-  } catch (e) {
+  } catch (_e) {
     try {
       execSync('yarn --version', { stdio: 'ignore' });
       return 'yarn';
-    } catch (e) {
+    } catch (_e) {
       return 'npm';
     }
   }
@@ -176,7 +152,7 @@ function getInstallCommand(packageManager: string): string {
 /**
  * Gets the dev command for the specified package manager
  */
-function getDevCommand(packageManager: string): string {
+function _getDevCommand(packageManager: string): string {
   switch (packageManager) {
     case 'yarn':
       return 'yarn dev';

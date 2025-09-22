@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const Tools = () => {
   return (
     <section className="px-8 py-20">

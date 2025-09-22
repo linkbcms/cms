@@ -1,10 +1,10 @@
-import type { Config } from '@/index';
 import type { Observable } from '@legendapp/state';
 import { ObservablePersistLocalStorage } from '@legendapp/state/persist-plugins/local-storage';
 import { useObservable } from '@legendapp/state/react';
 import { synced } from '@legendapp/state/sync';
 import { createContext, useContext, useEffect } from 'react';
 import type { JSX } from 'react/jsx-runtime';
+import type { Config } from '@/index';
 
 const StateContext = createContext<Observable<Config> | undefined>(undefined);
 

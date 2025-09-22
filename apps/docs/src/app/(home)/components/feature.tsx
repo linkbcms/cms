@@ -1,8 +1,6 @@
-import React from 'react';
-
 export const Feature = () => {
   return (
-    <section id="features" className="rounded-3xl bg-[#f6f7fa] px-8 py-20">
+    <section className="rounded-3xl bg-[#f6f7fa] px-8 py-20" id="features">
       <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-16">
         <h2 className="text-center font-semibold text-5xl tracking-tighter">
           Build and manage content
@@ -12,9 +10,11 @@ export const Feature = () => {
         <div className="flex grid-cols-2 flex-col gap-4 md:grid">
           <div className="items-left col-span-1 flex flex-col gap-4 rounded-3xl bg-white px-8 pb-8">
             <img
-              src="./imgs/ihpone-mocup3.png"
-              className="mx-auto mb-6 max-w-[300px]"
               alt=""
+              className="mx-auto mb-6 max-w-[300px]"
+              height={300}
+              src="./imgs/ihpone-mocup3.png"
+              width={300}
             />
             <h3 className="font-bold text-xl">Content Management</h3>
             <p className="text-gray-600 text-sm">
@@ -23,8 +23,8 @@ export const Feature = () => {
               content operations.
             </p>
             <a
-              href="#waitlist"
               className="mr-auto rounded-xl bg-[#cff245] px-4 py-2 text-black"
+              href="#waitlist"
             >
               Get Started
             </a>
@@ -37,16 +37,18 @@ export const Feature = () => {
               content while maintaining your brand voice and quality standards.
             </p>
             <a
-              href="#waitlist"
               className="mr-auto rounded-xl bg-[#cff245] px-4 py-2 text-black"
+              href="#waitlist"
             >
               Get Started
             </a>
             <div className="absolute bottom-0 left-0 flex w-full">
               <img
-                src="./imgs/hero-black.png"
-                className="ml-auto max-w-[80%]"
                 alt=""
+                className="ml-auto max-w-[80%]"
+                height={300}
+                src="./imgs/hero-black.png"
+                width={300}
               />
             </div>
           </div>
@@ -59,8 +61,8 @@ export const Feature = () => {
               while maintaining compliance with privacy regulations.
             </p>
             <a
-              href="#waitlist"
               className="rounded-xl bg-[#cff245] px-4 py-2 text-black"
+              href="#waitlist"
             >
               Get Started
             </a>

@@ -1,14 +1,14 @@
 'use server';
 
-import { cookies } from 'next/headers';
 import { revalidatePath } from 'next/cache';
+import { cookies } from 'next/headers';
 import { z } from 'zod';
 
 export async function addToWaitlist(
-  prevState: {
+  _prevState: {
     message: string;
   },
-  formData: FormData,
+  formData: FormData
 ) {
   const schema = z.object({
     email: z.string().email(),
@@ -18,7 +18,6 @@ export async function addToWaitlist(
   });
 
   if (!parse.success) {
-    // Return early if the form data is invalid
     return {
       message: 'Invalid form data',
       errors: parse.error.flatten().fieldErrors,
@@ -35,8 +34,6 @@ export async function addToWaitlist(
     referral_link: refId ? `https://linkbcms.com?ref_id=${refId}` : undefined,
   };
 
-  console.log('data', data);
-
   try {
     const res = await fetch('https://api.getwaitlist.com/api/v1/signup', {
       method: 'POST',
@@ -46,16 +43,12 @@ export async function addToWaitlist(
       body: JSON.stringify(data),
     });
 
-    console.log('res', res);
-
     if (!res.ok) {
       const response = await res.json();
-      console.log('response error', response);
+
       throw new Error(response?.error_string || 'Failed to add to waitlist');
     }
     const response = await res.json();
-
-    console.log('response success', response);
 
     revalidatePath('/');
     return {

@@ -1,5 +1,6 @@
 import bundleAnalyzer from '@next/bundle-analyzer';
-const withBundleAnalyzer = bundleAnalyzer({
+
+const _withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 });
 

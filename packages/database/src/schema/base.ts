@@ -1,31 +1,31 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import chalk from 'chalk';
 import type { defineConfig } from '@linkbcms/core';
+import chalk from 'chalk';
 
 // Basic schema definition types
-export interface ColumnDefinition {
+export type ColumnDefinition = {
   type: string;
   nullable: boolean;
   default?: string;
   maxLength?: number | null;
-}
+};
 
-export interface TableDefinition {
+export type TableDefinition = {
   [columnName: string]: ColumnDefinition;
-}
+};
 
-export interface SchemaDefinition {
+export type SchemaDefinition = {
   [tableName: string]: TableDefinition;
-}
+};
 
 // Schema generator options
-export interface SchemaGeneratorOptions {
+export type SchemaGeneratorOptions = {
   type?: 'postgres' | 'mysql' | 'sqlite';
   schemaDir: string;
   config: ReturnType<typeof defineConfig>;
   schema: string;
-}
+};
 
 /**
  * Base class for schema generators
@@ -53,21 +53,14 @@ export abstract class BaseSchemaGenerator {
    */
   public async generateSchema(): Promise<void> {
     if (!this.config?.collections) {
-      console.log('No collections found in config');
       return;
     }
 
     try {
-      console.log(
-        chalk.blue('Generating schema from collections configuration...'),
-      );
-
       // Generate new schema based on config
       const newSchema = await this.generateNewSchema(this.config);
 
       await this.saveSchemaToFile(newSchema);
-
-      console.log(chalk.green('Schema generation completed successfully'));
     } catch (error) {
       console.error('Error generating schema:', error);
       throw error;
@@ -78,7 +71,7 @@ export abstract class BaseSchemaGenerator {
    * Generate new schema based on collections config
    */
   protected abstract generateNewSchema(
-    config: ReturnType<typeof defineConfig>,
+    config: ReturnType<typeof defineConfig>
   ): Promise<SchemaDefinition>;
 
   /**
@@ -104,7 +97,7 @@ export const defaultSchema = ${this.schema ? `t.pgSchema("${this.schema}").table
         const hasReferences = Object.values(tableSchema).some(
           (col) =>
             col.type.toLowerCase().includes('references') ||
-            (col as any).references !== undefined,
+            (col as any).references !== undefined
         );
 
         schemaFileContent += `export const ${this.camelCase(tableName)} = defaultSchema(\n`;
@@ -131,7 +124,6 @@ export const defaultSchema = ${this.schema ? `t.pgSchema("${this.schema}").table
 
       // Write the file
       fs.writeFileSync(schemaFilePath, schemaFileContent);
-      console.log(chalk.green(`Schema saved to ${schemaFilePath}`));
     } catch (error) {
       console.error(chalk.red(`Error saving schema to file: ${error}`));
     }
@@ -143,7 +135,7 @@ export const defaultSchema = ${this.schema ? `t.pgSchema("${this.schema}").table
   private camelCase(str: string): string {
     return str
       .replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) =>
-        index === 0 ? word.toLowerCase() : word.toUpperCase(),
+        index === 0 ? word.toLowerCase() : word.toUpperCase()
       )
       .replace(/\s+/g, '')
       .replace(/[-_]/g, '');
@@ -154,7 +146,7 @@ export const defaultSchema = ${this.schema ? `t.pgSchema("${this.schema}").table
    */
   private getDrizzleColumnType(
     columnDef: ColumnDefinition,
-    columnName: string,
+    columnName: string
   ): string {
     const type = columnDef.type.toLowerCase();
     const isSnakeCase = columnName.includes('_');
@@ -174,7 +166,7 @@ export const defaultSchema = ${this.schema ? `t.pgSchema("${this.schema}").table
     const columnDeclaration = this.getColumnTypeDeclaration(
       type,
       columnDef,
-      isSnakeCase ? columnName : undefined,
+      isSnakeCase ? columnName : undefined
     );
 
     return columnDeclaration;
@@ -186,7 +178,7 @@ export const defaultSchema = ${this.schema ? `t.pgSchema("${this.schema}").table
   private getColumnTypeDeclaration(
     type: string,
     columnDef: ColumnDefinition,
-    columnName?: string,
+    columnName?: string
   ): string {
     // Create the column name parameter for the function call if it exists
     const nameParam = columnName ? `"${columnName}"` : '';
@@ -244,7 +236,7 @@ export const defaultSchema = ${this.schema ? `t.pgSchema("${this.schema}").table
         return this.buildColumnDeclaration(
           'timestamp',
           nameParam,
-          `{ mode: 'string' }`,
+          `{ mode: 'string' }`
         );
 
       case 'timestamptz':
@@ -252,21 +244,21 @@ export const defaultSchema = ${this.schema ? `t.pgSchema("${this.schema}").table
         return this.buildColumnDeclaration(
           'timestamp',
           nameParam,
-          `{ withTimezone: true, mode: 'string' }`,
+          `{ withTimezone: true, mode: 'string' }`
         );
 
       case 'time':
         return this.buildColumnDeclaration(
           'time',
           nameParam,
-          `{ mode: 'string' }`,
+          `{ mode: 'string' }`
         );
 
       case 'date':
         return this.buildColumnDeclaration(
           'date',
           nameParam,
-          `{ mode: 'string' }`,
+          `{ mode: 'string' }`
         );
 
       case 'uuid':
@@ -300,7 +292,7 @@ export const defaultSchema = ${this.schema ? `t.pgSchema("${this.schema}").table
       default:
         // Default to text for unknown types
         console.warn(
-          chalk.yellow(`Unknown column type: ${type}, defaulting to text()`),
+          chalk.yellow(`Unknown column type: ${type}, defaulting to text()`)
         );
         return this.buildColumnDeclaration('text', nameParam);
     }
@@ -312,7 +304,7 @@ export const defaultSchema = ${this.schema ? `t.pgSchema("${this.schema}").table
   private buildColumnDeclaration(
     columnType: string,
     nameParam: string,
-    options?: string,
+    options?: string
   ): string {
     if (nameParam && options) {
       return `t.${columnType}(${nameParam}, ${options})`;

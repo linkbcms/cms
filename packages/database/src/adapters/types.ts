@@ -4,18 +4,18 @@ import { DB_TYPE_MAPPING } from './AdapterFactory';
 /**
  * Database migration options
  */
-export interface MigrationOptions {
+export type MigrationOptions = {
   schemaDir?: string;
   tableName?: string;
   schema?: string;
   allowMultiple?: boolean; // Allow running multiple pending migrations at once
-}
+};
 
 /**
  * List of supported database providers
  */
 export const SUPPORTED_DATABASES = Object.keys(
-  DB_TYPE_MAPPING,
+  DB_TYPE_MAPPING
 ) as readonly string[];
 
 /**
@@ -26,7 +26,7 @@ export type SupportedDatabase = (typeof SUPPORTED_DATABASES)[number];
 /**
  * Database adapter interface
  */
-export interface DatabaseAdapter {
+export type DatabaseAdapter = {
   /**
    * Initialize the adapter
    */
@@ -61,4 +61,4 @@ export interface DatabaseAdapter {
    * Close the database connection
    */
   close(): Promise<void>;
-}
+};

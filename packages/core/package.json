@@ -70,7 +70,7 @@
     "rsbuild-plugin-dts": "^0.6.3",
     "tailwindcss": "^4",
     "tsdown": "^0.6.10",
-    "typescript": "^5.8.3"
+    "typescript": "5.9.2"
   },
   "publishConfig": {
     "access": "public"

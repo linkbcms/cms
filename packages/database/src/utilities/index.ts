@@ -1,5 +1,5 @@
-import path from 'node:path';
 import fs from 'node:fs';
+import path from 'node:path';
 export function findWorkspaceRoot(): string {
   let currentDir = process.cwd();
 
@@ -8,14 +8,14 @@ export function findWorkspaceRoot(): string {
     if (fs.existsSync(path.join(currentDir, 'package.json'))) {
       try {
         const packageJson = JSON.parse(
-          fs.readFileSync(path.join(currentDir, 'package.json'), 'utf8'),
+          fs.readFileSync(path.join(currentDir, 'package.json'), 'utf8')
         );
 
         // If this is a workspace root (has workspaces field)
         if (packageJson.workspaces) {
           return currentDir;
         }
-      } catch (error) {
+      } catch (_error) {
         // Continue if we can't parse the package.json
       }
     }

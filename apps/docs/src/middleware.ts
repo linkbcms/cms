@@ -1,18 +1,19 @@
-import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
+
+const MAX_DAYS = 30;
 
 export function middleware(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const refId = searchParams.get('ref_id');
 
   if (refId) {
-    console.log('refId', refId);
     const response = NextResponse.next();
     response.cookies.set({
       name: 'ref_id',
       value: refId,
       // 30 days
-      maxAge: 60 * 60 * 24 * 30,
+      maxAge: 60 * 60 * 24 * MAX_DAYS,
     });
     return response;
   }

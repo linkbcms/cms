@@ -1,12 +1,12 @@
-import { observable, type Observable } from '@legendapp/state';
+import { type Observable, observable } from '@legendapp/state';
 import { ObservablePersistLocalStorage } from '@legendapp/state/persist-plugins/local-storage';
 import { syncObservable } from '@legendapp/state/sync';
 
-export interface V2 {
+export type V2 = {
   version: number;
   updatedAt: number;
   data: { [x: string]: any };
-}
+};
 
 export const formData: Observable<V2> = observable<V2>({
   version: 1,

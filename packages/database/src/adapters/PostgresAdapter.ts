@@ -1,12 +1,12 @@
-import chalk from 'chalk';
-import { BaseAdapter, type BaseAdapterConfig } from './BaseAdapter';
-import type { MigrationOptions } from './types';
-import { drizzle, type NodePgDatabase } from 'drizzle-orm/node-postgres';
-import pg from 'pg';
+import { spawn } from 'node:child_process';
 import fs from 'node:fs';
 import type { defineConfig } from '@linkbcms/core';
+import chalk from 'chalk';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import pg from 'pg';
 import { DatabaseSchema } from '../schema';
-import { spawn } from 'node:child_process';
+import { BaseAdapter, type BaseAdapterConfig } from './BaseAdapter';
+import type { MigrationOptions } from './types';
 
 /**
  * PostgreSQL database adapter configuration
@@ -20,9 +20,8 @@ export interface PostgresConfig extends BaseAdapterConfig {
  * Compatible with Supabase
  */
 export class PostgresAdapter extends BaseAdapter {
-  private db: NodePgDatabase<Record<string, never>>;
-  private client: pg.Client;
-  private schema: string;
+  private readonly client: pg.Client;
+  private readonly schema: string;
 
   constructor(config: PostgresConfig) {
     super(config);
@@ -51,7 +50,6 @@ export class PostgresAdapter extends BaseAdapter {
     try {
       // Execute a simple query to test the connection
       await this.client.query('SELECT 1');
-      console.log(chalk.green('PostgreSQL connection test successful'));
       return true;
     } catch (error) {
       console.error(chalk.red(`PostgreSQL connection test failed: ${error}`));
@@ -63,18 +61,17 @@ export class PostgresAdapter extends BaseAdapter {
    * Generate schema and create migrations if needed
    */
   public async generateSchema(
-    config: ReturnType<typeof defineConfig>,
+    config: ReturnType<typeof defineConfig>
   ): Promise<void> {
     try {
       if (!config?.collections) {
-        console.log(chalk.yellow('No collections found in config'));
         return;
       }
 
       // Use the static factory method to create a PostgreSQL schema generator
       const schema = DatabaseSchema.forPostgres({
         schemaDir: this.schemaDir,
-        config: config,
+        config,
         schema: this.schema,
       });
 
@@ -95,17 +92,12 @@ export class PostgresAdapter extends BaseAdapter {
       dryRun?: boolean;
       verbose?: boolean;
       schemaPath?: string;
-    },
+    }
   ): Promise<void> {
     try {
-      console.log(chalk.blue('Running migrations...'));
-
       // Check if migrations directory exists
       if (!fs.existsSync(this.migrationDir)) {
         fs.mkdirSync(this.migrationDir, { recursive: true });
-        console.log(
-          chalk.yellow(`Created migrations directory: ${this.migrationDir}`),
-        );
       }
 
       // Always use drizzle-kit for migrations
@@ -142,8 +134,6 @@ export class PostgresAdapter extends BaseAdapter {
     deleteSchema?: boolean;
   }): Promise<void> {
     try {
-      console.log(chalk.blue('Resetting database...'));
-
       // Get the schema
       const schemaName = this.schema || 'public';
 
@@ -157,60 +147,36 @@ export class PostgresAdapter extends BaseAdapter {
       const tables = tablesResult.rows.map((row) => row.tablename);
 
       if (tables.length === 0) {
-        console.log(chalk.yellow('No tables found in the database to reset.'));
       } else {
-        console.log(chalk.blue(`Dropping ${tables.length} tables...`));
-
         // Drop all tables in one transaction
         await this.client.query('BEGIN;');
 
         for (const table of tables) {
-          console.log(chalk.yellow(`Dropping table: ${schemaName}.${table}`));
           await this.client.query(
-            `DROP TABLE IF EXISTS "${schemaName}"."${table}" CASCADE;`,
+            `DROP TABLE IF EXISTS "${schemaName}"."${table}" CASCADE;`
           );
         }
 
         await this.client.query('COMMIT;');
-        console.log(chalk.green('All tables have been dropped successfully.'));
       }
 
       // Handle additional cleanup if requested
       if (options?.deleteMigrations) {
         if (fs.existsSync(this.migrationDir)) {
-          console.log(
-            chalk.blue(`Removing migration files from ${this.migrationDir}`),
-          );
           fs.rmSync(this.migrationDir, { recursive: true, force: true });
           fs.mkdirSync(this.migrationDir, { recursive: true });
-          console.log(chalk.green('Migration files removed.'));
         } else {
-          console.log(
-            chalk.yellow(
-              `Migration directory ${this.migrationDir} does not exist.`,
-            ),
-          );
         }
       }
 
       if (options?.deleteSchema) {
         if (fs.existsSync(this.schemaDir)) {
-          console.log(
-            chalk.blue(`Removing schema files from ${this.schemaDir}`),
-          );
           fs.rmSync(this.schemaDir, { recursive: true, force: true });
           fs.mkdirSync(this.schemaDir, { recursive: true });
-          console.log(chalk.green('Schema files removed.'));
         } else {
-          console.log(
-            chalk.yellow(`Schema directory ${this.schemaDir} does not exist.`),
-          );
         }
       }
-
-      console.log(chalk.green('Database reset completed successfully.'));
     } catch (error) {
-      console.log(error);
       console.error(chalk.red(`Error resetting database: ${error}`));
       throw error;
     }
@@ -290,7 +256,7 @@ export default defineConfig({
       }
 
       await this.runDrizzleKitInteractive(
-        `npx drizzle-kit generate --config=${actualConfigPath}`,
+        `npx drizzle-kit generate --config=${actualConfigPath}`
       );
 
       try {
@@ -315,7 +281,6 @@ export default defineConfig({
         }
       }
     } catch (error) {
-      console.log(error);
       console.error(chalk.red(`Error running migration: ${error}`));
       throw error;
     }

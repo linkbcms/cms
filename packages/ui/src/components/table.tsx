@@ -1,9 +1,8 @@
 'use client';
 
 import type * as React from 'react';
-
-import { cn } from '@/lib/utils';
 import type { JSX } from 'react/jsx-runtime';
+import { cn } from '@/lib/utils';
 
 function Table({
   className,
@@ -11,12 +10,12 @@ function Table({
 }: React.ComponentProps<'table'>): JSX.Element {
   return (
     <div
-      data-slot="table-container"
       className="relative w-full overflow-x-auto"
+      data-slot="table-container"
     >
       <table
-        data-slot="table"
         className={cn('w-full caption-bottom text-sm', className)}
+        data-slot="table"
         {...props}
       />
     </div>
@@ -29,8 +28,8 @@ function TableHeader({
 }: React.ComponentProps<'thead'>): JSX.Element {
   return (
     <thead
-      data-slot="table-header"
       className={cn('[&_tr]:border-b', className)}
+      data-slot="table-header"
       {...props}
     />
   );
@@ -42,8 +41,8 @@ function TableBody({
 }: React.ComponentProps<'tbody'>): JSX.Element {
   return (
     <tbody
-      data-slot="table-body"
       className={cn('[&_tr:last-child]:border-0', className)}
+      data-slot="table-body"
       {...props}
     />
   );
@@ -55,11 +54,11 @@ function TableFooter({
 }: React.ComponentProps<'tfoot'>): JSX.Element {
   return (
     <tfoot
-      data-slot="table-footer"
       className={cn(
         'border-t bg-muted/50 font-medium [&>tr]:last:border-b-0',
-        className,
+        className
       )}
+      data-slot="table-footer"
       {...props}
     />
   );
@@ -71,11 +70,11 @@ function TableRow({
 }: React.ComponentProps<'tr'>): JSX.Element {
   return (
     <tr
-      data-slot="table-row"
       className={cn(
         'border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted',
-        className,
+        className
       )}
+      data-slot="table-row"
       {...props}
     />
   );
@@ -87,11 +86,11 @@ function TableHead({
 }: React.ComponentProps<'th'>): JSX.Element {
   return (
     <th
-      data-slot="table-head"
       className={cn(
         'h-10 whitespace-nowrap px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
-        className,
+        className
       )}
+      data-slot="table-head"
       {...props}
     />
   );
@@ -103,11 +102,11 @@ function TableCell({
 }: React.ComponentProps<'td'>): JSX.Element {
   return (
     <td
-      data-slot="table-cell"
       className={cn(
         'whitespace-nowrap p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
-        className,
+        className
       )}
+      data-slot="table-cell"
       {...props}
     />
   );
@@ -119,8 +118,8 @@ function TableCaption({
 }: React.ComponentProps<'caption'>): JSX.Element {
   return (
     <caption
-      data-slot="table-caption"
       className={cn('mt-4 text-muted-foreground text-sm', className)}
+      data-slot="table-caption"
       {...props}
     />
   );

@@ -9,8 +9,8 @@ const Toaster = ({ ...props }: ToasterProps): JSX.Element => {
 
   return (
     <Sonner
-      theme={theme as ToasterProps['theme']}
       className="toaster group"
+      theme={theme as ToasterProps['theme']}
       toastOptions={{
         classNames: {
           toast:

@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const Logos = () => {
   return (
     <section className="rounded-3xl bg-[#f6f7fa] px-8 py-20">
@@ -12,47 +10,47 @@ export const Logos = () => {
           <ul className="flex flex-row flex-wrap items-center justify-center gap-5">
             <li className="flex items-center gap-1">
               <img
+                alt="Cursor AI logo"
                 className="max-w-[100px] grayscale"
+                height={24}
                 src="https://registry.npmmirror.com/@lobehub/icons-static-svg/latest/files/icons/cursor.svg"
-                alt="Cursor AI logo"
-                height={24}
                 width={24}
               />
               <img
+                alt="Cursor AI logo"
                 className="max-w-[100px] grayscale"
+                height={48}
                 src="https://registry.npmmirror.com/@lobehub/icons-static-svg/latest/files/icons/cursor-text.svg"
-                alt="Cursor AI logo"
-                height={48}
               />
             </li>
             <li className="flex items-center gap-1">
               <img
+                alt="Claude AI logo"
                 className="max-w-[100px] grayscale"
+                height={24}
                 src="https://registry.npmmirror.com/@lobehub/icons-static-svg/latest/files/icons/claude.svg"
-                alt="Claude AI logo"
-                height={24}
                 width={24}
               />
               <img
-                className="max-w-[100px] grayscale"
-                src="https://registry.npmmirror.com/@lobehub/icons-static-svg/latest/files/icons/claude-text.svg"
                 alt="Claude AI logo"
+                className="max-w-[100px] grayscale"
                 height={48}
+                src="https://registry.npmmirror.com/@lobehub/icons-static-svg/latest/files/icons/claude-text.svg"
               />
             </li>
             <li className="flex items-center gap-1">
               <img
-                className="max-w-[100px] grayscale"
-                src="https://registry.npmmirror.com/@lobehub/icons-static-svg/latest/files/icons/openai.svg"
                 alt="OpenAI logo"
+                className="max-w-[100px] grayscale"
                 height={24}
+                src="https://registry.npmmirror.com/@lobehub/icons-static-svg/latest/files/icons/openai.svg"
                 width={24}
               />
               <img
-                className="max-w-[100px] grayscale"
-                src="https://registry.npmmirror.com/@lobehub/icons-static-svg/latest/files/icons/openai-text.svg"
                 alt="OpenAI logo"
+                className="max-w-[100px] grayscale"
                 height={48}
+                src="https://registry.npmmirror.com/@lobehub/icons-static-svg/latest/files/icons/openai-text.svg"
               />
             </li>
           </ul>

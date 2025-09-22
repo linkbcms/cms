@@ -1,50 +1,46 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-  "vcs": {
-    "enabled": false,
-    "clientKind": "git",
-    "useIgnoreFile": false
-  },
-  "files": {
-    "ignoreUnknown": false,
-    "ignore": []
-  },
-  "formatter": {
-    "enabled": true,
-    "indentStyle": "space"
-  },
-  "organizeImports": {
-    "enabled": true
-  },
-  "css": {
-    "parser": {
-      "cssModules": true
-    }
-  },
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "extends": ["ultracite"],
   "linter": {
-    "enabled": true,
     "rules": {
-      "recommended": true,
       "a11y": {
-        "useButtonType": "info"
-      },
-      "suspicious": {
-        "noExplicitAny": "warn"
-      },
-      "complexity": {
-        "useLiteralKeys": "warn"
+        "useButtonType": "off",
+        "noSvgWithoutTitle": "off"
       },
       "nursery": {
-        "useSortedClasses": {
-          "level": "error",
-          "fix": "safe",
+        "useImageSize": "off"
+      },
+      "performance": {
+        "noImgElement": "off"
+      },
+      "complexity": {
+        "useLiteralKeys": "off"
+      },
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noConsole": {
+          "level": "warn",
           "options": {
-            "attributes": ["className"],
-            "functions": ["cn", "cva"]
+            "allow": ["assert", "error", "info", "warn"]
           }
         }
       }
     }
+  },
+  "files": {
+    "ignoreUnknown": false,
+    "includes": [
+      "!apps/**/*.css",
+      "!packages/**/*.css",
+      "!template/**/*.css",
+      "!packages/ui/**/*.{ts,tsx}",
+      "!packages/cli/**/*.{ts,tsx}",
+      "!packages/core/**/*.{ts,tsx}",
+      "!packages/database/**/*.{ts,tsx}",
+      "!packages/ui/**/*.{ts,tsx}",
+      "!apps/web/database/**/*.{ts,tsx}",
+      "!apps/web/app/api/linkb/**/*.{ts,tsx}"
+    ]
   },
   "javascript": {
     "formatter": {

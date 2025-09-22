@@ -1,9 +1,9 @@
 import type { Config } from '@linkbcms/core-config';
 import { createStore } from 'zustand';
 
-export interface ConfigProps {
+export type ConfigProps = {
   config?: Config;
-}
+};
 
 export interface ConfigState extends ConfigProps {}
 
@@ -13,7 +13,7 @@ export const createConfigStore = (initProps?: Partial<ConfigProps>) => {
   const DEFAULT_PROPS: ConfigProps = {
     config: {},
   };
-  return createStore<ConfigState>()((set) => ({
+  return createStore<ConfigState>()((_set) => ({
     ...DEFAULT_PROPS,
     ...initProps,
   }));

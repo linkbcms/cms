@@ -1,9 +1,6 @@
-"use client";
+'use client';
 
-// app/test-server/page.tsx
-import React from "react";
-import config from "../../cms.config";
-import { ClientOnly } from "@/app/broken-components";
+import config from '../../cms.config';
 // import { ClientResult } from './client-result';
 
 // This is a Server Component
@@ -12,7 +9,7 @@ export default function TestServerPage() {
   // that don't throw errors when called
 
   // Test all the broken components by calling them
-  const BrokenLogoResult = config;
+  const _BrokenLogoResult = config;
   // const brokenBrowserResult = config.ui.brokenBrowser();
   // const brokenInitResult = config.ui.brokenInit();
   // const brokenUndefinedResult = config.ui.brokenUndefined();
@@ -25,7 +22,7 @@ export default function TestServerPage() {
       <div>
         {/* <p>Config name: {config.ui.name}</p> */}
         <p>
-          Broken Logo Result:{" "}
+          Broken Logo Result:{' '}
           {/* {brokenLogoResult === null ? 'null (good)' : 'rendered (bad)'} */}
         </p>
         {/* <p>

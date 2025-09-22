@@ -1,8 +1,6 @@
-import React from 'react';
-
 export const Faq = () => {
   return (
-    <section id="faq" className="rounded-3xl bg-[#f6f7fa] py-20">
+    <section className="rounded-3xl bg-[#f6f7fa] py-20" id="faq">
       <div className="mx-auto h-full max-w-5xl">
         <div className="flex flex-col gap-12">
           <div>

@@ -4,7 +4,9 @@
   "private": true,
   "description": "A simple example library built by tsdown",
   "type": "module",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",

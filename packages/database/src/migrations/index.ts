@@ -1,6 +1,6 @@
-import chalk from 'chalk';
 import path from 'node:path';
 import type { defineConfig } from '@linkbcms/core';
+import chalk from 'chalk';
 import {
   AdapterFactory,
   SUPPORTED_DATABASES,
@@ -23,7 +23,7 @@ export const execute = async (
     migrationDir?: string;
     configPath?: string;
     loadConfigFn?: (path: string) => Promise<any>;
-  },
+  }
 ): Promise<void> => {
   // Skipped action validation as it will be handled by function name later
 
@@ -35,23 +35,18 @@ export const execute = async (
   // Validate database type
   if (
     !SUPPORTED_DATABASES.includes(
-      databaseType.toLowerCase() as SupportedDatabase,
+      databaseType.toLowerCase() as SupportedDatabase
     )
   ) {
-    console.log(chalk.red(`Unsupported database type: ${databaseType}`));
-    console.log(chalk.yellow('Supported database types:'));
-    for (const db of SUPPORTED_DATABASES) {
-      console.log(chalk.blue(`  - ${db}`));
+    for (const _db of SUPPORTED_DATABASES) {
     }
     return;
   }
 
   try {
-    console.log(chalk.blue(`Using database type: ${databaseType}`));
-
     // Get database configuration
     const dbConfig = {
-      connectionString: connectionString,
+      connectionString,
       schema: options.schema || process.env.DATABASE_SCHEMA,
       schemaDir: options.schemaDir || `${workspaceRoot}/database/schema`,
       migrationDir: options.migrationDir || './database/migration',
@@ -60,19 +55,11 @@ export const execute = async (
     // Check for common connection string format issues without exposing credentials
     const connectionStringLower = dbConfig.connectionString.toLowerCase();
     if (
-      !connectionStringLower.startsWith('postgresql://') &&
-      !connectionStringLower.startsWith('postgres://')
+      !(
+        connectionStringLower.startsWith('postgresql://') ||
+        connectionStringLower.startsWith('postgres://')
+      )
     ) {
-      console.log(
-        chalk.yellow(
-          "Warning: Your DATABASE_URL doesn't start with 'postgresql://' or 'postgres://'",
-        ),
-      );
-      console.log(
-        chalk.yellow(
-          'This might cause connection issues. Check your connection string format.',
-        ),
-      );
     }
 
     // Create and initialize adapter
@@ -92,7 +79,7 @@ export const execute = async (
         // Default fallback if no load function is provided
         try {
           cmsConfig = require(filePath);
-        } catch (error) {
+        } catch (_error) {
           throw new Error(`Failed to load config from ${filePath}`);
         }
       }
@@ -101,7 +88,7 @@ export const execute = async (
     if (action !== 'gen-schema') {
       try {
         await adapter.initialize();
-      } catch (error) {
+      } catch (_error) {
         throw new Error('✗ Failed to connect to the database');
       }
     }
@@ -115,20 +102,14 @@ export const execute = async (
         await adapter.close();
         break;
       case 'migrate':
-        console.log(chalk.blue('Database configuration:'));
-        console.log(
-          chalk.blue(`  - Migration directory: ${dbConfig.migrationDir}`),
-        );
-        if (dbConfig.schema)
-          console.log(chalk.blue(`  - Schema: ${dbConfig.schema}`));
+        if (dbConfig.schema) {
+        }
         await adapter.migrate();
         await adapter.close();
         break;
       case 'test-connection':
         try {
           await adapter.testConnection();
-          console.log(chalk.blue('Testing database connection...'));
-          console.log(chalk.green('✓ Successfully connected to the database'));
           await adapter.close();
         } catch (error) {
           console.error(chalk.red('✗ Failed to connect to the database'));
@@ -143,15 +124,6 @@ export const execute = async (
         await adapter.close();
         break;
       default:
-        // This should never be reached due to our validation above
-        console.log(chalk.red(`Unknown action: ${action}`));
-        console.log(chalk.yellow('Supported actions:'));
-        console.log(chalk.blue('  - gen-schema: Generate database schema'));
-        console.log(chalk.blue('  - migrate: Run pending migrations'));
-        console.log(chalk.blue('  - status: Show migration status'));
-        console.log(
-          chalk.blue('  - test-connection: Test database connectivity'),
-        );
     }
   } catch (error) {
     console.error(chalk.red(`Error: ${error}`));
@@ -179,40 +151,28 @@ export async function genSchemaAction(options: {
 
   if (
     !SUPPORTED_DATABASES.includes(
-      databaseType.toLowerCase() as SupportedDatabase,
+      databaseType.toLowerCase() as SupportedDatabase
     )
   ) {
-    console.log(chalk.red(`Unsupported database type: ${databaseType}`));
-    console.log(chalk.yellow('Supported database types:'));
-    for (const db of SUPPORTED_DATABASES) {
-      console.log(chalk.blue(`  - ${db}`));
+    for (const _db of SUPPORTED_DATABASES) {
     }
     return;
   }
 
   try {
-    console.log(chalk.blue(`Using database type: ${databaseType}`));
     const dbConfig = {
-      connectionString: connectionString,
+      connectionString,
       schema: options.schema || process.env.DATABASE_SCHEMA,
       schemaDir: options.schemaDir || `${workspaceRoot}/database/schema`,
       migrationDir: options.migrationDir || './database/migration',
     };
     const connectionStringLower = dbConfig.connectionString.toLowerCase();
     if (
-      !connectionStringLower.startsWith('postgresql://') &&
-      !connectionStringLower.startsWith('postgres://')
+      !(
+        connectionStringLower.startsWith('postgresql://') ||
+        connectionStringLower.startsWith('postgres://')
+      )
     ) {
-      console.log(
-        chalk.yellow(
-          "Warning: Your DATABASE_URL doesn't start with 'postgresql://' or 'postgres://'",
-        ),
-      );
-      console.log(
-        chalk.yellow(
-          'This might cause connection issues. Check your connection string format.',
-        ),
-      );
     }
     const dbType = databaseType.toLowerCase() as SupportedDatabase;
     const adapterFactory = new AdapterFactory();
@@ -224,7 +184,7 @@ export async function genSchemaAction(options: {
     } else {
       try {
         cmsConfig = require(filePath);
-      } catch (error) {
+      } catch (_error) {
         throw new Error(`Failed to load config from ${filePath}`);
       }
     }
@@ -257,51 +217,35 @@ export async function migrateAction(options: {
 
   if (
     !SUPPORTED_DATABASES.includes(
-      databaseType.toLowerCase() as SupportedDatabase,
+      databaseType.toLowerCase() as SupportedDatabase
     )
   ) {
-    console.log(chalk.red(`Unsupported database type: ${databaseType}`));
-    console.log(chalk.yellow('Supported database types:'));
-    for (const db of SUPPORTED_DATABASES) {
-      console.log(chalk.blue(`  - ${db}`));
+    for (const _db of SUPPORTED_DATABASES) {
     }
     return;
   }
 
   try {
-    console.log(chalk.blue(`Using database type: ${databaseType}`));
     const dbConfig = {
-      connectionString: connectionString,
+      connectionString,
       schema: options.schema || process.env.DATABASE_SCHEMA,
       schemaDir: options.schemaDir || `${workspaceRoot}/database/schema`,
       migrationDir: options.migrationDir || './database/migration',
     };
     const connectionStringLower = dbConfig.connectionString.toLowerCase();
     if (
-      !connectionStringLower.startsWith('postgresql://') &&
-      !connectionStringLower.startsWith('postgres://')
+      !(
+        connectionStringLower.startsWith('postgresql://') ||
+        connectionStringLower.startsWith('postgres://')
+      )
     ) {
-      console.log(
-        chalk.yellow(
-          "Warning: Your DATABASE_URL doesn't start with 'postgresql://' or 'postgres://'",
-        ),
-      );
-      console.log(
-        chalk.yellow(
-          'This might cause connection issues. Check your connection string format.',
-        ),
-      );
     }
     const dbType = databaseType.toLowerCase() as SupportedDatabase;
     const adapterFactory = new AdapterFactory();
     const adapter = adapterFactory.createAdapter(dbType, dbConfig);
     await adapter.initialize();
-    console.log(chalk.blue('Database configuration:'));
-    console.log(
-      chalk.blue(`  - Migration directory: ${dbConfig.migrationDir}`),
-    );
-    if (dbConfig.schema)
-      console.log(chalk.blue(`  - Schema: ${dbConfig.schema}`));
+    if (dbConfig.schema) {
+    }
     await adapter.migrate();
     await adapter.close();
   } catch (error) {
@@ -328,40 +272,28 @@ export async function testConnectionAction(options: {
 
   if (
     !SUPPORTED_DATABASES.includes(
-      databaseType.toLowerCase() as SupportedDatabase,
+      databaseType.toLowerCase() as SupportedDatabase
     )
   ) {
-    console.log(chalk.red(`Unsupported database type: ${databaseType}`));
-    console.log(chalk.yellow('Supported database types:'));
-    for (const db of SUPPORTED_DATABASES) {
-      console.log(chalk.blue(`  - ${db}`));
+    for (const _db of SUPPORTED_DATABASES) {
     }
     return;
   }
 
   try {
-    console.log(chalk.blue(`Using database type: ${databaseType}`));
     const dbConfig = {
-      connectionString: connectionString,
+      connectionString,
       schema: options.schema || process.env.DATABASE_SCHEMA,
       schemaDir: options.schemaDir || `${workspaceRoot}/database/schema`,
       migrationDir: options.migrationDir || './database/migration',
     };
     const connectionStringLower = dbConfig.connectionString.toLowerCase();
     if (
-      !connectionStringLower.startsWith('postgresql://') &&
-      !connectionStringLower.startsWith('postgres://')
+      !(
+        connectionStringLower.startsWith('postgresql://') ||
+        connectionStringLower.startsWith('postgres://')
+      )
     ) {
-      console.log(
-        chalk.yellow(
-          "Warning: Your DATABASE_URL doesn't start with 'postgresql://' or 'postgres://'",
-        ),
-      );
-      console.log(
-        chalk.yellow(
-          'This might cause connection issues. Check your connection string format.',
-        ),
-      );
     }
     const dbType = databaseType.toLowerCase() as SupportedDatabase;
     const adapterFactory = new AdapterFactory();
@@ -369,8 +301,6 @@ export async function testConnectionAction(options: {
     await adapter.initialize();
     try {
       await adapter.testConnection();
-      console.log(chalk.blue('Testing database connection...'));
-      console.log(chalk.green('✓ Successfully connected to the database'));
       await adapter.close();
     } catch (error) {
       console.error(chalk.red('✗ Failed to connect to the database'));
@@ -401,40 +331,28 @@ export async function resetAction(options: {
 
   if (
     !SUPPORTED_DATABASES.includes(
-      databaseType.toLowerCase() as SupportedDatabase,
+      databaseType.toLowerCase() as SupportedDatabase
     )
   ) {
-    console.log(chalk.red(`Unsupported database type: ${databaseType}`));
-    console.log(chalk.yellow('Supported database types:'));
-    for (const db of SUPPORTED_DATABASES) {
-      console.log(chalk.blue(`  - ${db}`));
+    for (const _db of SUPPORTED_DATABASES) {
     }
     return;
   }
 
   try {
-    console.log(chalk.blue(`Using database type: ${databaseType}`));
     const dbConfig = {
-      connectionString: connectionString,
+      connectionString,
       schema: options.schema || process.env.DATABASE_SCHEMA,
       schemaDir: options.schemaDir || `${workspaceRoot}/database/schema`,
       migrationDir: options.migrationDir || './database/migration',
     };
     const connectionStringLower = dbConfig.connectionString.toLowerCase();
     if (
-      !connectionStringLower.startsWith('postgresql://') &&
-      !connectionStringLower.startsWith('postgres://')
+      !(
+        connectionStringLower.startsWith('postgresql://') ||
+        connectionStringLower.startsWith('postgres://')
+      )
     ) {
-      console.log(
-        chalk.yellow(
-          "Warning: Your DATABASE_URL doesn't start with 'postgresql://' or 'postgres://'",
-        ),
-      );
-      console.log(
-        chalk.yellow(
-          'This might cause connection issues. Check your connection string format.',
-        ),
-      );
     }
     const dbType = databaseType.toLowerCase() as SupportedDatabase;
     const adapterFactory = new AdapterFactory();

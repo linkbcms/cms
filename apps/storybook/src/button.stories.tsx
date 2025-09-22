@@ -1,7 +1,6 @@
+import { Button } from '@linkbcms/ui/components/button';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Loader2, Mail } from 'lucide-react';
-
-import { Button } from '@linkbcms/ui/components/button';
 
 /**
  * Displays a button or a component that looks like a button.

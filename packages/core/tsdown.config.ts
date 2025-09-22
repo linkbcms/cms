@@ -1,8 +1,6 @@
+import path from 'node:path';
 import { paraglideRolldownPlugin } from '@inlang/paraglide-js';
 import { defineConfig } from 'tsdown';
-import path from 'node:path';
-import postcss from 'rollup-plugin-postcss';
-import tailwindcss from '@tailwindcss/postcss';
 
 export default defineConfig({
   entry: ['src/**/*'],

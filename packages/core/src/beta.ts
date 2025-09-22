@@ -82,7 +82,7 @@ export type NavigationItem = {
 
 export type Theme = 'light' | 'dark' | 'system';
 
-export interface UIConfig {
+export type UIConfig = {
   name?: string;
   logo?: () => ReactNode; // Remove string from the type, only allow function
   theme?: {
@@ -90,7 +90,7 @@ export interface UIConfig {
     storageKey?: string;
   };
   navigation?: NavigationItem[];
-}
+};
 
 /**
  * Main configuration type for the CMS
@@ -169,7 +169,7 @@ export type Config<Collections extends CollectionsMap = CollectionsMap> = {
  * ```
  */
 export const defineConfig = <Collections extends CollectionsMap>(
-  config: Config<Collections>,
+  config: Config<Collections>
 ): Config<Collections> => config;
 
 /**
@@ -187,7 +187,7 @@ export const defineConfig = <Collections extends CollectionsMap>(
  * }
  * ```
  */
-interface TextField {
+type TextField = {
   /** Type of the field */
   type: 'text';
   /** Display label for the field */
@@ -217,7 +217,7 @@ interface TextField {
     /** Custom validation function */
     validate?: (value: string) => boolean | string;
   };
-}
+};
 
 /**
  * Interface for number field configuration
@@ -233,7 +233,7 @@ interface TextField {
  * }
  * ```
  */
-interface NumberField {
+type NumberField = {
   /** Type of the field */
   type: 'number';
   /** Display label for the field */
@@ -259,7 +259,7 @@ interface NumberField {
     /** Custom validation function */
     validate?: (value: number) => boolean | string;
   };
-}
+};
 
 /**
  * Interface for select field configuration
@@ -272,7 +272,7 @@ interface NumberField {
  * }
  * ```
  */
-interface SelectField {
+type SelectField = {
   /** Type of the field */
   type: 'select';
   /** Display label for the field */
@@ -301,7 +301,7 @@ interface SelectField {
     /** Custom validation function */
     validate?: (value: string) => boolean | string;
   };
-}
+};
 
 /**
  * Interface for image field configuration
@@ -313,12 +313,12 @@ interface SelectField {
  * }
  * ```
  */
-interface ImageField {
+type ImageField = {
   /** Display label for the field */
   label: string;
   /** Field name */
   name?: string;
-}
+};
 
 /**
  * Interface for reference field configuration
@@ -331,14 +331,14 @@ interface ImageField {
  * }
  * ```
  */
-interface ReferenceField {
+type ReferenceField = {
   /** Display label for the field */
   label: string;
   /** Field name */
   name?: string;
   /** Referenced collection name */
   collection: string;
-}
+};
 
 /**
  * Interface for custom field configuration
@@ -351,10 +351,10 @@ interface ReferenceField {
  * }
  * ```
  */
-interface CustomField {
+type CustomField = {
   /** React component to render the custom field */
   Component: () => ReactElement;
-}
+};
 
 /**
  * Configuration interface for collections
@@ -376,7 +376,7 @@ interface CustomField {
  * }
  * ```
  */
-export interface CollectionConfig {
+export type CollectionConfig = {
   /** Type of the collection */
   type: 'collection';
   /** Display label for the collection */
@@ -400,7 +400,7 @@ export interface CollectionConfig {
   canRead?: boolean;
   /** Schema definition for the collection */
   schema: Record<string, any>;
-}
+};
 
 /**
  * Configuration interface for singleton collections
@@ -415,14 +415,14 @@ export interface CollectionConfig {
  * }
  * ```
  */
-export interface SingletonConfig {
+export type SingletonConfig = {
   /** Type of the collection */
   type: 'singleton';
   /** Display label for the singleton */
   label: string;
   /** Schema definition for the singleton */
   schema: Record<string, any>;
-}
+};
 
 /**
  * Configuration interface for custom collections
@@ -435,7 +435,7 @@ export interface SingletonConfig {
  * }
  * ```
  */
-export interface CustomCollectionConfig {
+export type CustomCollectionConfig = {
   /** React component to render the custom collection */
   Component: () => ReactElement;
   /** Display label for the custom collection */
@@ -443,7 +443,7 @@ export interface CustomCollectionConfig {
 
   /** Type of the collection */
   type: 'customCollection';
-}
+};
 
 /**
  * Field configuration helpers
