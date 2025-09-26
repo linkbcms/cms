@@ -1,12 +1,21 @@
+import { useTheme } from 'next-themes';
 import type React from 'react';
 import { Link } from 'wouter';
 import { m } from '@/paraglide/messages';
 import { getLocale, setLocale } from '@/paraglide/runtime';
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
+  const { resolvedTheme, setTheme: setNextTheme } = useTheme();
   return (
     <div className="bg-blue-900 p-5">
       <div>Layout</div>
+      <div>Theme: {resolvedTheme}</div>
+      <button onClick={() => setNextTheme('light')} type="button">
+        Set Theme to Light
+      </button>
+      <button onClick={() => setNextTheme('dark')} type="button">
+        Set Theme to Dark
+      </button>
 
       <div className="flex flex-wrap gap-2 bg-red-500">
         {m.example_message({ username: 'John Doe' })}

@@ -16,7 +16,8 @@
     "fix": "ultracite fix",
     "prepare-env": "cp apps/web/.env.example apps/web/.env",
     "bump": "changeset version && node script/update-package.mjs && pnpm install --no-frozen-lockfile",
-    "ci:publish": "turbo build --filter=\"@linkbcms/*\" && changeset publish"
+    "ci:publish": "turbo build --filter=\"@linkbcms/*\" && changeset publish",
+    "dev:tsdown": "turbo dev --filter=\"@linkbcms/core-tsdown\" --filter=\"@linkbcms/core-config\" --filter=\"@linkbcms/ui\" --filter=\"playground-next\""
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.4",

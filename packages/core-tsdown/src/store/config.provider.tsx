@@ -1,6 +1,6 @@
 // Provider wrapper
 
-import { useRef } from 'react';
+import { useMemo } from 'react';
 import {
   type ConfigProps,
   type ConfigStore,
@@ -10,13 +10,13 @@ import { ConfigContext } from '@/store/config.context';
 
 type ConfigProviderProps = React.PropsWithChildren<ConfigProps>;
 
-export function ConfigProvider({ children, ...props }: ConfigProviderProps) {
-  const storeRef = useRef<ConfigStore>(null);
-  if (!storeRef.current) {
-    storeRef.current = createConfigStore(props);
-  }
+export function ConfigProvider({ children, config }: ConfigProviderProps) {
+  const memoizedStore = useMemo<ConfigStore>(() => {
+    return createConfigStore({ config });
+  }, [config]);
+
   return (
-    <ConfigContext.Provider value={storeRef.current}>
+    <ConfigContext.Provider value={memoizedStore}>
       {children}
     </ConfigContext.Provider>
   );

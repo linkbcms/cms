@@ -5,21 +5,21 @@ import postcss from 'rollup-plugin-postcss';
 import { defineConfig } from 'tsdown';
 
 export default defineConfig({
-  entry: ['src/main.tsx'],
-  platform: 'neutral',
+  entry: ['src/main.tsx', 'src/styles.css'],
+  platform: 'browser',
   dts: true,
   minify: false,
 
-  // clean: false,
+  clean: false,
   sourcemap: false,
-  format: ['esm'],
+  format: 'esm',
   treeshake: true,
   outDir: './dist',
   alias: {
     '@': path.resolve(__dirname, './src'),
   },
 
-  external: ['wouter'],
+  external: ['wouter', '@linkbcms/core-config', '@linkbcms/ui'],
 
   // https://github.com/shuding/react-wrap-balancer/blob/main/tsup.config.ts#L10-L13
   banner: {

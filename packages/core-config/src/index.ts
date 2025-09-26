@@ -1,4 +1,4 @@
-import type { ReactElement, ReactNode } from 'react';
+import type { JSX, ReactElement } from 'react';
 
 /**
  * Collection configuration type that defines the schema and structure of a collection
@@ -84,7 +84,7 @@ export type Theme = 'light' | 'dark' | 'system';
 
 export type UIConfig = {
   name?: string;
-  logo?: () => ReactNode; // Remove string from the type, only allow function
+  logo?: (props: any) => JSX.Element; // Remove string from the type, only allow function
   theme?: {
     defaultTheme?: Theme;
     storageKey?: string;
@@ -332,7 +332,7 @@ export type SingletonConfig = {
  */
 export type CustomCollectionConfig = {
   /** React component to render the custom collection */
-  Component: () => ReactElement;
+  Component: () => JSX.Element;
   /** Display label for the custom collection */
   label: string;
 
