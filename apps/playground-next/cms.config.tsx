@@ -21,5 +21,9 @@ export const cmsConfig = defineConfig({
       label: 'Custom',
       Component: CustomComponent,
     }),
+    custom2: fields.customCollection({
+      label: 'Custom 2',
+      Component: () => <div className="bg-red-500 p-20">Custom 2</div>,
+    }),
   },
 });

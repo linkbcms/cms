@@ -26,6 +26,11 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["dist/**"]
     },
+    "@linkbcms/core-tsdown#build": {
+      "dependsOn": ["^build", "@linkbcms/core-config#dev", "@linkbcms/ui#dev"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": ["dist/**"]
+    },
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],

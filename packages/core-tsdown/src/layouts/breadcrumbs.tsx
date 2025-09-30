@@ -74,8 +74,6 @@ export function BreadcrumbResponsive() {
     ];
   }, [pathname, config?.collections]);
 
-  console.log(breadcrumbFirst);
-
   return (
     <Breadcrumb>
       <BreadcrumbList>

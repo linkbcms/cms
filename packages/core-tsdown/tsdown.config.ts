@@ -1,8 +1,12 @@
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { paraglideRolldownPlugin } from '@inlang/paraglide-js';
 import tailwindcss from '@tailwindcss/postcss';
 import postcss from 'rollup-plugin-postcss';
 import { defineConfig } from 'tsdown';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default defineConfig({
   entry: ['src/main.tsx', 'src/styles.css'],

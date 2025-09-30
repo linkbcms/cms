@@ -25,10 +25,9 @@ import {
 import type * as React from 'react';
 import type { JSX } from 'react/jsx-runtime';
 import { Link } from 'wouter';
+import { useCollections } from '@/hooks/use-collections';
 import { NavMain } from '@/layouts/nav-main';
 import { NavSecondary } from '@/layouts/nav-secondary';
-
-import { useCollections } from '@/hooks/use-collections';
 
 const data = {
   user: {
@@ -226,7 +225,7 @@ export function AppSidebar({
             items={customCollections.map(([key, value]) => ({
               title: value?.label || '',
               url: `/custom-collections/${key}`,
-              icon: Bot,
+              // icon: Bot,
             }))}
             title="Custom Collections"
           />
