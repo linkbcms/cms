@@ -1,5 +1,5 @@
 
-# LinkB CMS Community Code of Conduct
+# 🌟 Community Guidelines & Code of Conduct
 
 > Building an inclusive, collaborative, and innovative open-source CMS community
 
