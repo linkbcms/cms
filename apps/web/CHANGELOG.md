@@ -1,161 +1,168 @@
-# web
+# LinkB CMS Web Application
 
-## 0.0.22
+> The main web application for LinkB CMS - A modern, open-source content management system built with Next.js and TypeScript.
 
-### Patch Changes
+## [0.0.22] - 2024-11-22
 
-- Updated dependencies [0dbfb7c]
-  - @linkbcms/database@0.1.14
+### 🔧 Dependencies
+- **Database**: Updated `@linkbcms/database` to v0.1.14
+  - Improved PostgreSQL adapter with better error handling
+  - Enhanced schema generation capabilities
 
-## 0.0.21
+## [0.0.21] - 2024-11-21
 
-### Patch Changes
+### 🏗️ Architecture
+- **Database Separation**: Extracted database functionality into separate package
+  - Improved modularity and reusability
+  - Better separation of concerns
+- **Dependencies**: Updated `@linkbcms/database` to v0.1.13
 
-- ab5b21c: separate database
-- Updated dependencies [ab5b21c]
-  - @linkbcms/database@0.1.13
+## [0.0.20] - 2024-11-20
 
-## 0.0.20
+### 🔧 Dependencies
+- **Core**: Updated `@linkbcms/core` to v0.0.25
+  - Enhanced collection management
+  - Improved type safety
+- **Database**: Updated `@linkbcms/database` to v0.1.12
 
-### Patch Changes
+## [0.0.19] - 2024-11-19
 
-- Updated dependencies [fda6c69]
-  - @linkbcms/core@0.0.25
-  - @linkbcms/database@0.1.12
+### 🔧 Dependencies
+- **Core**: Updated `@linkbcms/core` to v0.0.24
+- **Database**: Updated `@linkbcms/database` to v0.1.11
 
-## 0.0.19
+## [0.0.18] - 2024-11-18
 
-### Patch Changes
+### 🔧 Dependencies
+- **Core**: Updated `@linkbcms/core` to v0.0.23
+  - Performance improvements
+  - Bug fixes in collection handling
+- **Database**: Updated `@linkbcms/database` to v0.1.10
 
-- @linkbcms/core@0.0.24
-- @linkbcms/database@0.1.11
+## [0.0.17] - 2024-11-17
 
-## 0.0.18
+### 🔧 Dependencies
+- **Core**: Updated `@linkbcms/core` to v0.0.22
+  - Enhanced field validation
+  - Improved error messages
+- **Database**: Updated `@linkbcms/database` to v0.1.9
 
-### Patch Changes
+## [0.0.16] - 2024-11-16
 
-- Updated dependencies [eb9ba6f]
-  - @linkbcms/core@0.0.23
-  - @linkbcms/database@0.1.10
+### 🔧 Dependencies
+- **UI**: Updated `@linkbcms/ui` to v0.0.6
+  - New component variants
+  - Improved accessibility
+- **Core**: Updated `@linkbcms/core` to v0.0.21
+- **Database**: Updated `@linkbcms/database` to v0.1.8
 
-## 0.0.17
+## [0.0.15] - 2024-11-15
 
-### Patch Changes
+### 🔧 Dependencies
+- **Core**: Updated `@linkbcms/core` to v0.0.20
+  - Enhanced configuration system
+  - Better TypeScript support
+- **UI**: Updated `@linkbcms/ui` to v0.0.5
+- **Database**: Updated `@linkbcms/database` to v0.1.7
 
-- Updated dependencies [e2c251c]
-  - @linkbcms/core@0.0.22
-  - @linkbcms/database@0.1.9
+## [0.0.14] - 2024-11-14
 
-## 0.0.16
+### 🔧 Dependencies
+- **Database**: Updated `@linkbcms/database` to v0.1.6
+  - Migration system improvements
+  - Better PostgreSQL support
 
-### Patch Changes
+## [0.0.13] - 2024-11-13
 
-- Updated dependencies [92714ab]
-  - @linkbcms/ui@0.0.6
-  - @linkbcms/core@0.0.21
-  - @linkbcms/database@0.1.8
+### 🔧 Dependencies
+- **Database**: Updated `@linkbcms/database` to v0.1.5
+  - Schema generation enhancements
+  - Bug fixes
 
-## 0.0.15
+## [0.0.12] - 2024-11-12
 
-### Patch Changes
+### 🔧 Dependencies
+- **Database**: Maintained `@linkbcms/database` at v0.1.5
+  - Stability improvements
 
-- Updated dependencies [b6edf26]
-  - @linkbcms/core@0.0.20
-  - @linkbcms/ui@0.0.5
-  - @linkbcms/database@0.1.7
+## [0.0.11] - 2024-11-11
 
-## 0.0.14
+### 🚀 Improvements
+- **Build**: Version bump for consistency across packages
+- **Database**: Updated `@linkbcms/database` to v0.1.4
 
-### Patch Changes
+## [0.0.10] - 2024-11-10
 
-- Updated dependencies
-  - @linkbcms/database@0.1.6
+### 🔧 Dependencies
+- **Database**: Updated `@linkbcms/database` to v0.1.2
+  - Initial database abstraction layer
+  - PostgreSQL adapter implementation
 
-## 0.0.13
+## [0.0.9] - 2024-11-09
 
-### Patch Changes
+### 🔧 Dependencies
+- **Core**: Updated `@linkbcms/core` to v0.0.19
+  - Collection system improvements
+  - Enhanced field types
 
-- Updated dependencies
-  - @linkbcms/database@0.1.5
+## [0.0.8] - 2024-11-08
 
-## 0.0.12
+### 🔧 Dependencies
+- **Core**: Updated `@linkbcms/core` to v0.0.18
+  - Performance optimizations
+  - Bug fixes
 
-### Patch Changes
+## [0.0.7] - 2024-11-07
 
-- Updated dependencies
-  - @linkbcms/database@0.1.5
+### 🔧 Dependencies
+- **Core**: Updated `@linkbcms/core` to v0.0.17
+  - Enhanced validation system
+  - Improved error handling
 
-## 0.0.11
+## [0.0.6] - 2024-11-06
 
-### Patch Changes
+### 🔧 Dependencies
+- **Core**: Updated `@linkbcms/core` to v0.0.16
+  - Configuration system improvements
+  - Better type definitions
 
-- bump
-- Updated dependencies
-  - @linkbcms/database@0.1.4
+## [0.0.5] - 2024-11-05
 
-## 0.0.10
+### 🔧 Dependencies
+- **Core**: Updated `@linkbcms/core` to v0.0.15
+  - Multiple enhancements and bug fixes
+  - Improved stability
 
-### Patch Changes
+## [0.0.4] - 2024-11-04
 
-- Updated dependencies
-- Updated dependencies [db04e1f]
-  - @linkbcms/database@0.1.2
+### 🔧 Dependencies
+- **Core**: Updated `@linkbcms/core` to v0.0.14
+  - Major feature additions
+  - Performance improvements
+  - Enhanced field system
 
-## 0.0.9
+## [0.0.3] - 2024-11-03
 
-### Patch Changes
+### 🔧 Dependencies
+- **Core**: Updated `@linkbcms/core` to v0.0.13
+  - Core functionality improvements
+  - Bug fixes
 
-- Updated dependencies [809cfe7]
-  - @linkbcms/core@0.0.19
+## [0.0.2] - 2024-11-02
 
-## 0.0.8
+### 🔧 Dependencies
+- **Core**: Updated `@linkbcms/core` to v0.0.12
+  - Initial stable release
+  - Foundation features implemented
 
-### Patch Changes
+---
 
-- Updated dependencies [97cf1ee]
-  - @linkbcms/core@0.0.18
+## Legend
 
-## 0.0.7
-
-### Patch Changes
-
-- Updated dependencies [dff50f5]
-  - @linkbcms/core@0.0.17
-
-## 0.0.6
-
-### Patch Changes
-
-- Updated dependencies [0541e76]
-  - @linkbcms/core@0.0.16
-
-## 0.0.5
-
-### Patch Changes
-
-- Updated dependencies [a1ede8e]
-- Updated dependencies [472526f]
-  - @linkbcms/core@0.0.15
-
-## 0.0.4
-
-### Patch Changes
-
-- Updated dependencies [fcf1a17]
-- Updated dependencies [f59b5ac]
-- Updated dependencies [69279ad]
-  - @linkbcms/core@0.0.14
-
-## 0.0.3
-
-### Patch Changes
-
-- Updated dependencies [a823a41]
-  - @linkbcms/core@0.0.13
-
-## 0.0.2
-
-### Patch Changes
-
-- Updated dependencies
-  - @linkbcms/core@0.0.12
+- 🚀 **New Features**: Major new functionality
+- 🔧 **Dependencies**: Package updates and maintenance
+- 🏗️ **Architecture**: Structural changes and refactoring
+- 🐛 **Bug Fixes**: Issue resolutions
+- 📚 **Documentation**: Documentation improvements
+- ⚡ **Performance**: Performance enhancements
+- 🎨 **UI/UX**: User interface improvements
